@@ -4,7 +4,7 @@
   "description": "",
   "main": "test.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/KyleBrogdon/adoptr/issues"
   },
-  "homepage": "https://github.com/KyleBrogdon/adoptr#readme"
+  "homepage": "https://github.com/KyleBrogdon/adoptr#readme",
+  "dependencies": {
+    "jest": "^28.1.2"
+  }
 }
