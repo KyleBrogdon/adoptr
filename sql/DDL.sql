@@ -1,3 +1,4 @@
+--ALTER DATABASE name OWNER to postgres
 -- Cleanup database
 DROP TABLE IF EXISTS admin_shelter;
 DROP TABLE IF EXISTS disposition_pet;
@@ -6,7 +7,7 @@ DROP TABLE IF EXISTS pet_image;
 DROP TABLE IF EXISTS user_saved_pet;
 DROP TABLE IF EXISTS user_rejected_pet;
 DROP TABLE IF EXISTS app_user;
-DROP TABLE IF EXISTS admin;
+/* DROP TABLE IF EXISTS admin; */
 DROP TABLE IF EXISTS disposition;
 DROP TABLE IF EXISTS image;
 DROP TABLE IF EXISTS pet;
@@ -96,8 +97,8 @@ CREATE TABLE IF NOT EXISTS app_user
     userID SERIAL PRIMARY KEY,
     firstname VARCHAR(10),
     lastname VARCHAR(10),
-    email VARCHAR(20),
-    password VARCHAR(10),
+    email VARCHAR(20) NOT NULL,
+    password VARCHAR(10) NOT NULL,
     adminStatus BOOLEAN
 );
 
@@ -107,14 +108,14 @@ ALTER TABLE IF EXISTS app_user
 -- Table: admin
 
 
-CREATE TABLE IF NOT EXISTS admin
+/* CREATE TABLE IF NOT EXISTS admin
 (
     adminID SERIAL PRIMARY KEY,
     adminName VARCHAR(20)
 );
 
 ALTER TABLE IF EXISTS admin
-    OWNER to postgres;
+    OWNER to postgres; */
 
 -- Table: state
 
@@ -167,7 +168,8 @@ ALTER TABLE IF EXISTS zipcode
 CREATE TABLE IF NOT EXISTS shelter
 (
     shelterID SERIAL PRIMARY KEY,
-    shelterName VARCHAR(20),
+    shelterName VARCHAR(20) NOT NULL,
+    password VARCHAR(20) NOT NULL,
     zipCodeId INT,
     cityId INT,
     stateId INT,
@@ -191,8 +193,9 @@ ALTER TABLE IF EXISTS shelter
 CREATE TABLE IF NOT EXISTS pet
 (
     petID SERIAL PRIMARY KEY,
-    name VARCHAR(20),
+    name VARCHAR(20) NOT NULL,
     age INT,
+    sex VARCHAR(1),
     blurb VARCHAR(100),
     weight INT,
     dateProfile DATE,
@@ -219,7 +222,7 @@ CREATE TABLE IF NOT EXISTS pet
 );
 
 
-ALTER TABLE IF EXISTS pets
+ALTER TABLE IF EXISTS pet
     OWNER to postgres;
 
 -- Table: disposition-pet
@@ -318,11 +321,11 @@ ALTER TABLE IF EXISTS user_rejected_pet
 CREATE TABLE IF NOT EXISTS admin_shelter
 (
     ID SERIAL PRIMARY KEY,
-    adminId INT,
+    userId INT,
     shelterId INT,
-   CONSTRAINT fk_admin
-      FOREIGN KEY(adminID) 
-	  REFERENCES admin(adminID),
+   CONSTRAINT fk_user
+      FOREIGN KEY(userID) 
+	  REFERENCES app_user(userID),
    CONSTRAINT fk_shelter
       FOREIGN KEY(shelterID) 
 	  REFERENCES shelter(shelterID)

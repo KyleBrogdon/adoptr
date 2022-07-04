@@ -10,15 +10,15 @@ router.get("/landingPage", (req,res) => {
   })
 
 router.get('/login', (req, res) => {
-res.render("../views/pages/general/login", { //need to add
+    res.render("../views/pages/general/login", { //need to add
 
-});
+    });
 });
   
 router.get('/newUser', (req, res) => {
-res.render("../views/pages/general/newUser", { //need to add
+    res.render("../views/pages/general/newUser", { //need to add
 
-});
+    });
 });
 
 
