@@ -3,9 +3,12 @@ const ejs = require("ejs");
 const session = require("express-session");
 
 
+
+
 const PORT = process.argv[2] || 3000    //sets port for site, default to 3000
 
-//add main routes
+
+
 
 let app = express();
 app.set('view engine', 'ejs')
@@ -20,8 +23,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
   }))
-
-
+  
+const adminRoutes = require('./routes/siteAdmin');
+const landingRoutes = require('./routes/landing');
+app.use('/siteAdmin', adminRoutes);
+app.use('/landing', landingRoutes);
 //add sub routes
 
 //Main Page 

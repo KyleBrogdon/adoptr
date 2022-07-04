@@ -1,5 +1,7 @@
 // Controls access to sensitive pages. 
 const express = require('express');
+const router = express.Router();
+
 
 module.exports = {
   unauthorized: (req, res, next) => {
@@ -10,4 +12,14 @@ module.exports = {
       res.redirect('/unauthorized'); 
     }
   },
+
+  admin_needed: (req, res, next) => {
+    console.log("Admin check (middleware)");
+    if (req.session.userID == 1) {
+      next();
+    } else {
+      res.redirect('/admin_needed');
+    }
+  }
+
 };
