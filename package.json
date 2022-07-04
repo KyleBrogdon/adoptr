@@ -2,7 +2,7 @@
   "name": "capstone",
   "version": "1.0.0",
   "description": "",
-  "main": "test.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"no test specified\" && exit 0",
     "build": "webpack",
