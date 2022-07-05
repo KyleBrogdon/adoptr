@@ -1,0 +1,11 @@
+INSERT INTO 
+	type (typeName)
+VALUES
+	(Dog),
+	(Cat),
+	(Rabbit),
+	(small-furry),
+	(Horse),
+	(Bird),
+	(scales-fins-other),
+	(Barnyard)
