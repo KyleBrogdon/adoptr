@@ -4,10 +4,10 @@ VALUES
 	(site, admin, siteAdmin@email.com, 12345, True),
 	(shelter, admin, shelteradmin@email.com, 12345, True),
 	(app, user, appuser@email.com, 12345, False),
-	(Christen, Lashawnta, ChristenLashawnta@email.com, 12345, False),
-	(Camarie, Emilly, CamarieEmilly@email.com, 12345, False),
-	(Raylene, Jenah, RayleneJenah@email.com, 12345, False),
-	(Lehi, Yusra, LehiYusra@email.com, 12345, False),
-	(Lashana, Kathern, LashanaKathern@email.com, 12345, False),
-	(Latashia, Kaycie, LatashiaKaycie@email.com, 12345, False),
-	(Arvell, Sarita, ArvellSarita@email.com, 12345, False)
+	(Charelle, Leslieanne, CharelleLeslieanne@email.com, 12345, False),
+	(Beverlee, Joshlyn, BeverleeJoshlyn@email.com, 12345, False),
+	(Kelse, Glenisha, KelseGlenisha@email.com, 12345, False),
+	(Gyna, Quoc, GynaQuoc@email.com, 12345, False),
+	(Jackie, Margot, JackieMargot@email.com, 12345, False),
+	(Estrella, Anthonie, EstrellaAnthonie@email.com, 12345, False),
+	(Lamichael, Milam, LamichaelMilam@email.com, 12345, True)
