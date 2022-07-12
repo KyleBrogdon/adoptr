@@ -6,7 +6,7 @@ import csv
 
 ## Functions
 def petCheck(petObj,orgID,petList):
-    pets = petObj.animals(results_per_page=20,pages=None,organization_id=orgID)
+    pets = petObj.animals(results_per_page=20,pages=1,organization_id=orgID)
     if len(pets) > 0:
         pl = pets['animals']
         
@@ -77,7 +77,21 @@ for x in range(3,10):
     else:
         aStatus = False
     adminStatus.append(aStatus)
-    
+
+
+
+with open('./txtSQL/names_sql.txt','w') as nameF:
+    nameF.write('INSERT INTO \n')
+    nameF.write('\tapp_user (firstName, lastName, email, password, adminStatus)\n')
+    nameF.write('VALUES\n')
+    for x in range(len(firstName)):
+        if x == len(firstName)-1:
+            nameF.write("\t('" + str(firstName[x]) + "', '"+ str(lastName[x]) +"', '" + str(email[x]) + "', '" + str(password) + "', '" + str(adminStatus[x]) + "')")
+        else:
+            nameF.write("\t('" + str(firstName[x]) + "', '"+ str(lastName[x]) + "', '" + str(email[x]) + "', '" + str(password) + "', '" + str(adminStatus[x]) + "'),\n")
+
+
+
 time_elapsed(tic, "Users")
 tic= time.time()
 
@@ -165,15 +179,49 @@ for x in range(len(zipCode)):
     index = cityNameDump.index(cityName[x])
     cityIDFK.append(index + 1)
 
+
+
+with open('./txtSQL/zip_sql.txt','w') as zipF:
+    zipF.write('INSERT INTO \n')
+    zipF.write('\tzipcode (zipcode, cityID)\n')
+    zipF.write('VALUES\n')
+    for x in range(len(zipCode)):
+        if x == len(zipCode) -1:
+            zipF.write("\t(" + str(zipCode[x]) + ", "+ str(cityIDFK[x]) +")")
+        else:
+            zipF.write("\t(" + str(zipCode[x]) + ", "+ str(cityIDFK[x]) +"),\n")
+
+
+with open('./txtSQL/city_sql.txt','w') as cityF:
+    cityF.write('INSERT INTO \n')
+    cityF.write('\tcity (cityName, stateID)\n')
+    cityF.write('VALUES\n')
+    for x in range(len(cityNameDump)):
+        if x == len(cityNameDump) - 1:
+            cityF.write("\t('" + str(cityNameDump[x]) + "', "+ str(stateIDFK[x]) +")")
+        else:
+            cityF.write("\t('" + str(cityNameDump[x]) + "', "+ str(stateIDFK[x]) +"),\n")
+
+
+with open('./txtSQL/state_sql.txt','w') as stateF:
+    stateF.write('INSERT INTO \n')
+    stateF.write('\tstate (stateName, stateCode)\n')
+    stateF.write('VALUES\n')
+    for x in range(len(stateList)):
+        if x == len(stateList) - 1:
+            stateF.write("\t('" + str(stateList[x]) + "', '" + str(stateCodesList[x]) +"')")
+        else:
+            stateF.write("\t('" + str(stateList[x]) + "', '" + str(stateCodesList[x]) +"'),\n")
+
+
+
+
 time_elapsed(tic, "Cities")
 tic= time.time()
 
 
-apiKey ='gXzEc4lp2J8UHnAzuccokjj0Hdq9dCmTcDNdEkX0PhNX3Bo92X' #willardb
-secretKey ='UxiggbkVWwH4nJxBBrIEeZ4GSCt7pkd9gZFxmzRT'
-
-apiKey = 'hV1nfrraIBbpA3NQ7y0qqTkIFJHm5pdnrqTXTJtBnUIxW4nErQ' #brodywillard1
-secretKey ='WPv7M1lfZGbpwejoJkMGTRIncBk8fSVRAuGvWmwP'
+apiKey ='UYPGiGh8srRZxCmi1GtTggiRL1htCZTbA7HjwhnQmfR6QAMyW5'
+secretKey ='PCPJwQW5fDO5aSlkW6mTVyEqthzeh2qyOIeYPcDT'
 
 
 pf = petpy.Petfinder(apiKey,secretKey)
@@ -200,11 +248,10 @@ for x in range(len(stateList)):
 
     orgsWPets = []
     checked = []
-    #print(str(stateList[x]) + " length: " + str(len(stateOrgs)))
 
 
     i = 0
-    while len(orgsWPets) < 5 and i < len(stateOrgs) and i < 20:
+    while len(orgsWPets) < 5 and i < len(stateOrgs) and i < 10:
         i = i + 1
         orgNumber = random.randrange(0,len(stateOrgs),1)
 
@@ -216,7 +263,6 @@ for x in range(len(stateList)):
                 orgInfo = pf.organizations(organization_id=orgID)
                 if(petCheck(pf,orgID,pets)):
                     orgsWPets.append(orgInfo['organizations'])
-                    # print(orgID)
 
             except:
                 pass
@@ -245,11 +291,11 @@ password = '12345'
 
 for x in orgs:
     orgIDS.append(x['id'])
-    orgNames.append(x['name'])
-    orgEmail.append(x['email'])
-    orgPhone.append(x['phone'])
+    orgNames.append(x['name'].replace("'",''))
+    orgEmail.append(x['email'].replace(" ",''))
+    orgPhone.append(x['phone'].replace(" ",''))
     orgAdd.append(x['address'])
-    #print(str(x['id']) + ', ' + str(x['name']) + '\n')
+
 
 for x in orgAdd:
     orgCity.append(x['city'])
@@ -260,37 +306,56 @@ shelterZipFKID =[]
 shelterCityFKID =[]
 shelterStateFKID =[]
 
-for x in range(len(orgZip)):
-    if orgZip[x].lstrip("0") in zipCode:
-        index = zipCode.index(orgZip[x].lstrip("0"))
-        shelterZipFKID.append(index + 1)
-        shelterCityFKID.append(cityIDFK[index])
-        shelterStateFKID.append(stateIDFK[index])
+
+for x in orgZip:
+    if x.lstrip("0") in zipCode:
+        index = zipCode.index(x.lstrip("0"))
+        shelterZipFKID.append(index+1)
     else:
-        shelterZipFKID.append(None)
-        if orgCity[x] in cityNameDump:
-            index = cityNameDump.index(orgCity[x])
-            shelterCityFKID.append(cityIDFK[index])
-            shelterStateFKID.append(stateIDFK[index])
-        else:
-            shelterCityFKID.append(None)
-            if orgState[x] in stateList:
-                index = stateList.index(orgState[x])
-                shelterStateFKID.append(stateIDFK[index])
+        shelterZipFKID.append('NULL')
+
+for x in orgCity:
+    if x in cityNameDump:
+        index = cityNameDump.index(x)
+        shelterCityFKID.append(index+1)
+    else:
+        shelterCityFKID.append('NULL')
+
+for x in orgState:
+    if x in stateList:
+        index = stateList.index(x)
+        shelterStateFKID.append(x)
+    else:
+        shelterStateFKID.append('NULL')
 
 
-print('orgIds: ' + str(len(orgIDS)))
-print('orgNames: ' + str(len(orgNames)))
-print('orgEmail: ' + str(len(orgEmail)))
-print('orgPhone: ' + str(len(orgPhone)))
-print("shelterZipFKID: " + str(len(shelterZipFKID)))
-print("shelterCityFKID: " + str(len(shelterCityFKID)))
-print("shelterStateFKID: " + str(len(shelterStateFKID)))
+
+# print('orgIds: ' + str(len(orgIDS)))
+# print('orgNames: ' + str(len(orgNames)))
+# print('orgEmail: ' + str(len(orgEmail)))
+# print('orgPhone: ' + str(len(orgPhone)))
+# print("shelterZipFKID: " + str(len(shelterZipFKID)))
+# print("shelterCityFKID: " + str(len(shelterCityFKID)))
+# print("shelterStateFKID: " + str(len(shelterStateFKID)))
 
 with open('./sourceFiles/shelter_List.txt','w') as shelterF:
     shelterF.write('ids\tname\temail\tpassword\tphone\tzip\tcity\tstate\n')
     for x in range(len(orgIDS)):
         shelterF.write(str(orgIDS[x]) + '\t'+ str(orgNames[x]) +'\t' + str(orgEmail[x]) + '\t' + str(password) + '\t' + str(orgPhone[x]) + '\t' + str(orgZip[x]) + '\t' + str(orgCity[x]) + '\t' + str(orgState[x]) +'\n')
+
+
+
+with open('./txtSQL/shelter_sql.txt','w') as shelterF:
+    shelterF.write('INSERT INTO \n')
+    shelterF.write('\tshelter (shelterCode, shelterName, email, password, phoneNumber, zipcodeID, cityID, stateID)\n')
+    shelterF.write('VALUES\n')
+    for x in range(len(orgIDS)):
+        if x == len(orgIDS) - 1:
+            shelterF.write("\t('" + str(orgIDS[x]) + "', '" + str(orgNames[x]) + "', '" + str(orgEmail[x]) + "', '" + str(orgPhone[x]) + "', " + str(shelterZipFKID[x]) + ", " + str(shelterCityFKID[x]) + ", " + str(shelterStateFKID[x]) +")")
+        else:
+            shelterF.write("\t('" + str(orgIDS[x]) + "', '" + str(orgNames[x]) + "', '" + str(orgEmail[x]) + "', '" + str(orgPhone[x]) + "', " + str(shelterZipFKID[x]) + ", " + str(shelterCityFKID[x]) + ", " + str(shelterStateFKID[x]) +"),\n")
+
+
 
 time_elapsed(tic, "shelters")
 tic= time.time()
@@ -339,12 +404,13 @@ for x in pets:
     petNames.append(x['name'])
     petAge.append(x['age'])
     if x['description'] != None:
-        petBlurb.append(x['description'].replace('\n',''))
+        blurb = x['description'].replace('\n','')
+        petBlurb.append(blurb.replace("'",' '))
     else:
-        petBlurb.append(None)
+        petBlurb.append('None')
     petType.append(x['type'])
     petB = x['breeds']
-    petBreed.append(petB['primary'])
+    petBreed.append(petB['primary'].replace("'",' '))
     petGender.append(x['gender'])
     petSize.append(x['size'].lower())
     petStatus.append(x['status'])
@@ -395,13 +461,12 @@ for x in pets:
     for x in petTag:
         petDispo.append(x.lower())
 
-    for x in petDispo:
-        if x in dispOps:
-            index = dispOps.index(x)
+    for d in petDispo:
+        if d in dispOps:
+            index = dispOps.index(d)
             dispIDFK.append(index + 1)
-            
         else:
-            dispOps.append(x)
+            dispOps.append(d)
             dispIDFK.append(len(dispOps))
         petDispIDFK.append(i)
 
@@ -446,18 +511,99 @@ fkValues(sizeIDFK,petSize,sizeOps)
 fkValues(typeIDFK,petType,typeOps)
 fkValues(avlIDFK,petStatus,adoptOps)
 
+# print('petName: ' + str(len(petNames)))
+# print('petAge: ' + str(len(petAge)))
+# print('petGender: ' + str(len(petGender)))
+# print('petBlurb: ' + str(len(petBlurb)))
+# print('petSn: ' + str(len(petSN)))
+# print('petSt: ' + str(len(petSt)))
+# print('petSize: ' + str(len(sizeIDFK)))
+# print('petAv: ' + str(len(avlIDFK)))
+# print('petType: ' + str(len(typeIDFK)))
+# print('petShelter: ' + str(len(shelterIDFK)))
+
+with open('./txtSQL/pet_id_photos_sql.txt','w') as petPhotoF:
+    petPhotoF.write('INSERT INTO\n')
+    petPhotoF.write('\tpet_image (petID,imageID\n')
+    petPhotoF.write('VALUES\n')
+    for x in range(len(petImages)):
+        if x == len(petImages) - 1:
+            petPhotoF.write("\t("+ str(photoPetFKID[x]) + ", " + str(photoPicFKID[x]) +  ")")
+        else:
+            petPhotoF.write("\t("+ str(photoPetFKID[x]) + ", " + str(photoPicFKID[x]) +  "),\n")
+
+
+with open('./txtSQL/photo_sql.txt','w') as petPicF:
+    petPicF.write('INSERT INTO\n')
+    petPicF.write('\timages (imageurl)\n')
+    petPicF.write('VALUES\n')    
+    for x in range(len(petImages)):
+        if x == len(petImages) - 1:
+            petPicF.write("\t('"+ str(petImages[x]) + "')")
+        else:
+            petPicF.write("\t('"+ str(petImages[x]) + "'),\n")
+
+
+with open('./txtSQL/dispositionTable_sql.txt','w') as dispF:
+    dispF.write('INSERT INTO \n')
+    dispF.write('\tdisposition (dispStatus)\n')
+    dispF.write('VALUES\n')
+    for x in range(len(dispOps)):
+        if x == len(dispOps)-1:
+            dispF.write("\t('" + str(dispOps[x]) + "')")
+        else:
+            dispF.write("\t('" + str(dispOps[x]) + "'),\n")
+
+
+with open('./txtSQL/adopt_sql.txt','w') as adoptF:
+    adoptF.write('INSERT INTO \n')
+    adoptF.write('\tavailability (availability)\n')
+    adoptF.write('VALUES\n')
+    for x in range(len(adoptOps)):
+        if x == len(adoptOps)-1:
+            adoptF.write("\t('" + str(adoptOps[x]) + "')")
+        else:
+            adoptF.write("\t('" + str(adoptOps[x]) +  "'),\n")
+
+
+with open('./txtSQL/size_sql.txt','w') as sizeF:
+    sizeF.write('INSERT INTO \n')
+    sizeF.write('\tsize (petSize)\n')
+    sizeF.write('VALUES\n')
+    for x in range(len(sizeOps)):
+        if x == len(sizeOps)-1:
+            sizeF.write("\t('" + str(sizeOps[x]) + "')")
+        else:
+            sizeF.write("\t('" + str(sizeOps[x]) +  "'),\n")
+
+
+with open('./txtSQL/pet_disp_sql.txt','w') as petDispF:
+    petDispF.write('INSERT INTO\n')
+    petDispF.write('\tdispositino_pet (dispID,petID)\n')
+    petDispF.write('VALUES\n')
+    for x in range(len(petDispIDFK)):
+        if x == len(petDispIDFK) -1:
+            petDispF.write("\t("+ str(dispIDFK[x]) + ", " + str(petDispIDFK[x]) +  ")")
+        else:
+            petDispF.write("\t("+ str(dispIDFK[x]) + ", " + str(petDispIDFK[x]) +  "),\n")
+
+
+with open('./txtSQL/pet_sql.txt','w') as petF:
+    petF.write('INSERT INTO \n')
+    petF.write('\tpet (name, age, sex, blurb, dateProfile, snStatus, sizeID, avID, typeID, shelterID)\n')
+    petF.write('VALUES\n')
+    for x in range(len(petNames)):
+        if x == len(petNames) -1:
+            petF.write("\t('"+ str(petNames[x]) + "', '"  + str(petAge[x]) + "', '"  + str(petGender[x]) + "', '"  + str(petBlurb[x]) + "', '"   + str(today) + "', "  + str(petSN[x]) + ", "  + str(petSt[x]) + ", "  + str(sizeIDFK[x]) + ", "  + str(avlIDFK[x]) + ", "  + str(typeIDFK[x]) + ", "  + str(shelterIDFK[x]) + ")")
+        else:
+            petF.write("\t('"+ str(petNames[x]) + "', '"  + str(petAge[x]) + "', '"  + str(petGender[x]) + "', '"  + str(petBlurb[x]) + "', '"   + str(today) + "', "  + str(petSN[x]) + ", "  + str(petSt[x]) + ", "  + str(sizeIDFK[x]) + ", "  + str(avlIDFK[x]) + ", "  + str(typeIDFK[x]) + ", "  + str(shelterIDFK[x]) + "),\n")
+
 
 time_elapsed(tic, "Pets")
 tic= time.time()
 
 
-
-
 #distribute calls
-
-
-pf=petpy.Petfinder(apiKey,secretKey)
-
 
 ### types
 animalTypes = pf.animal_types()
@@ -476,7 +622,6 @@ for x in range(len(animalTypeNames)):
         animalTypeNames[x] = 'scales-fins-other'
 
 
-
 ### breeds ########################
 breedList= []
 i = 1
@@ -484,6 +629,7 @@ for x in animalTypeNames:
     breeds = pf.breeds(x.lower())
     breeds = breeds['breeds']
     breeds = breeds[x.lower()]
+    breeds = breeds.replace("'",' ')
     for y in breeds:
         breedList.append(y)
         typeIDFK.append(i)
@@ -507,130 +653,15 @@ time_elapsed(tic, "Properties")
 tic= time.time()
 
 
-## SQL Files
-
-with open('./txtSQL/names_sql.txt','w') as nameF:
-    nameF.write('INSERT INTO \n')
-    nameF.write('\tapp_user (firstName, lastName, email, password, adminStatus)\n')
-    nameF.write('VALUES\n')
-    for x in range(len(firstName)):
-        if x == len(firstName)-1:
-            nameF.write('\t(' + str(firstName[x]) + ', '+ str(lastName[x]) +', ' + str(email[x]) + ', ' + str(password) + ', ' + str(adminStatus[x]) + ')')
-        else:
-            nameF.write('\t(' + str(firstName[x]) + ', '+ str(lastName[x]) +', ' + str(email[x]) + ', ' + str(password) + ', ' + str(adminStatus[x]) + '),\n')
-
-
-with open('./txtSQL/state_sql.txt','w') as stateF:
-    stateF.write('INSERT INTO \n')
-    stateF.write('\tstate (stateName, stateCode)\n')
-    stateF.write('VALUES\n')
-    for x in range(len(stateList)):
-        if x == len(stateList) - 1:
-            stateF.write('\t(' + str(stateList[x]) + ', '+ str(stateCodesList[x]) +')')
-        else:
-            stateF.write('\t(' + str(stateList[x]) + ', '+ str(stateCodesList[x]) +'),\n')
-
-
-with open('./txtSQL/city_sql.txt','w') as cityF:
-    cityF.write('INSERT INTO \n')
-    cityF.write('\tcity (cityName, stateID)\n')
-    cityF.write('VALUES\n')
-    for x in range(len(cityNameDump)):
-        if x == len(cityNameDump) - 1:
-            cityF.write('\t(' + str(cityNameDump[x]) + ', '+ str(stateIDFK[x]) +')')
-        else:
-            cityF.write('\t(' + str(cityNameDump[x]) + ', '+ str(stateIDFK[x]) +'),\n')
-
-
-with open('./txtSQL/zip_sql.txt','w') as zipF:
-    zipF.write('INSERT INTO \n')
-    zipF.write('\tzipcode (zipcode, cityID)\n')
-    zipF.write('VALUES\n')
-    for x in range(len(zipCode)):
-        if x == len(zipCode) -1:
-            zipF.write('\t(' + str(zipCode[x]) + ', '+ str(cityIDFK[x]) +')')
-        else:
-            zipF.write('\t(' + str(zipCode[x]) + ', '+ str(cityIDFK[x]) +'),\n')
-
-
-
-
-
-with open('./txtSQL/shelter_sql.txt','w') as shelterF:
-    shelterF.write('INSERT INTO \n')
-    shelterF.write('\tshelter (shelterCode, shelterName, email, password, phoneNumber, zipcodeID, cityID, stateID)\n')
-    shelterF.write('VALUES\n')
-    for x in range(len(orgIDS)):
-        if x == len(orgIDS) - 1:
-            shelterF.write('\t(' + str(orgIDS[x]) + ', '+ str(orgNames[x]) + ', '+ str(orgEmail[x]) + ', '+ str(orgPhone[x]) + ', '+ str(shelterZipFKID[x]) + ', '+ str(shelterCityFKID[x]) + ', '+ str(shelterStateFKID[x]) +')')
-        else:
-            shelterF.write('\t(' + str(orgIDS[x]) + ', '+ str(orgNames[x]) + ', '+ str(orgEmail[x]) + ', '+ str(orgPhone[x]) + ', '+ str(shelterZipFKID[x]) + ', '+ str(shelterCityFKID[x]) + ', '+ str(shelterStateFKID[x]) +'),\n')
-
-
-with open('./txtSQL/pet_id_photos_sql.txt','w') as petPhotoF:
-    petPhotoF.write('INSERT INTO\n')
-    petPhotoF.write('\tpet_image (petID,imageID\n')
-    petPhotoF.write('VALUES\n')
-    for x in range(len(petImages)):
-        if x == len(petImages) - 1:
-            petPhotoF.write('\t('+ str(photoPetFKID[x]) + ', ' + str(photoPicFKID[x]) +  ')')
-        else:
-            petPhotoF.write('\t('+ str(photoPetFKID[x]) + ', ' + str(photoPicFKID[x]) +  '),\n')
-
-
-with open('./txtSQL/photo_sql.txt','w') as petPicF:
-    petPicF.write('INSERT INTO\n')
-    petPicF.write('\timages (imageurl)\n')
-    petPicF.write('VALUES\n')    
-    for x in range(len(petImages)):
-        if x == len(petImages) - 1:
-            petPicF.write('\t('+ str(petImages[x]) + ')')
-        else:
-            petPicF.write('\t('+ str(petImages[x]) + '),\n')
-
-
-with open('./txtSQL/pet_disp_sql.txt','w') as petDispF:
-    petDispF.write('INSERT INTO\n')
-    petDispF.write('\tdispositino_pet (dispID,petID)\n')
-    petDispF.write('VALUES\n')
-    for x in range(len(petDispIDFK)):
-        if x == len(petDispIDFK) -1:
-            petDispF.write('\t('+ str(dispIDFK[x]) + ', ' + str(petDispIDFK[x]) +  ')')
-        else:
-            petDispF.write('\t('+ str(dispIDFK[x]) + ', ' + str(petDispIDFK[x]) +  '),\n')
-
-
-with open('./txtSQL/pet_sql.txt','w') as petF:
-    petF.write('INSERT INTO \n')
-    petF.write('\tpet (name, age, sex, blurb, dateProfile, snStatus, sizeID, avID, typeID, shelterID)\n')
-    petF.write('VALUES\n')
-    for x in range(len(petNames)):
-        if x == len(petNames) -1:
-            petF.write('\t('+ str(petNames[x]) + ', ' + str(petAge[x]) + ', ' + str(petGender[x]) + ', ' + str(petBlurb[x]) + ', '  + str(today) + ', ' + str(petSN[x]) + ', ' + str(petSt[x]) + ', ' + str(sizeIDFK[x]) + ', ' + str(avlIDFK[x]) + ', ' + str(typeIDFK[x]) + ', ' + str(shelterIDFK[x]) + ')')
-        else:
-            petF.write('\t('+ str(petNames[x]) + ', ' + str(petAge[x]) + ', ' + str(petGender[x]) + ', ' + str(petBlurb[x]) + ', '  + str(today) + ', ' + str(petSN[x]) + ', ' + str(petSt[x]) + ', ' + str(sizeIDFK[x]) + ', ' + str(avlIDFK[x]) + ', ' + str(typeIDFK[x]) + ', ' + str(shelterIDFK[x]) + '),\n')
-
-
 with open('./txtSQL/type_sql.txt','w') as nameF:
     nameF.write('INSERT INTO \n')
     nameF.write('\ttype (typeName)\n')
     nameF.write('VALUES\n')
     for x in range(len(animalTypeNames)):
         if x == len(animalTypeNames)-1:
-            nameF.write('\t(' + str(animalTypeNames[x]) + ')')
+            nameF.write("\t('" + str(animalTypeNames[x]) + "')")
         else:
-            nameF.write('\t(' + str(animalTypeNames[x]) + '),\n')
-
-
-with open('./txtSQL/dispositionTable_sql.txt','w') as dispF:
-    dispF.write('INSERT INTO \n')
-    dispF.write('\tdisposition (dispStatus)\n')
-    dispF.write('VALUES\n')
-    for x in range(len(dispOps)):
-        if x == len(dispOps)-1:
-            dispF.write('\t(' + str(dispOps[x]) + ')')
-        else:
-            dispF.write('\t(' + str(dispOps[x]) + '),\n')
+            nameF.write("\t('" + str(animalTypeNames[x]) + "'),\n")
 
 
 with open('./txtSQL/breed_sql.txt','w') as nameF:
@@ -639,9 +670,9 @@ with open('./txtSQL/breed_sql.txt','w') as nameF:
     nameF.write('VALUES\n')
     for x in range(len(breedList)):
         if x == len(breedList)-1:
-            nameF.write('\t(' + str(breedList[x]) + ', ' + str(typeIDFK[x])+')')
+            nameF.write("\t('" + str(breedList[x]) + "', "  + str(typeIDFK[x]) + ")")
         else:
-            nameF.write('\t(' + str(breedList[x]) + ', ' + str(typeIDFK[x]) + '),\n')
+            nameF.write("\t('" + str(breedList[x]) + "', "  + str(typeIDFK[x]) + "),\n")
 
 
 with open('./txtSQL/pet_breed_sql.txt','w') as nameF:
@@ -655,35 +686,8 @@ with open('./txtSQL/pet_breed_sql.txt','w') as nameF:
             nameF.write('\t(' + str(breedIDFK[x]) + ', ' + str(petIDFK[x]) + '),\n')
 
 
-with open('./txtSQL/adopt_sql.txt','w') as adoptF:
-    adoptF.write('INSERT INTO \n')
-    adoptF.write('\tavailability (availability)\n')
-    adoptF.write('VALUES\n')
-    for x in range(len(adoptOps)):
-        if x == len(adoptOps)-1:
-            adoptF.write('\t(' + str(adoptOps[x]) + ')')
-        else:
-            adoptF.write('\t(' + str(adoptOps[x]) +  '),\n')
-
-
-with open('./txtSQL/size_sql.txt','w') as sizeF:
-    sizeF.write('INSERT INTO \n')
-    sizeF.write('\tsize (petSize)\n')
-    sizeF.write('VALUES\n')
-    for x in range(len(sizeOps)):
-        if x == len(sizeOps)-1:
-            sizeF.write('\t(' + str(sizeOps[x]) + ')')
-        else:
-            sizeF.write('\t(' + str(sizeOps[x]) +  '),\n')
-
-
-
-
-
-
 time_elapsed(tic, "Sql")
 tic= time.time()
 
 stop = time.time()
 print("total time: " + str(stop-start) + "\n")
-
