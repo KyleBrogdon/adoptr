@@ -1,5 +1,5 @@
 INSERT INTO 
-	zipcode (zipcode, cityID)
+	zipcode (zipcode, cityid)
 VALUES
 	(99546, 1),
 	(99551, 2),

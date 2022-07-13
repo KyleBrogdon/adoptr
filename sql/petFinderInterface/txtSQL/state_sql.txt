@@ -1,5 +1,5 @@
 INSERT INTO 
-	state (stateName, stateCode)
+	state (statename, statecode)
 VALUES
 	('Alaska', 'AK'),
 	('Alabama', 'AL'),
