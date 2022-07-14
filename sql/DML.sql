@@ -24,3 +24,4 @@ RETURNING userid;
 
 
 /* =====| List of shelter admin |===== */
+SELECT -- List of first names, last names, username and passwords
