@@ -1,0 +1,13 @@
+INSERT INTO 
+	app_user (firstname, lastname, email, password, adminstatus)
+VALUES
+	('site', 'admin', 'siteAdmin@email.com', '12345', 'True'),
+	('shelter', 'admin', 'shelteradmin@email.com', '12345', 'True'),
+	('app', 'user', 'appuser@email.com', '12345', 'False'),
+	('Matthe', 'Channell', 'MattheChannell@email.com', '12345', 'False'),
+	('Braxton', 'Sharod', 'BraxtonSharod@email.com', '12345', 'False'),
+	('Shekira', 'Rashanda', 'ShekiraRashanda@email.com', '12345', 'False'),
+	('Rima', 'Kavitha', 'RimaKavitha@email.com', '12345', 'False'),
+	('Kellon', 'Ariell', 'KellonAriell@email.com', '12345', 'False'),
+	('Kehaulani', 'Derron', 'KehaulaniDerron@email.com', '12345', 'False'),
+	('Casidy', 'Tho', 'CasidyTho@email.com', '12345', 'False')

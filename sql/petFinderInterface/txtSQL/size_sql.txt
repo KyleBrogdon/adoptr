@@ -1,0 +1,9 @@
+INSERT INTO 
+	pet_size (petsize)
+VALUES
+	('extra small'),
+	('small'),
+	('medium'),
+	('large'),
+	('extra large'),
+	('unknown')

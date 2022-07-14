@@ -1,45 +1,45 @@
 --ALTER DATABASE name OWNER to postgres
 -- Cleanup database
-DROP TABLE IF EXISTS admin_shelter;
-DROP TABLE IF EXISTS disposition_pet;
-DROP TABLE IF EXISTS breed;
-DROP TABLE IF EXISTS pet_image;
-DROP TABLE IF EXISTS user_saved_pet;
-DROP TABLE IF EXISTS user_rejected_pet;
-DROP TABLE IF EXISTS app_user;
+DROP TABLE IF EXISTS admin_shelter CASCADE;
+DROP TABLE IF EXISTS disposition_pet CASCADE;
+DROP TABLE IF EXISTS breed CASCADE;
+DROP TABLE IF EXISTS pet_image CASCADE;
+DROP TABLE IF EXISTS user_saved_pet CASCADE;
+DROP TABLE IF EXISTS user_rejected_pet CASCADE;
+DROP TABLE IF EXISTS app_user CASCADE;
 /* DROP TABLE IF EXISTS admin; */
-DROP TABLE IF EXISTS disposition;
-DROP TABLE IF EXISTS image;
-DROP TABLE IF EXISTS pet;
-DROP TABLE IF EXISTS shelter;
-DROP TABLE IF EXISTS zipcode;
-DROP TABLE IF EXISTS city;
-DROP TABLE IF EXISTS state;
-DROP TABLE IF EXISTS size;
-DROP TABLE IF EXISTS availability;
-DROP TABLE IF EXISTS type;
-DROP TABLE IF EXISTS spayed_neutered;
+DROP TABLE IF EXISTS disposition CASCADE;
+DROP TABLE IF EXISTS images CASCADE;
+DROP TABLE IF EXISTS pet CASCADE;
+DROP TABLE IF EXISTS shelter CASCADE;
+DROP TABLE IF EXISTS zipcode CASCADE;
+DROP TABLE IF EXISTS city CASCADE;
+DROP TABLE IF EXISTS state CASCADE;
+DROP TABLE IF EXISTS pet_size CASCADE;
+DROP TABLE IF EXISTS pet_availability CASCADE;
+DROP TABLE IF EXISTS pet_type CASCADE;
+
 
 -- Table: availability
 
-CREATE TABLE IF NOT EXISTS availability
+CREATE TABLE IF NOT EXISTS pet_availability
 (
     avID SERIAL PRIMARY KEY,
-    availability VARCHAR(100)
+    pet_availability VARCHAR(100)
 );
 
-ALTER TABLE IF EXISTS availability
+ALTER TABLE IF EXISTS pet_availability
     OWNER to postgres;
 
 -- Table: type
 
-CREATE TABLE IF NOT EXISTS type
+CREATE TABLE IF NOT EXISTS pet_type
 (
-typeID SERIAL PRIMARY KEY,
-typeName VARCHAR(20)
+    typeID SERIAL PRIMARY KEY,
+    typeName VARCHAR(20)
 );
 
-ALTER TABLE IF EXISTS type
+ALTER TABLE IF EXISTS pet_type
 	OWNER to postgres;
 
 -- Table: disposition
@@ -48,7 +48,7 @@ ALTER TABLE IF EXISTS type
 CREATE TABLE IF NOT EXISTS disposition
 (
     dispID SERIAL PRIMARY KEY,
-    dispStatus VARCHAR(20)
+    dispStatus VARCHAR(50)
 );
 
 ALTER TABLE IF EXISTS disposition
@@ -57,36 +57,26 @@ ALTER TABLE IF EXISTS disposition
 -- Table: image
 
 
-CREATE TABLE IF NOT EXISTS image
+CREATE TABLE IF NOT EXISTS images
 (
     imageID SERIAL PRIMARY KEY,
     imageURL VARCHAR(100)
 );
 
-ALTER TABLE IF EXISTS image
+ALTER TABLE IF EXISTS images
     OWNER to postgres;
 
--- Table: spayed_neutered
-
-CREATE TABLE IF NOT EXISTS spayed_neutered
-(
-    snID SERIAL PRIMARY KEY,
-    snStatus VARCHAR(10)
-);
-
-ALTER TABLE IF EXISTS spayed_neutered
-    OWNER to postgres;
 
 -- Table: size
 
 
-CREATE TABLE IF NOT EXISTS size
+CREATE TABLE IF NOT EXISTS pet_size
 (
     sizeID SERIAL PRIMARY KEY,
-    size VARCHAR(10)
+    petsize VARCHAR(20)
 );
 
-ALTER TABLE IF EXISTS size
+ALTER TABLE IF EXISTS pet_size
     OWNER to postgres;
 
 -- Table: app_user
@@ -95,27 +85,16 @@ ALTER TABLE IF EXISTS size
 CREATE TABLE IF NOT EXISTS app_user
 (
     userID SERIAL PRIMARY KEY,
-    firstname VARCHAR(10),
-    lastname VARCHAR(10),
+    firstname VARCHAR(20),
+    lastname VARCHAR(20),
     email VARCHAR(20) NOT NULL,
-    password VARCHAR(10) NOT NULL,
+    userpassword VARCHAR(20) NOT NULL,
     adminStatus BOOLEAN
 );
 
 ALTER TABLE IF EXISTS app_user
     OWNER to postgres;
 
--- Table: admin
-
-
-/* CREATE TABLE IF NOT EXISTS admin
-(
-    adminID SERIAL PRIMARY KEY,
-    adminName VARCHAR(20)
-);
-
-ALTER TABLE IF EXISTS admin
-    OWNER to postgres; */
 
 -- Table: state
 
@@ -123,7 +102,8 @@ ALTER TABLE IF EXISTS admin
 CREATE TABLE IF NOT EXISTS state
 (
     stateID SERIAL PRIMARY KEY,
-    stateName VARCHAR(20)
+    stateName VARCHAR(50),
+    stateCode VARCHAR(10)
 );
 
 ALTER TABLE IF EXISTS state
@@ -135,7 +115,7 @@ ALTER TABLE IF EXISTS state
 CREATE TABLE IF NOT EXISTS city
 (
     cityID SERIAL PRIMARY KEY,
-    cityName VARCHAR(20),
+    cityName VARCHAR(50),
     stateID INT,
    CONSTRAINT fk_state
       FOREIGN KEY(stateID) 
@@ -168,8 +148,11 @@ ALTER TABLE IF EXISTS zipcode
 CREATE TABLE IF NOT EXISTS shelter
 (
     shelterID SERIAL PRIMARY KEY,
-    shelterName VARCHAR(20) NOT NULL,
-    password VARCHAR(20) NOT NULL,
+    shelterName VARCHAR(50) NOT NULL,
+    shelterCode VARCHAR(10) NOT NULL,
+    shelterPassword VARCHAR(20) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    phoneNumber VARCHAR(15),
     zipCodeId INT,
     cityId INT,
     stateId INT,
@@ -193,29 +176,26 @@ ALTER TABLE IF EXISTS shelter
 CREATE TABLE IF NOT EXISTS pet
 (
     petID SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
-    age INT,
-    sex VARCHAR(1),
-    blurb VARCHAR(100),
-    weight INT,
+    petName VARCHAR(50) NOT NULL,
+    age VARCHAR(20),
+    sex VARCHAR(10),
+    blurb VARCHAR(500),
     dateProfile DATE,
     sizeID INT,
-    snID INT,
+    snStatus BOOLEAN,
+    ststatus BOOLEAN,
     avID INT,
     typeID INT,
     shelterID INT,
    CONSTRAINT fk_size
       FOREIGN KEY(sizeID) 
-	  REFERENCES size(sizeID),
-   CONSTRAINT fk_sn
-      FOREIGN KEY(snID) 
-	  REFERENCES spayed_neutered(snID),
+	  REFERENCES pet_size(sizeID),
    CONSTRAINT fk_av
       FOREIGN KEY(avID) 
-	  REFERENCES availability(avID),
+	  REFERENCES pet_availability(avID),
    CONSTRAINT fk_type
       FOREIGN KEY(typeID) 
-	  REFERENCES type(typeID),
+	  REFERENCES pet_type(typeID),
    CONSTRAINT fk_shelter
       FOREIGN KEY(shelterID) 
 	  REFERENCES shelter(shelterID)
@@ -250,15 +230,35 @@ ALTER TABLE IF EXISTS disposition_pet
 CREATE TABLE IF NOT EXISTS breed
 (
     breedID SERIAL PRIMARY KEY,
-    breedName VARCHAR(20),
+    breedName VARCHAR(50),
     typeID INT,
    CONSTRAINT fk_type
       FOREIGN KEY(typeID) 
-	  REFERENCES type(typeID)
+	  REFERENCES pet_type(typeID)
 );
 
 ALTER TABLE IF EXISTS breed
     OWNER to postgres;
+
+
+
+-- Table: pet_breed
+CREATE TABLE IF NOT EXISTS pet_breed
+(
+    ID SERIAL PRIMARY KEY,
+    petID INT,
+    breedID INT,
+   CONSTRAINT fk_pet
+      FOREIGN KEY(petID) 
+	  REFERENCES pet(petID),
+   CONSTRAINT fk_breed
+      FOREIGN KEY(breedID) 
+	  REFERENCES breed(breedID)
+);
+
+ALTER TABLE IF EXISTS pet_breed
+    OWNER to postgres;
+
 
 -- Table: pet_image
 
@@ -272,7 +272,7 @@ CREATE TABLE IF NOT EXISTS pet_image
 	  REFERENCES pet(petID),
    CONSTRAINT fk_image
       FOREIGN KEY(imageID) 
-	  REFERENCES image(imageID)
+	  REFERENCES images(imageID)
 );
 
 ALTER TABLE IF EXISTS pet_image
