@@ -32,11 +32,11 @@
       </div>
       <div class="mt-3"></div>
       <p>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNewCustomer" aria-expanded="false" aria-controls="collapseExample">
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNewAdmin" aria-expanded="false" aria-controls="collapseExample">
           INSERT new admin
         </button>
       </p>
-      <div class="collapse" id="collapseNewCustomer">
+      <div class="collapse" id="collapseNewAdmin">
         <div class="card card-body" id="insert-card">
           <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">firstName</span>
@@ -56,7 +56,7 @@
           </div>
           <div class="my-3 mx-4 border-top"></div>
           <div class="container-sm">
-            <button type="button" class="btn btn-success" id="addCustomerButton">INSERT admin entry</button>
+            <button type="button" class="btn btn-success" id="addAdminButton">INSERT admin entry</button>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
 
           <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">adminID (PK)</span>
-            <select class="form-select " id="update-customer-pk-menu"> 
+            <select class="form-select " id="update-Admin-pk-menu"> 
               <option selected> number </option>
 
             </select>
@@ -95,7 +95,7 @@
           </div>
           <div class="my-3 mx-4 border-top"></div>
           <div class="container-sm">
-            <button type="button" class="btn btn-success" id="updateCustomerButton">UPDATE admin entry</button>
+            <button type="button" class="btn btn-success" id="updateAdminButton">UPDATE admin entry</button>
           </div>
         </div>
       </div>
@@ -105,7 +105,7 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">CustomerID</th>
+            <th scope="col">adminID</th>
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
             <th scope="col">Email</th>
@@ -158,11 +158,11 @@
       </div>
 
     <!-- Modal for updating a shelter admin -->
-    <div class="modal fade" id="updateCustomerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateAdminModal" tabindex="-1" aria-labelledby="customerAdminLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="updateCustomerModalTitle">admin Details</h5>
+            <h5 class="modal-title" id="updateAdminModalTitle">admin Details</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">

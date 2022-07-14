@@ -1,0 +1,11 @@
+INSERT INTO 
+	pet_type (typeName)
+VALUES
+	('Dog'),
+	('Cat'),
+	('Rabbit'),
+	('small-furry'),
+	('Horse'),
+	('Bird'),
+	('scales-fins-other'),
+	('Barnyard')
