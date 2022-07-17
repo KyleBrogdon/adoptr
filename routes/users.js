@@ -6,7 +6,7 @@ const router = express.Router();
 
 //shelter Admin profile
 router.get('/userProfile', (req, res) => {
-    res.render("../views/pages/user/userProfile", {});
+    res.render("../views/pages/users/userProfile", {});
   /*   if(req.session.userID == 1){
         res.render("../views/pages/siteAdmin/shelterADmins", {});
     }
@@ -17,8 +17,8 @@ router.get('/userProfile', (req, res) => {
 });
   
   //petprofile
-router.get('/userPetProfiles', (req, res) => {
-    res.render("../views/pages/user/userPetProfiles", {});
+router.get('/petProfile', (req, res) => {
+    res.render("../views/pages/users/petProfile", {});
 /*   if(req.session.userID == 1){
         res.render("../views/pages/siteAdmin/shelterADmins", {});
     }
@@ -31,7 +31,7 @@ router.get('/userPetProfiles', (req, res) => {
 
   //search pets
 router.get('/petSearch', (req, res) => {
-    res.render("../views/pages/user/petSearch", {});
+    res.render("../views/pages/users/petSearch", {});
 /*   if(req.session.userID == 1){
         res.render("../views/pages/siteAdmin/shelterADmins", {});
     }

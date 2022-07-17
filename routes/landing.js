@@ -7,7 +7,7 @@ router.get("/landingPage", (req,res) => {
     res.render("../views/pages/general/landingPage", {
   
     });
-  })
+})
 
 router.get('/login', (req, res) => {
     res.render("../views/pages/general/login", { //need to add
@@ -28,7 +28,7 @@ router.get('/shelterAdminTest', (req, res) => {
     });
 });
 router.get('/userTest', (req, res) => {
-    res.render("../views/pages/user/userIndex", { //need to add
+    res.render("../views/pages/users/userIndex", { //need to add
 
     });
 });

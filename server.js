@@ -35,7 +35,7 @@ app.use('/landing', landingRoutes);
 
 app.use('/shelterAdmin', shelterAdminRoutes);
 
-app.use('/user', userRoutes)
+app.use('/users', userRoutes)
 
 
 
