@@ -1,5 +1,9 @@
 INSERT INTO 
+<<<<<<< HEAD
+	pet (petname, age, sex, blurb, dateprofile, snstatus, ststatus, sizeid, avid, typeid, shelterid)
+=======
 	pet (name, age, sex, blurb, dateprofile, snstatus, ststatus, sizeid, avid, typeid, shelterid)
+>>>>>>> c1cbc06905116c2455c88f541a4de2a753ef73c9
 VALUES
 	('Calpico', 'Baby', 'Female', 'Calpico is a sweet but spicy (feisty) girl who can really play!  She may be a little ADD - ?...', '2022-07-17', True, True, 2, 1, 2, 1),
 	('McVitie', 'Adult', 'Male', 'McVitie (his name is a chocolate candy - cuz he’s chocolate) is a sweet guy who can be opinionated and...', '2022-07-17', True, True, 2, 1, 1, 1),

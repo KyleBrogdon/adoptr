@@ -1,5 +1,5 @@
 INSERT INTO 
-	state (statename, statecode)
+	shelter_state (statename, statecode)
 VALUES
 	('Alaska', 'AK'),
 	('Alabama', 'AL'),
