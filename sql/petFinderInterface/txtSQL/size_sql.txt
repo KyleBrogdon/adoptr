@@ -1,9 +1,9 @@
 INSERT INTO 
-	pet_size (petsize)
+	size (petSize)
 VALUES
 	('extra small'),
 	('small'),
 	('medium'),
 	('large'),
 	('extra large'),
-	('unknown')
+	('unknown');
