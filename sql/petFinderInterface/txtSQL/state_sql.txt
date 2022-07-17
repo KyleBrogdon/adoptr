@@ -56,4 +56,4 @@ VALUES
 	('Washington', 'WA'),
 	('Wisconsin', 'WI'),
 	('West Virginia', 'WV'),
-	('Wyoming', 'WY')
+	('Wyoming', 'WY');
