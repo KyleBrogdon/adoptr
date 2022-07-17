@@ -1,3 +1,4 @@
+# source: https://www.postgresqltutorial.com/postgresql-python/connect/
 import psycopg2
 
 
