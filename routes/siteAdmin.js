@@ -103,17 +103,6 @@ router.get('/atributes/size', (req, res) => {
   } */
 });
 
-//spayedNeutered
-router.get('/atributes/spayedNeutered', (req, res) => {
-  res.render("../views/pages/siteAdmin/atributes/spayedNeutered", {})
-/*   if(req.session.customerID == 1){
-      res.render("../views/pages/siteAdmin/spayedNeutered", {});
-  }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/landingPage", {});
-  } */
-});
 
 //Type
 router.get('/atributes/type', (req, res) => {
@@ -128,10 +117,6 @@ router.get('/atributes/type', (req, res) => {
 });
 
 
-  //**********************
-router.get('/login', (req, res) => {
-  res.render("../views/pages/general/login", {});
-});
   
 router.get('/logout', (req, res) => {
   req.session.destroy();

@@ -6,11 +6,11 @@
   </head>
   <body>
 
-    <%- include('../../partials/header_shelterAdmin'); %>
+    <%- include('../../partials/header_user'); %>
     <div class="container overflow-hidden">
       <div class="row">
         <div  id="profileFields" class="col" style="padding-right: 10%;">
-            <h6 class="display-6" style ="text-decoration: underline;">Admin Information</h6>
+            <h6 class="display-6" style ="text-decoration: underline;">User Profile</h6>
             <data hidden id="shelterID"></data>
             <div id="profileUpdateField"></div>
         </div>
@@ -66,17 +66,18 @@
         </div>
     </div>
 
-
-      <div class="card card-body">
+    <div class="card card-body">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="inputGroup-sizing-sm">Search</span>
           <input type="text" id="searchBar" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
           <div class="col-2">
             <select class="form-select " id="atribute-form"> 
               <option selected> Property </option>
-              <option value="orderID">Shelter Code</option>
-              <option value="orderDate">State</option>
-              <option value="orderDate">City</option>
+              <option value="petID">pet ID</option>
+              <option value="petName">pet Name</option>
+              <option value="petType">pet type</option>
+              <option value="petAge">pet age</option>
+              <option value="petSex">pet sex</option>
             </select>
           </div>
         </div>
@@ -86,20 +87,23 @@
         </div>
       </div>
   
-      <h6 class="display-6" style ="text-decoration: underline; padding-top: 2%;">Shelter List</h6>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Shelter #</th>
-            <th scope="col">Shelter Name</th>
-            <th scope="col">Shelter Code</th>
-            <th scope="col">City</th>
-            <th scope="col">State</th>
-          </tr>
-        </thead>
-        <tbody id="main-rows">
-        </tbody>
-      </table>
+
+
+        <h6 class="display-6" style ="text-decoration: underline; padding-top: 2%;">Pet List</h6>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">Pet ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">type</th>
+                <th scope="col">age</th>
+                <th scope="col">sex</th>
+                <th scope="col">Actions</th>           
+                </tr>
+            </thead>
+            <tbody id="main-rows">
+            </tbody>
+        </table>
 
     </div>
 
@@ -117,7 +121,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalTitle">Shelter Details</h5>
+            <h5 class="modal-title" id="modalTitle">Pet Details</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">

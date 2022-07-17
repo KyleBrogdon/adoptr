@@ -14,14 +14,27 @@ router.get('/login', (req, res) => {
 
     });
 });
-  
+
 router.get('/newUser', (req, res) => {
     res.render("../views/pages/general/newUser", { //need to add
 
     });
 });
 
+////////////////////////////////////////////////////////////////////////////////////
+router.get('/shelterAdminTest', (req, res) => {
+    res.render("../views/pages/shelterAdmin/shelterAdminIndex", { //need to add
 
+    });
+});
+router.get('/userTest', (req, res) => {
+    res.render("../views/pages/user/userIndex", { //need to add
+
+    });
+});
+
+
+/////////////////////////////////////////////////////
 router.post('/addUser', (req, res) => {
     pool.query(`INSERT INTO Users (firstName, lastName, email, password, adminStatus) VALUES (?, ?, ?, ? ,?, ?)`,
     [req.query.firstName,req.query.lastName, req.query.zipCode, req.query.email, req.query.password, req.query.adminStatus],
