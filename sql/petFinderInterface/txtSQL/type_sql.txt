@@ -1,5 +1,5 @@
 INSERT INTO 
-	pet_type (typeName)
+	type (typeName)
 VALUES
 	('Dog'),
 	('Cat'),
@@ -8,4 +8,4 @@ VALUES
 	('Horse'),
 	('Bird'),
 	('scales-fins-other'),
-	('Barnyard')
+	('Barnyard');
