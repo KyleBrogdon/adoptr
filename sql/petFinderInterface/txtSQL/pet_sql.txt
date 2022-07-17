@@ -1,5 +1,5 @@
 INSERT INTO 
-	pet (name, age, sex, blurb, dateprofile, snstatus, sizeid, avid, typeid, shelterid)
+	pet (petname, age, sex, blurb, dateprofile, snstatus, ststatus, sizeid, avid, typeid, shelterid)
 VALUES
 	('Ellie and Penny', 'Adult', 'Female', '2 lovely sister cats Good with kids', '2022-07-12', True, True, 3, 1, 2, 2),
 	('Smokey', 'Adult', 'Female', 'Lovely kitty', '2022-07-12', True, True, 3, 1, 2, 2),

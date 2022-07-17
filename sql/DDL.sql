@@ -3,6 +3,7 @@
 DROP TABLE IF EXISTS admin_shelter CASCADE;
 DROP TABLE IF EXISTS disposition_pet CASCADE;
 DROP TABLE IF EXISTS breed CASCADE;
+DROP TABLE IF EXISTS pet_breed CASCADE;
 DROP TABLE IF EXISTS pet_image CASCADE;
 DROP TABLE IF EXISTS user_saved_pet CASCADE;
 DROP TABLE IF EXISTS user_rejected_pet CASCADE;
@@ -14,7 +15,7 @@ DROP TABLE IF EXISTS pet CASCADE;
 DROP TABLE IF EXISTS shelter CASCADE;
 DROP TABLE IF EXISTS zipcode CASCADE;
 DROP TABLE IF EXISTS city CASCADE;
-DROP TABLE IF EXISTS state CASCADE;
+DROP TABLE IF EXISTS shelter_state CASCADE;
 DROP TABLE IF EXISTS pet_size CASCADE;
 DROP TABLE IF EXISTS pet_availability CASCADE;
 DROP TABLE IF EXISTS pet_type CASCADE;
@@ -96,17 +97,17 @@ ALTER TABLE IF EXISTS app_user
     OWNER to postgres;
 
 
--- Table: state
+-- Table: shelter_state
 
 
-CREATE TABLE IF NOT EXISTS state
+CREATE TABLE IF NOT EXISTS shelter_state
 (
     stateID SERIAL PRIMARY KEY,
     stateName VARCHAR(50),
     stateCode VARCHAR(10)
 );
 
-ALTER TABLE IF EXISTS state
+ALTER TABLE IF EXISTS shelter_state
     OWNER to postgres;
 
 -- Table: city
@@ -119,7 +120,7 @@ CREATE TABLE IF NOT EXISTS city
     stateID INT,
    CONSTRAINT fk_state
       FOREIGN KEY(stateID) 
-	  REFERENCES state(stateID)
+	  REFERENCES shelter_state(stateID)
 );
 
 ALTER TABLE IF EXISTS city
@@ -150,9 +151,9 @@ CREATE TABLE IF NOT EXISTS shelter
     shelterID SERIAL PRIMARY KEY,
     shelterName VARCHAR(50) NOT NULL,
     shelterCode VARCHAR(10) NOT NULL,
-    shelterPassword VARCHAR(20) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    phoneNumber VARCHAR(15),
+    shelterPassword VARCHAR(20) NOT NULL,
+    phoneNumber VARCHAR(25),
     zipCodeId INT,
     cityId INT,
     stateId INT,
@@ -164,7 +165,7 @@ CREATE TABLE IF NOT EXISTS shelter
 	  REFERENCES city(cityID),
    CONSTRAINT fk_state
       FOREIGN KEY(stateID) 
-	  REFERENCES state(stateID)
+	  REFERENCES shelter_state(stateID)
 );
 
 ALTER TABLE IF EXISTS shelter
@@ -224,7 +225,7 @@ CREATE TABLE IF NOT EXISTS disposition_pet
 ALTER TABLE IF EXISTS disposition_pet
     OWNER to postgres;
 
--- Table: breed
+-- Table: pet_breed
 
 
 CREATE TABLE IF NOT EXISTS breed
