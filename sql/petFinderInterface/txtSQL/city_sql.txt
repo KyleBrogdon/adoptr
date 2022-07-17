@@ -28113,4 +28113,4 @@ VALUES
 	('Wright', 48),
 	('Wyarno', 48),
 	('Yellowstone National Park', 48),
-	('Yoder', 48)
+	('Yoder', 48);
