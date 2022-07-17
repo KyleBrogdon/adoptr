@@ -1,6 +1,5 @@
 --ALTER DATABASE name OWNER to postgres
 -- Cleanup database
-<<<<<<< Updated upstream
 DROP TABLE IF EXISTS admin_shelter CASCADE;
 DROP TABLE IF EXISTS disposition_pet CASCADE;
 DROP TABLE IF EXISTS breed CASCADE;
@@ -21,27 +20,6 @@ DROP TABLE IF EXISTS pet_size CASCADE;
 DROP TABLE IF EXISTS pet_availability CASCADE;
 DROP TABLE IF EXISTS pet_type CASCADE;
 
-=======
-DROP TABLE IF EXISTS admin_shelter;
-DROP TABLE IF EXISTS disposition_pet;
-DROP TABLE IF EXISTS breed;
-DROP TABLE IF EXISTS pet_image;
-DROP TABLE IF EXISTS user_saved_pet;
-DROP TABLE IF EXISTS user_rejected_pet;
-DROP TABLE IF EXISTS app_user;
-/* DROP TABLE IF EXISTS admin; */
-DROP TABLE IF EXISTS disposition;
-DROP TABLE IF EXISTS image;
-DROP TABLE IF EXISTS pet;
-DROP TABLE IF EXISTS shelter;
-DROP TABLE IF EXISTS zipcode;
-DROP TABLE IF EXISTS city;
-DROP TABLE IF EXISTS state;
-DROP TABLE IF EXISTS size;
-DROP TABLE IF EXISTS availability;
-DROP TABLE IF EXISTS type;
-DROP TABLE IF EXISTS spayed_neutered;
->>>>>>> Stashed changes
 
 -- Table: availability
 
@@ -108,17 +86,10 @@ ALTER TABLE IF EXISTS pet_size
 CREATE TABLE IF NOT EXISTS app_user
 (
     userID SERIAL PRIMARY KEY,
-<<<<<<< Updated upstream
     firstname VARCHAR(20),
     lastname VARCHAR(20),
-    email VARCHAR(20) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     userpassword VARCHAR(20) NOT NULL,
-=======
-    firstname VARCHAR(10),
-    lastname VARCHAR(10),
-    email VARCHAR(20) NOT NULL,
-    password VARCHAR(10) NOT NULL,
->>>>>>> Stashed changes
     adminStatus BOOLEAN
 );
 
@@ -126,17 +97,7 @@ ALTER TABLE IF EXISTS app_user
     OWNER to postgres;
 
 
-<<<<<<< Updated upstream
 -- Table: shelter_state
-=======
-/* CREATE TABLE IF NOT EXISTS admin
-(
-    adminID SERIAL PRIMARY KEY,
-    adminName VARCHAR(20)
-);
-ALTER TABLE IF EXISTS admin
-    OWNER to postgres; */
->>>>>>> Stashed changes
 
 
 CREATE TABLE IF NOT EXISTS shelter_state
@@ -188,16 +149,11 @@ ALTER TABLE IF EXISTS zipcode
 CREATE TABLE IF NOT EXISTS shelter
 (
     shelterID SERIAL PRIMARY KEY,
-<<<<<<< Updated upstream
     shelterName VARCHAR(50) NOT NULL,
     shelterCode VARCHAR(10) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    shelterPassword VARCHAR(20) NOT NULL,
-    phoneNumber VARCHAR(25),
-=======
-    shelterName VARCHAR(20) NOT NULL,
-    password VARCHAR(20) NOT NULL,
->>>>>>> Stashed changes
+    shelterPassword VARCHAR(25) NOT NULL,
+    phoneNumber VARCHAR(100),
     zipCodeId INT,
     cityId INT,
     stateId INT,
@@ -221,18 +177,10 @@ ALTER TABLE IF EXISTS shelter
 CREATE TABLE IF NOT EXISTS pet
 (
     petID SERIAL PRIMARY KEY,
-<<<<<<< Updated upstream
     petName VARCHAR(50) NOT NULL,
     age VARCHAR(20),
     sex VARCHAR(10),
     blurb VARCHAR(500),
-=======
-    name VARCHAR(20) NOT NULL,
-    age INT,
-    sex VARCHAR(1),
-    blurb VARCHAR(100),
-    weight INT,
->>>>>>> Stashed changes
     dateProfile DATE,
     sizeID INT,
     snStatus BOOLEAN,
