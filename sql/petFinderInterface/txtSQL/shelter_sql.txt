@@ -1,5 +1,5 @@
 INSERT INTO 
-	shelter (sheltercode, sheltername, email, password, phonenumber, zipcodeid, cityid, stateid)
+	shelter (sheltercode, sheltername, email, phonenumber, zipcodeid, cityid, stateid)
 VALUES
 	('AK15', 'Alaskas Extended Life Animal Sanctuary', 'aelas@alaska.net', '(907)776-3614', 155, 134, 1),
 	('AK33', 'Pet Pride', 'linda.defoliart@gmail.com', '(907)799-0031', 79, 64, 1),
