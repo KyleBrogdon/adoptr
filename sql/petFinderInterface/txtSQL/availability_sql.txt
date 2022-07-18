@@ -1,7 +1,0 @@
-INSERT INTO 
-	availability (availability)
-VALUES
-	('adoptable'),
-	('adopted'),
-	('unavailable'),
-	('unknown');

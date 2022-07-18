@@ -1,0 +1,7 @@
+INSERT INTO 
+	pet_availability (pet_availability)
+VALUES
+	('adoptable'),
+	('adopted'),
+	('unavailable'),
+	('unknown');

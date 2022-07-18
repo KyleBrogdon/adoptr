@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS app_user
     userID SERIAL PRIMARY KEY,
     firstname VARCHAR(20),
     lastname VARCHAR(20),
-    email VARCHAR(20) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     userpassword VARCHAR(20) NOT NULL,
     adminStatus BOOLEAN
 );
@@ -152,8 +152,8 @@ CREATE TABLE IF NOT EXISTS shelter
     shelterName VARCHAR(50) NOT NULL,
     shelterCode VARCHAR(10) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    shelterPassword VARCHAR(20) NOT NULL,
-    phoneNumber VARCHAR(25),
+    shelterPassword VARCHAR(25) NOT NULL,
+    phoneNumber VARCHAR(100),
     zipCodeId INT,
     cityId INT,
     stateId INT,
