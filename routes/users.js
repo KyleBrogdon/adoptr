@@ -1,12 +1,12 @@
-const express = require('express');
+const express = require("express");
+const pool = require("../sql/sql_init");
 const router = express.Router();
 //const db = require('../sql/admin')
 //const pool = require('../sql/sql_init');
 
-
 //shelter Admin profile
-router.get('/userProfile', (req, res) => {
-    res.render("../views/pages/users/userProfile", {});
+router.get("/userProfile", (req, res) => {
+  res.render("../views/pages/users/userProfile", {});
   /*   if(req.session.userID == 1){
         res.render("../views/pages/siteAdmin/shelterADmins", {});
     }
@@ -15,11 +15,11 @@ router.get('/userProfile', (req, res) => {
         res.render("../views/pages/general/index", {});
     } */
 });
-  
-  //petprofile
-router.get('/petProfile', (req, res) => {
-    res.render("../views/pages/users/petProfile", {});
-/*   if(req.session.userID == 1){
+
+//petprofile
+router.get("/petProfile", (req, res) => {
+  res.render("../views/pages/users/petProfile", {});
+  /*   if(req.session.userID == 1){
         res.render("../views/pages/siteAdmin/shelterADmins", {});
     }
     else{
@@ -28,11 +28,10 @@ router.get('/petProfile', (req, res) => {
     } */
 });
 
-
-  //search pets
-router.get('/petSearch', (req, res) => {
-    res.render("../views/pages/users/petSearch", {});
-/*   if(req.session.userID == 1){
+//search pets
+router.get("/petSearch", (req, res) => {
+  res.render("../views/pages/users/petSearch", {});
+  /*   if(req.session.userID == 1){
         res.render("../views/pages/siteAdmin/shelterADmins", {});
     }
     else{
@@ -41,11 +40,9 @@ router.get('/petSearch', (req, res) => {
     } */
 });
 
-router.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.render("../views/pages/general/landingPage", {});
+router.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.render("../views/pages/general/landingPage", {});
 });
-
-
 
 module.exports = router;
