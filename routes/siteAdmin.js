@@ -1,4 +1,4 @@
-// Contains routes for views concerning customers
+// Contains routes for views concerning users
 const express = require('express');
 const router = express.Router();
 //const db = require('../sql/admin')
@@ -7,7 +7,7 @@ const router = express.Router();
 //Users
 router.get('/users', (req, res) => {
   res.render("../views/pages/siteAdmin/users", {});
-/*   if(req.session.customerID == 1){
+/*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/users", {});
   }
   else{
@@ -35,7 +35,7 @@ router.get('/shelterAdmins', (req, res) => {
 });
 
 router.get("/shelterAdminsList", async (req,res) => {
-  //var shelterAdmins = await db.getCustomers();
+  //var shelterAdmins = await db.getUsers();
   res.json(shelterAdmins);
 })
 
@@ -58,7 +58,7 @@ router.get('/atributes', (req, res) => {
 //Availability
 router.get('/atributes/availability', (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/availability", {});
-/*   if(req.session.customerID == 1){
+/*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/availability", {});
   }
   else{
@@ -70,7 +70,7 @@ router.get('/atributes/availability', (req, res) => {
 //Breed
 router.get('/atributes/breed', (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/breed", {});
-/*   if(req.session.customerID == 1){
+/*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/breed", {});
   }
   else{
@@ -82,7 +82,7 @@ router.get('/atributes/breed', (req, res) => {
 //Disposition
 router.get('/atributes/disposition', (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/disposition", {});
-/*   if(req.session.customerID == 1){
+/*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/disposition", {});
   }
   else{
@@ -94,7 +94,7 @@ router.get('/atributes/disposition', (req, res) => {
 //Size
 router.get('/atributes/size', (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/size", {});
-/*   if(req.session.customerID == 1){
+/*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/size", {});
   }
   else{
@@ -107,7 +107,7 @@ router.get('/atributes/size', (req, res) => {
 //Type
 router.get('/atributes/type', (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/type", {});
-/*   if(req.session.customerID == 1){
+/*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/type", {});
   }
   else{
