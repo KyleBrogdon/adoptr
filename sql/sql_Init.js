@@ -10,7 +10,7 @@ const credentials = {
   password: "password",
   database: "adoptrdb",
   port: 5432,
-};
+}
 
 const pool = new Pool(credentials);
 
