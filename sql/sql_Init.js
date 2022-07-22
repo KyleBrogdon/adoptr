@@ -5,12 +5,14 @@ const path = require("path");
 
 //update credentials with your local db info
 const credentials = {
+
   host: "localhost",
   user: "postgres",
   password: "password",
   database: "adoptrdb",
   port: 5432,
 }
+
 
 const pool = new Pool(credentials);
 
