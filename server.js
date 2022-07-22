@@ -1,6 +1,7 @@
 const express = require("express");
 const ejs = require("ejs");
 const session = require("express-session");
+const compression = require("compression");
 
 const PORT = process.argv[2] || 3000; //sets port for site, default to 3000
 
@@ -8,6 +9,7 @@ let app = express();
 app.set("view engine", "ejs");
 app.disable("etag");
 
+app.use(compression());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(
@@ -19,7 +21,7 @@ app.use(
 );
 
 const adminRoutes = require("./routes/siteAdmin");
-const landingRoutes = require("./routes/landing");
+const landingRoutes = require("./routes/landing.js");
 const shelterAdminRoutes = require("./routes/shelterAdmin");
 const userRoutes = require("./routes/users");
 const dbUsers = require("./routes/user");

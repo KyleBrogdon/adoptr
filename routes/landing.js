@@ -1,12 +1,13 @@
 // Contains routes for views concerning customers
 const express = require('express');
 const router = express.Router();
+const dom = require('react-dom/server');
+const landingPage = require('../client/src/components/pages/landingPage')
 
 
 router.get("/landingPage", (req,res) => {
-    res.render("../views/pages/general/landingPage", {
-  
-    });
+    const reactComp = dom.renderToString(<landingPage/>);
+    res.render("../views/pages/general/landingPage", {reactApp: reactComp});
 })
 
 router.get('/login', (req, res) => {
