@@ -91,7 +91,7 @@ router.get('/atributes/disposition', (req, res) => {
   } */
 });
 
-//Size
+//Size///////////////////////////////////////////////////////////////////////////////////
 router.get('/atributes/size', (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/size", {});
 /*   if(req.session.userID == 1){
@@ -103,7 +103,25 @@ router.get('/atributes/size', (req, res) => {
   } */
 });
 
+router.get('/sizeList'), (req,res) =>{
+  
+}
 
+router.get('/updateSizes'), (req,res) =>{
+  
+}
+
+router.get('/newSize'), (req,res) =>{
+  
+}
+
+router.get('/deleteSize'), (req,res) =>{
+  
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
 //Type
 router.get('/atributes/type', (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/type", {});
@@ -117,7 +135,24 @@ router.get('/atributes/type', (req, res) => {
 });
 
 
+router.get('/typeList'), (req,res) =>{
   
+}
+
+router.get('/updateTypes'), (req,res) =>{
+  
+}
+
+router.get('/newType'), (req,res) =>{
+  
+}
+
+router.get('/deleteType'), (req,res) =>{
+  
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////  
 router.get('/logout', (req, res) => {
   req.session.destroy();
   res.render("../views/pages/general/landingPage", {});
