@@ -1,7 +1,6 @@
 const express = require("express");
 const ejs = require("ejs");
 const session = require("express-session");
-const cardFunctions = require("./views/pages/general/functions.js");
 
 const PORT = process.argv[2] || 3000; //sets port for site, default to 3000
 
