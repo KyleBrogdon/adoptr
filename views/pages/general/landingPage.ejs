@@ -17,6 +17,8 @@
     <button><a class="nav-link" href="/landing/shelterAdminTest">shelterAdmin</a></button>
     <button><a class="nav-link" href="/landing/userTest">user</a></button>
     
+    <script>console.log('<%=pets%>')</script>;
+
     <!-- Need to figure out how to query and load pet's here-->
     <div class="cardcontainer list">
         <ul class="cardlist">
@@ -28,25 +30,19 @@
           <li class="card">#6</li>
         </ul>
         <br>
-            <button class="but-nope" type = 'submit' id = 'but-nope'>X</button>
+            <button class="but-nope" type = 'submit' id = 'but-nope1'>X</button>
             <button class="but-yay" type = 'submit' id = 'but-yay'>✔</button>
       </div>
 
-      <script type ='text/javascript'>
-        $('#but-nope').submit(function (e) {
+
+          <!-- Trying to figure out how to push data back to DB without triggering reload--> 
+      <script type ='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+        $('#but-nope1').submit(function (e) {
+            console.log('button');
+            alert('form submit');
             e.preventDefault();
             var fd = new FormData(this);
 
-            $.ajax({
-                 url: '/landingPage/<%= id %>',
-                 data: fd,
-                 processData: false,
-                 contentType: false,
-                 type: 'POST',
-                 success: function(data){
-                     console.log(data);
-                    }
-                });
            });
       </script>
 
@@ -182,7 +178,7 @@
            var list = container.querySelector('.cardlist');
            var out = '<li class="card current">#1</li>';
            for (var i = 2; i < 6; i++) {
-             out += '<li class="card">#' + i + '</li>';  //figure out how to load next 6 items from db
+             out += '<li class="card">#' + i + '</li>';  //rework to load next 6 items from db
            }
            list.innerHTML = out;
          });

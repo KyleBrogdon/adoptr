@@ -1,10 +1,20 @@
 // Contains routes for views concerning customers
 const express = require('express');
 const router = express.Router();
+const pool = require("../sql/sql_init");
 
+
+const Pets = (request, response) => {
+    pool.query("SELECT * FROM pet LIMIT 20", (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    });
+  };
 
 router.get("/landingPage", (req,res) => {
-    res.render("../views/pages/general/landingPage", {
+    res.render("../views/pages/general/landingPage", { pets: Pets
   
     });
 })
