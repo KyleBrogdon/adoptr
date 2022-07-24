@@ -1,33 +1,33 @@
 /* Design of a card */
+.cardcontainer {
+    padding: 60px;
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:auto;
+    margin-bottom: auto;
+    width: 700px;
+    height: 700px;
+    background-color: white;
+  }
+
 .card {
+    margin:auto;
+    position: relative;
     font-size: 14px;
-    width: 320px;
-    height: 320px;
     border-radius: 1%;
-    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.1);
     line-height: 200px;
     text-align:center;
-    width: 150px;
-    height: 200px;
+    width: 520px;
+    height: 520px;
     display: block;
     background-color: white;
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.1);
     -webkit-transform-origin: 50% 99%;
     transform-origin: 50% 99%;
   }
 
 
-.cardcontainer {
-  padding: 10px;
-  text-align: center;
-  position: static;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 200px;
-  height: 200px;
-}
 
 /* List functionality */
 .list .cardlist {
@@ -52,35 +52,26 @@
   display: inline-block;
 }
 
-.but-yay{
+.cardcontainer button {
   background: #0c0;
+  position: relative;
   border: none;
-  position:relative;
-  margin:auto;
   color: #fff;
   border-radius: 50% 50%;
-  width: 30px;
-  height: 30px;
+  width: 70px;
+  height: 70px;
   line-height: 30px;
-  margin: 0 .5em;
+  margin: auto 4em;
   display: inline-block;
 }
-.but-yay:focus {
+.cardcontainer button:focus {
   outline: 0;
   background: #0f0;
 }
-.but-nope{
+.cardcontainer .but-nope {
   background: #c00;
-  border: none;
-  color: #fff;
-  border-radius: 50% 50%;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  margin: 0 .5em;
-  display: inline-block;
 }
-.but-nope:focus {
+.cardcontainer .but-nope:focus {
   outline: 0;
   background: #f00;
 }
@@ -93,11 +84,6 @@
   -webkit-animation: nope 0.7s ease-out;
   animation: nope 0.7s ease-out;
 }
-
-
-/*
-  Animations, isn't it 'fun' to repeat all of that, just for Safari? :)
-*/
 
 @keyframes yay {
   from {
