@@ -14,7 +14,7 @@ router.get("/users", (req, res) => {
     console.log(response.status);
     if (response.status == 200) {
       console.log(response);
-      //Pass response to rendering page
+      //Pass response to render
       res.render("../views/pages/siteAdmin/users", {});
     } else {
       console.log("API error");
