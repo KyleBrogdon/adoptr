@@ -16,10 +16,10 @@
     <button><a class="nav-link" href="/landing/login">login</a></button>
     <button><a class="nav-link" href="/landing/shelterAdminTest">shelterAdmin</a></button>
     <button><a class="nav-link" href="/landing/userTest">user</a></button>
-    
-    <script>console.log('<%=pets%>')</script>;
 
-    <!-- Need to figure out how to query and load pet's here-->
+
+
+    <!-- Need to insert pet data here-->
     <div class="cardcontainer list">
         <ul class="cardlist">
           <li class="card current">#1</li>
@@ -35,14 +35,15 @@
       </div>
 
 
-          <!-- Trying to figure out how to push data back to DB without triggering reload--> 
+          <!-- Trying to figure out how to push data back to DB without triggering reload.
+                Do we do one like at a time or stack a list and push the list back?--> 
       <script type ='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
         $('#but-nope1').submit(function (e) {
-            console.log('button');
+            console.log('button'); 
             alert('form submit');
             e.preventDefault();
             var fd = new FormData(this);
-
+            // push data back
            });
       </script>
 
@@ -93,6 +94,7 @@
               document.body.dispatchEvent(newevent);
             }
           
+            // get which card container was liked or discarded
             function getContainer(elm) {
               var origin = elm.parentNode;
               if (!origin.classList.contains('cardcontainer')){
@@ -101,6 +103,7 @@
               return origin;
             }
           
+            // handles removing cards from the list once animation has finished
             function animationdone(ev) {
               animating = false;
               var origin = getContainer(ev.target);
@@ -130,12 +133,13 @@
             document.body.addEventListener('webkitAnimationEnd', animationdone);
             document.body.addEventListener('click', animatecard);
             window.addEventListener('DOMContentLoaded', function(){
-              document.body.classList.add('tinderesque');
+              document.body.classList.add('datingCard');
             });
           })();
           
       </script>
 
+      <!-- Adjust here to push back data to db?-->
       <script>
         document.body.addEventListener('nopecard', function(ev) {
             console.log(ev.detail);
@@ -150,7 +154,7 @@
             console.log(ev.detail);
          });
        
-       
+       // convoluted way of tracking a list of yes or no
          document.body.addEventListener('nopecard', function(ev) {
            var container = ev.detail.container;
            var label = container.querySelector('.nopes');
@@ -173,6 +177,7 @@
            }
          });
        
+         // reloads more cards when list runs out. Need to adjust and tweak for db.
          document.body.addEventListener('deckempty', function(ev) {
            var container = ev.detail.container;
            var list = container.querySelector('.cardlist');

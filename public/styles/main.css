@@ -34,10 +34,10 @@
   margin: 0;
   padding: 0;
 }
-.tinderesque .list .card {
+.datingCard .list .card {
   display: none;
 }
-.tinderesque .list .current {
+.datingCard .list .current {
   display: block;
 }
 
@@ -47,8 +47,8 @@
   display: none;
 }
 
-.tinderesque .but-nope, .tinderesque .but-yay,
-.tinderesque .nopes, .tinderesque .yays {
+.datingCard .but-nope, .datingCard .but-yay,
+.datingCard .nopes, .datingCard .yays {
   display: inline-block;
 }
 
@@ -76,11 +76,13 @@
   background: #f00;
 }
 
-.tinderesque .cardcontainer.yes .card {
+
+/* Card animations */
+.datingCard .cardcontainer.yes .card {
   -webkit-animation: yay 0.7s ease-out;
   animation: yay 0.7s ease-out;
 }
-.tinderesque .cardcontainer.nope .card {
+.datingCard .cardcontainer.nope .card {
   -webkit-animation: nope 0.7s ease-out;
   animation: nope 0.7s ease-out;
 }

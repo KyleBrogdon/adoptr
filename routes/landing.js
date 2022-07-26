@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require("../sql/sql_init");
 
-
+// trying to pass values to landing page for loading
 const Pets = (request, response) => {
     pool.query("SELECT * FROM pet LIMIT 20", (error, results) => {
       if (error) {
