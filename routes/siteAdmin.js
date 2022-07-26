@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 //const db = require('../sql/admin')
+const userDB = require('../routes/user')
 //const pool = require('../sql/sql_init');
 
 //Users
@@ -12,12 +13,13 @@ router.get('/users', (req, res) => {
   }
   else{
       console.log("unauthorized access")
-      res.render("../views/pages/general/index", {});
+      res.render("../views/pages/general/landingPage", {});
   } */
 });
 
 router.get("/userList", async (req,res) => {
-  //var users = await db.getUsers();
+  var users = await userDB.readUsers();
+  console.log(users)
   res.json(users);
 })
 
@@ -79,6 +81,24 @@ router.get('/atributes/breed', (req, res) => {
   } */
 });
 
+router.get('/breedList'), (req,res) =>{
+  console.log('returning list of breeds')
+
+
+}
+
+router.get('/updateBreeds'), (req,res) =>{
+  
+}
+
+router.get('/newbreed'), (req,res) =>{
+  
+}
+
+router.get('/deletebreed'), (req,res) =>{
+  
+}
+/////////////////////////////////////////////////////////
 //Disposition
 router.get('/atributes/disposition', (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/disposition", {});

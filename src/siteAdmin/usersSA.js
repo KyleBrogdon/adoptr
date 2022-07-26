@@ -288,10 +288,11 @@ const setupList = async () => {
     let userPK = document.getElementById("update-user-pk-menu");
     let users = Array();
   
-    // // Get item list from server
-    // const response = await fetch('/siteAdmin/userList');
-    // const parsedJson = await response.json();
-    // console.log(parsedJson);
+    // Get item list from server
+    const response = await fetch('/siteAdmin/userList');
+    console.log(response)
+    const parsedJson = await response.json();
+    console.log(parsedJson);
   
     // parsedJson.forEach(user => {
     //   if(user.userID != 1){
