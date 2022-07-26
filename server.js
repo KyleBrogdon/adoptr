@@ -25,6 +25,7 @@ const userRoutes = require("./routes/users");
 const dbUsers = require("./routes/user");
 const pets = require("./routes/pet");
 const shelters = require("./routes/shelter");
+const availability = require("./routes/availability");
 
 app.use("/siteAdmin", adminRoutes);
 
@@ -51,6 +52,12 @@ app.get("/shelter", shelters.readShelters);
 app.post("/shelter", shelters.createShelter);
 app.put("/shelter/:shelterid", shelters.updateShelter);
 app.delete("/shelter/:shelterid", shelters.deleteShelter);
+
+app.get("/availability/:avid", availability.readAvailability);
+app.get("/availability", availability.readAvailabilities);
+app.post("/availability", availability.createAvailability);
+app.put("/availability/:avid", availability.updateAvailability);
+app.delete("/availability/:avid", availability.deleteAvailability);
 //add sub routes
 
 //Main Page
