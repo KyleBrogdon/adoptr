@@ -13,7 +13,7 @@ router.get("/users", (req, res) => {
   axios.get("http://localhost:3000/dbUsers").then((response) => {
     console.log(response.status);
     if (response.status == 200) {
-      console.log(response);
+      console.log(response.data);
       //Pass response to render
       res.render("../views/pages/siteAdmin/users", {});
     } else {

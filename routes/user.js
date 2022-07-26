@@ -9,8 +9,6 @@ const readUsers = (request, response) => {
     if (error) {
       throw error;
     }
-    console.log('query complete')
-    console.log(results)
     response.status(200).json(results.rows);
   });
 };
