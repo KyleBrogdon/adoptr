@@ -3,23 +3,13 @@ const { default: axios } = require("axios");
 const express = require("express");
 const router = express.Router();
 //const db = require('../sql/admin')
-const userDB = require("../routes/user");
+
 
 //const pool = require('../sql/sql_init');
 
 //Users
 router.get("/users", (req, res) => {
-  //TODO: Replace hardcoded port number and server details with environment variable
-  axios.get("http://localhost:3000/dbUsers").then((response) => {
-    console.log(response.status);
-    if (response.status == 200) {
-      console.log(response.data);
-      //Pass response to render
-      res.render("../views/pages/siteAdmin/users", {});
-    } else {
-      console.log("API error");
-    }
-  });
+  res.render("../views/pages/siteAdmin/users", {});
   /*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/users", {});
   }
@@ -29,11 +19,6 @@ router.get("/users", (req, res) => {
   } */
 });
 
-router.get("/userList", async (req, res) => {
-  var users = await userDB.readUsers();
-  console.log(users);
-  res.json(users);
-});
 
 //shelter Admins
 router.get("/shelterAdmins", (req, res) => {
@@ -94,11 +79,6 @@ router.get("/breedList"),
     console.log("returning list of breeds");
   };
 
-router.get("/updateBreeds"), (req, res) => {};
-
-router.get("/newbreed"), (req, res) => {};
-
-router.get("/deletebreed"), (req, res) => {};
 /////////////////////////////////////////////////////////
 //Disposition
 router.get("/atributes/disposition", (req, res) => {
@@ -124,14 +104,6 @@ router.get("/atributes/size", (req, res) => {
   } */
 });
 
-router.get("/sizeList"), (req, res) => {};
-
-router.get("/updateSizes"), (req, res) => {};
-
-router.get("/newSize"), (req, res) => {};
-
-router.get("/deleteSize"), (req, res) => {};
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 //Type
 router.get("/atributes/type", (req, res) => {
@@ -145,13 +117,6 @@ router.get("/atributes/type", (req, res) => {
   } */
 });
 
-router.get("/typeList"), (req, res) => {};
-
-router.get("/updateTypes"), (req, res) => {};
-
-router.get("/newType"), (req, res) => {};
-
-router.get("/deleteType"), (req, res) => {};
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 router.get("/logout", (req, res) => {
