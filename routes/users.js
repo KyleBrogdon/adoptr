@@ -1,5 +1,5 @@
 const express = require("express");
-const pool = require("../sql/sql_init");
+//const pool = require("../sql/sql_init");
 const router = express.Router();
 //const db = require('../sql/admin')
 //const pool = require('../sql/sql_init');

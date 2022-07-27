@@ -95,8 +95,8 @@ function updateType(){
       var req = new XMLHttpRequest();
       var type = {typeID: null, typeName: null}
       
-    size.sizeID = document.getElementById('update-type-pk-menu').value;
-    size.petSize = document.getElementById('update-typeName').value;
+    type.typeID = document.getElementById('update-type-pk-menu').value;
+    type.typeName = document.getElementById('update-typeName').value;
 
     //   var payload = "/siteAdmin/updateType?typeID="+ type.typeID + "&typeName=" + type.typeName;
 
@@ -120,7 +120,7 @@ const setupList = async () => {
     let typePK = document.getElementById("update-type-pk-menu");
     let types = Array();
   
-    // // Get item list from server
+    // // Get type list from server
     // const response = await fetch('/siteAdmin/typeList');
     // const parsedJson = await response.json();
     // console.log(parsedJson);
@@ -131,7 +131,7 @@ const setupList = async () => {
   
   
     // // Activate buttons for detailed item views
-    // sizes.forEach((type) => { 
+    // types.forEach((type) => { 
     //   mainList.appendChild(type.generateRow());
     //   typePK.append(type.generateOption());
     //   addEventListeners(type);
