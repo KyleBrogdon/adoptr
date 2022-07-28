@@ -18,42 +18,52 @@ app.use(
   })
 );
 
+
+
+///////////////main routes//////////////////////
 const adminRoutes = require("./routes/siteAdmin");
 const landingRoutes = require("./routes/landing");
 const shelterAdminRoutes = require("./routes/shelterAdmin");
 const userRoutes = require("./routes/users");
-const dbUsers = require("./routes/user");
-const pets = require("./routes/pet");
-const shelters = require("./routes/shelter");
 
 app.use("/siteAdmin", adminRoutes);
-
 app.use("/landing", landingRoutes);
-
 app.use("/shelterAdmin", shelterAdminRoutes);
-
 app.use("/users", userRoutes);
 
+
+
+
+///////////sql routes/////////////////////
+const dbUsers = require("./sql/CRUD/user");
+const pets = require("./sql/CRUD/pet");
+const shelters = require("./sql/CRUD/shelter");
+
+//user sql
 app.get("/dbUsers/:userid", dbUsers.readUser);
 app.get("/dbUsers", dbUsers.readUsers);
 app.post("/dbUsers", dbUsers.createUser);
 app.put("/dbUsers/:userid", dbUsers.updateUser);
 app.delete("/dbUsers/:userid", dbUsers.deleteUser);
 
+//pet sql
 app.get("/pet/:petid", pets.readPet);
 app.get("/pet", pets.readPets);
 app.post("/pet", pets.createPet);
 app.put("/pet/:petid", pets.updatePet);
 app.delete("/pet/:petid", pets.deletePet);
 
+
+//shelter sql
 app.get("/shelter/:shelterid", shelters.readShelter);
 app.get("/shelter", shelters.readShelters);
 app.post("/shelter", shelters.createShelter);
 app.put("/shelter/:shelterid", shelters.updateShelter);
 app.delete("/shelter/:shelterid", shelters.deleteShelter);
-//add sub routes
 
-//Main Page
+
+
+////////////////Main Page/////////////////////////////
 app.get("/", (req, res) => {
   res.render("../views/pages/general/landingPage", {});
 });
