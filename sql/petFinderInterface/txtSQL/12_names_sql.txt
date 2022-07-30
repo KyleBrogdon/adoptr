@@ -1,13 +1,13 @@
 INSERT INTO 
-	app_user (firstname, lastname, email, userpassword, adminstatus)
+	app_user (firstname, lastname, email, password, adminstatus)
 VALUES
 	('site', 'admin', 'siteAdmin@email.com', '12345', 'True'),
 	('shelter', 'admin', 'shelteradmin@email.com', '12345', 'True'),
 	('app', 'user', 'appuser@email.com', '12345', 'False'),
-	('Ronald', 'Jestin', 'RonaldJestin@email.com', '12345', 'False'),
-	('Joab', 'Tiphani', 'JoabTiphani@email.com', '12345', 'False'),
-	('Jenefer', 'Kiki', 'JeneferKiki@email.com', '12345', 'False'),
-	('Andra', 'Shayleen', 'AndraShayleen@email.com', '12345', 'False'),
-	('Ryan', 'Jill', 'RyanJill@email.com', '12345', 'False'),
-	('Teira', 'Teosha', 'TeiraTeosha@email.com', '12345', 'False'),
-	('Lou', 'Winfred', 'LouWinfred@email.com', '12345', 'False');
+	('Denis', 'Emmaline', 'DenisEmmaline@email.com', '12345', 'False'),
+	('Janea', 'Cassadie', 'JaneaCassadie@email.com', '12345', 'True'),
+	('Santrice', 'Tranquilino', 'SantriceTranquilino@email.com', '12345', 'False'),
+	('Allsion', 'Remo', 'AllsionRemo@email.com', '12345', 'False'),
+	('Frederic', 'Mustafa', 'FredericMustafa@email.com', '12345', 'False'),
+	('Jennel', 'Emilia', 'JennelEmilia@email.com', '12345', 'True'),
+	('Roberto', 'Jaran', 'RobertoJaran@email.com', '12345', 'False');

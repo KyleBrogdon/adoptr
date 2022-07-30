@@ -1,106 +1,106 @@
 ids	name	email	password	phone	zip	city	state
-AK19	Kitty and K-9 Connection	kkc.carol@alaska.net	12345	907-240-2343or907-345-2096	99516	Anchorage	AK
-AK71	Kenai Peninsula Animal Lovers Rescue	kpalrescue@gmail.com	12345	None	99611	Kenai	AK
-AL264	Blair Humane Society	ron@fcdf.org	12345	(205)274-9971	35049	Cleveland	AL
-AL245	Azalea City Cat Coalition	susanyoung@azaleacitycats.org	12345	(251)648-7582	36633	Mobile	AL
-AR25	Ozark Humane Society	ohsshelter@gmail.com	12345	(870)741-3050	72601	Harrison	AR
-AR117	Beebe Animal Services	animalcontrol@beebeark.org	12345	(501)882-8104	72012	Beebe	AR
-AZ74	Luv of Dogz Fund, Inc	luvofdogzfund@aol.com	12345	None	85258	Scottsdale	AZ
-AZ164	Second Chance Center for Animals	community@secondchancecenter.org	12345	928-526-5964	86004	Flagstaff	AZ
-CA929	Love of Animals Inc.	robert@loveofanimals.org	12345	559-697-5628	93277	Visalia	CA
-CA1032	Cornish Rex Friends	rescue@cornishrexfriends.org	12345	(818)269-3756	91207	Glendale	CA
-CO73	Humane Society of Boulder Valley	adoptions@boulderhumane.org	12345	(303)442-4030	80301	Boulder	CO
-CO535	Golden Growls Senior Rescue	info@goldengrowls.org	12345	None	80537	Loveland	CO
-CT76	Bridgeport Animal Control Facilites	animal.shelter@bridgeportct.gov	12345	(203)576-7727	06610	Bridgeport	CT
-CT258	The Simon Foundation, Inc.	adopt@thesimonfoundation.org	12345	(860)519-1516	06002	Bloomfield	CT
-DC21	OneDogAtATimeDC	tamarabelden@gmail.com	12345	(240)994-2573	20012	Washington	DC
-DC02	Westie Rescue USA	stephen@WestieRescue.com	12345	(703)628-9441	20026	Washington	DC
-DE16	Faithful Friends Animal Society	adoptadog@faithfulfriends.us	12345	(302)427-8514	19804	Wilmington	DE
-DE29	Homeless Cat Helpers, Inc.	dc.brown19973@gmail.com	12345	None	19973	Seaford	DE
-FL680	Dobie-Rescue North Florida Inc	dobierescuetally@yahoo.com	12345	None	32337	Lloyd	FL
-FL1652	Love to the Rescue, Inc.	lovetotherescueinc@gmail.com	12345	(813)734-3514	33544	Wesley Chapel	FL
-GA18	Clayton County Humane Society	robin@reel-life.net	12345	(770)471-9436	30236	Jonesboro	GA
-GA912	Granite Country Animal Partners INC	carol@gcanimals.com	12345	706-436-4088	30643	Hartwell	GA
+AK26	Loving Companions Animal Rescue Inc.	lcar.petfinder@gmail.com	12345	(907)347-4829	99705	North Pole	AK
+AK08	Haines Animal Rescue Kennel	info@harkalaska.org	12345	(907)766-3334	99827	Haines	AK
+AL438	Kitty Kat Haven and Rescue 	kkhadoptionapplications@gmail.com	12345	(205)302-8883	35226	Hoover 	AL
+AL449	Ozark Animal Shelter	shelter@ozarkalabama.us	12345	(334)774-4633	36360	Ozark	AL
+AR131	Conway Animal Welfare Unit	shona.osborne@cityofconway.org	12345	(501)450-6160	72032	Conway	AR
+AR99	Humane Society of Saline County	wehelpanimals@aol.com	12345	501-557-5518	72011	Bauxite	AR
+AZ651	Love For Dogs	info@lovefordogs.org	12345	(602)299-4829	85262	Scottsdale	AZ
+AZ227	Southern Arizona Beagle Rescue	info@soazbr	12345	(520)247-7720	85733	Tucson	AZ
+CA1677	Open Arms Rescue	openarmsrescue@hotmail.com	12345	(760)470-7643	91933	Imperial Beach	CA
+CA1109	Basset Rescue Network	basset911@aol.com	12345	(661)269-2682	93510	Acton	CA
+CO359	Demis Animal Rescue	adopt@demisanimalrescue.com	12345	None	80016	Aurora	CO
+CO445	Scottie Rescue of the Rockies	mackrail@mac.com	12345	(303)420-5071	80005	Arvada	CO
+CT452	Rescue Dog Village Guardian, Inc	stormyvu@yahoo.com	12345	(860)940-3350	06365	Preston	CT
+CT414	Companion Pet Rescue - New England	mollibo@gmail.com	12345	None	06795	Watertown	CT
+DC19	K-9 Lifesavers	adopt@k-9lifesavers.org	12345	(202)263-1990	20037	Washington	DC
+DC20	Lucky Dog Animal Rescue	info@luckydoganimalrescue.org	12345	(703)237-5327	20007	Washington	DC
+DE48	Hopeful Hearts Dog Rescue	meimeidog@hotmail.com	12345	None	19810	Wilmington	DE
+DE01	Animal Humane Sanctuary	Animalhumanesanctuary@yahoo.com	12345	(302)943-2685	19977	Smyrna	DE
+FL1685	Cuddles Unlimited	CuddlesUnlimitedRescue@gmail.com	12345	None	33629	Tampa	FL
+FL1616	Nutzy and Zingers Critter House	nutzyandzingerscritterhouse@gmail.com	12345	None	34742	Kissimmee	FL
+GA512	Royal Potcake Rescue USA Inc.	potcake_rescue@bellsouth.net	12345	None	30343	Atlanta	GA
+GA467	Georgia Canine Rescue and Rehabilitation	pittieprotector@yahoo.com	12345	478-271-4277	31014	Cochran	GA
 GU01	Guam Animals In Need	None	12345	(671)653-4246	96923	Mangilao	GU
-HI50	Love a Cat Charity	sarasoesbeearmstrong@gmail.com	12345	None	96782	Pearl City	HI
-HI25	AdvoCATS Hawaii	advocatshawaii@aol.com	12345	(808)327-3724	96745	Kailua Kona	HI
-IA55	Protectors of Animal Welfare (P.A.W.)	emmittsway@yahoo.com	12345	319-372-2274	52627	Fort Madison	IA
-IA67	Coast to Coast Dachshund Rescue-Iowa	chrissaandtravis@hotmail.com	12345	(515)402-2481	50315	Des Moines	IA
-ID01	West Valley Humane Society	help@westvalleyhumanesociety.org	12345	(208)455-5920	83607	Caldwell	ID
-ID161	Haven Hollow Animal Refuge	info@havenhollow.org	12345	(208)346-3820	83274	Shelley	ID
-IL947	Purrfect Cat Rescue	deb@purrfectcatrescue.com	12345	(815)900-8221	60012	Crystal Lake	IL
-IL93	Humane Haven Animal Shelter	humanehaven@gmail.com	12345	(630)378-4208	60440	Bolingbrook	IL
-IN437	Southern Indiana Rescue Effort	lightspeed12@yahoo.com	12345	812-430-8009	47637	Tennyson	IN
-IN296	Humane Society  Johnson County	anne.sutton@hsjc.org	12345	(317)535-6626	46131	Franklin	IN
-KS236	Saving Death Row Dogs	charminbluepaige@yahoo.com	12345	None	66614	Topeka	KS
-KS252	Coffeyville Friends of Animals	jbradley.cfa@gmail.com	12345	(620)309-4155	67337	Coffeyville	KS
-KY16	Franklin County Humane Society	contact.fchsky@gmail.com	12345	(502)875-7297	40601	Frankfort	KY
-KY382	Kentucky Pets Alive	kentuckypetsalive@gmail.com	12345	(502)777-2968	40299	Louisville	KY
-LA294	New Orleans Bulldog Rescue	neworleansbulldogs@gmail.com	12345		70119	New Orleans	LA
-LA55	St. Tammany Animal Resource Team	startcares@hotmail.com	12345	None	70433	Covington	LA
-MA409	Animal Protection Center of Southeastern MA	info@apcsm.org	12345	508-586-2053	02301	Brockton	MA
-MA547	No Mutts Left Behind, Inc.	nomuttsleftbehind@gmail.com	12345	(774)371-0185	01611	Cherry Valley	MA
-MD134	Bulldog Rescue Farm	1146kim@gmail.com	12345	443-386-6170	21084	Jarrettsville	MD
-MD358	All Shepherd Rescue	adoptions@allshepherdrescue.com	12345	(410)775-6473	21203	Baltimore	MD
-ME137	Helping Paws	helpingpawsme@gmail.com	12345	None	04038	Gorham	ME
-ME143	Passion for Pets Rescue	passion4petsrescue@gmail.com	12345	(207)798-1262	04011	Brunswick	ME
-MI18	Blue Water Area Humane Society	bluewaterareahs@comcast.net	12345	(810)987-4357	48049	Clyde	MI
-MI655	Forever Feline Friends	corkieb54@gmail.com	12345	(517)719-3721	48848	Laingsburg	MI
-MN118	Doberman Rescue Minnesota	adoption@dobermanrescueminnesota.com	12345	(651)256-2294	55403	Minneapolis	MN
-MN166	Katann Chow Rescue of Southwestern Minnesota	katannchow@mchsi.com	12345	507-283-4576(pleaseuseemail)	56156	Luverne	MN
-MO291	Country Acres Rescue	countryacresrescue@gmail.com	12345	(636)577-2007	63011	Manchester	MO
-MO67	Midwest Animal Resq	info@marqKC.org	12345	(816)919-1364	64133	Raytown	MO
-MS220	Mississippi Animal Rescue and Advocacy	mararescue@gmail.com	12345	(662)426-1008	38680	Walls	MS
-MS174	Friends of Jackson County Animal Shelter Pets	friendsofjcas@gmail.com	12345	228-324-3847	39564	Ocean Springs	MS
-MT44	Dedman Foundation	dedmanf@mtintouch.net	12345	(406)622-5657	59442	Fort Benton	MT
-MT59	Janeens Catahoula Leopard Dog Rescue Inc	jj4@midrivers.com	12345	(406)323-3519	59072	Roundup	MT
-NC548	2 Paws Up	adoptions2pawsup@gmail.com	12345	None	27627	Raleigh	NC
-NC923	Valley River Humane Society	vrhsinquiries@gmail.com	12345	(828)837-2304	28905	Marble	NC
-ND40	Animal Empowerment League	kasey@aelrescue.org	12345	None	58701	Minot	ND
-ND41	Miles of Love	info@milesoflovend.com	12345	None	58554	Mandan	ND
-NE161	Capital Humane Society	None	12345	(402)441-4488	68502	Lincoln	NE
-NE109	Nebraska No Kill Canine Rescue	info@nebraskanokill.org	12345	None	68506	Lincoln	NE
-NH60	Fast Friends Greyhound Adoption Center	info@fastfriendsgreyhounds.org	12345	(603)355-1556	03446	Swanzey	NH
+HI47	Oahu SPCA	info@oahuspca.org	12345	(808)754-1519	96786	Wahiawa	HI
+HI52	Aloha Ilio	officeteam@alohailiorescue.com	12345	(808)960-1704	96749	Keaau	HI
+IA53	Humane Society of North Iowa	hsni@hsni.org	12345	(641)423-6241	50401	Mason City	IA
+IA242	Wildthunder W.A.R.S.	adoptions@wildthunderwars.org	12345	None	50644	Independence	IA
+ID31	Panhandle Animal Shelter	Info@pasidaho.org	12345	(208)265-7297	83852	Ponderay	ID
+ID100	Boise Bully Breed Rescue	cathleen.catti@gmail.com	12345	None	83616	Eagle	ID
+IL732	Yorkville Animal Hospital	yahtech@live.com	12345	(630)882-6060	60560	Yorkville	IL
+IL233	Cairn Rescue USA- Central and Midwest	info@cairnrescueusa.com	12345	None	60645	Chicago	IL
+IN590	Indiana GSD & Siberian Husky Rescue, Inc	jzlawn68@aol.com	12345	None	47456	Quincy	IN
+IN735	Stray Haven	Strayhavenadoptions@gmail.com	12345	(812)655-1974	47001	Aurora	IN
+KS209	Akbash Dogs International	straughie@comcast.net	12345	(510)523-6161	66092	Wellsville	KS
+KS228	SRL - Save, Rescue, Love that dog!	savethatdog@hotmail.com	12345	(913)744-7040	67467	Minneapolis	KS
+KY372	Greyhound Pets of America, Greater Cincinnati, Inc	nancy@gpacincinnati.org	12345	None	41042	Florence	KY
+KY431	Safe Haven KY	safehavenky@gmail.com	12345	270-963-2014	42445	Princeton	KY
+LA368	Take Paws Rescue	petfinder@takepawsrescue.org	12345	None	70124	New Orleans	LA
+LA278	Bossier City Animal Services	animalservices@bossiercity.org	12345	(318)741-8499	71111	Bossier City	LA
+MA457	Bay State Dogs	baystatedogs@yahoo.com	12345	None	01519	Grafton	MA
+MA30	Second Chance Animal Shelter Inc.	info@secondchanceanimals.org	12345	(508)867-5525	01515	East Brookfield	MA
+MD61	Humane Society of Harford County	adopt@harfordshelter.org	12345	(410)836-1090	21047	Fallston	MD
+MD448	Shadow Cats TNR, Inc	adopt@shadowcatstnr.org	12345	(443)390-6676	21009	Abingdon	MD
+ME165	Give a Dog a Home, German Shepherd Dog Rescue	giveadogahome.Maine@gmail.com	12345	None	04481	Sebec	ME
+ME159	Pittie Posse Rescue and Sanctuary	pittieposse@gmail.com	12345	None	04106	South Portland	ME
+MI977	SMART Paws	info.smartpaws@gmail.com	12345	None	48641	Midland	MI
+MI33	Elizabeth Lake Animal Rescue	elarmom1@aol.com	12345	248-682-9649	48387	Union Lake	MI
+MN79	Heart of Minnesota Animal Shelter of McLeod County 	contact@heartofminnesota.org	12345	(320)234-9699	55350	Hutchinson	MN
+MN179	Bichon Frise Rescue	louiseann@frontiernet.net	12345	(651)257-7125	55012	Center City	MN
+MO713	Im your Huckleberry Rescue	HuckleberryRescue@gmail.com	12345	(417)456-9195	64856	Pineville	MO
+MO523	St. Louis Pet Rescue	contact@stlpetrescue.com	12345	(314)827-5543	63011	Ballwin	MO
+MS195	Union County Humane Society	uchstransport@gmail.com	12345	None	38633	Hickory Flat	MS
+MS151	Jethros Anipal Sanctuary, Inc.	anipalsanctuary@aol.com	12345	pleasee-mail	39525	Diamondhead	MS
+MT85	Yellowstone Valley Animal Shelter	kyria.mjelde@yvas.org	12345	(406)294-7387	59102	Billings	MT
+MT33	Pintler Pets Humane Society	pintler_petsmt@yahoo.com	12345	(406)563-7464	59711	Anaconda	MT
+NC850	BTRTOC, Inc. (Boston Terrier Rescue Team)	teambtrtoc@gmail.com	12345	8287782045	28205	Charlotte	NC
+NC182	Cashiers-Highlands Humane Society	info@chhumanesociety.org	12345	828-743-5752	28717	Cashiers	NC
+ND13	Prairie Paws Rescue	prairiepawsrescue@hotmail.com	12345	(701)320-4553	58401	Jamestown	ND
+ND27	Diamond In The Ruff Pet Rescue	inquiries@diamondpetrescue.org	12345	None	58109	Fargo	ND
+NE113	Hands, Hearts and Paws	handsheartspaws@cox.net	12345	None	68106	Omaha	NE
+NE09	Beatrice Animal Shelter	beatriceshelter@gmail.com	12345	402-228-9100	68310	Beatrice	NE
+NH83	Sullivan County Humane Society	sullivanhumane@hotmail.com	12345	(603)542-3277	03743	Claremont	NH
 NH145	NH Sled Dog Rescue, History & Education Center	info@dogslednh.com	12345	(603)545-4533	03583	Jefferson	NH
+NJ36	Passaic Animal Shelter	None	12345	(973)365-5669	07055	Passaic	NJ
 NJ142	APAW Animal Placement Agency of the Windsors	None	12345	(609)799-1263	08550	West Windsor	NJ
-NJ349	Hodes Veterinary Group	seabreezegsd@aol.com	12345	973-328-7113	07803	Mine Hill	NJ
-NM138	Zia Australian Shepherd Club Rescue	kgonsey@msn.com	12345	(505)877-7352	87105	Albuquerque	NM
 NM121	All Ears Basset Sanctuary Inc	chris@allearsbassetsanctuary.com	12345	5055539906	87109	Albuquerque	NM
-NV187	Hearts Alive Village Las Vegas	info@heartsalivevillage.org	12345	(702)870-0065	89146	Las Vegas	NV
-NV209	Vets for Abandoned Pets	vfap.adoptions@gmail.com	12345	(702)830-3154	89130	Las Vegas	NV
+NM09	Desert Haven Animal Refuge	SCHSdharPetsRus@gmail.com	12345	(612)387-0215	87942	Williamsburg	NM
+NV190	Catmandu	momcat@catmanducc.org	12345	(775)297-3419	89701	Carson City	NV
+NV208	Cold Nose Rescue  Sanctuary	coldnosekennels@aol.com	12345	(775)224-3997	89706	Mound House	NV
 NY1424	Good Home Pet Adoptions	info@goodhomepetadoptions.org	12345	None	11238	Brooklyn	NY
-NY372	Chemung County Humane Society and SPCA	admin@chemungspca.org	12345	(607)732-1827	14903	Elmira	NY
-OH824	Kaleidoscope K9s	KaleidoscopeK9s@yahoo.com	12345	None	44273	Seville	OH
-OH1221	Muttlie Crew	None	12345	(937)780-6453	45133	Hillsboro	OH
-OK437	Lakes Area Pet Society	lakesareapetshelter@yahoo.com	12345	918-261-1502	74340	Disney	OK
-OK487	MERCY SAKES 2ND CHANCE DOGS	MERCYSAKES2NDCHANCEDOGS@GMAIL.COM	12345	(918)849-4545	74128	TULSA	OK
-OR241	Friends of Coos County Animals Inc.	foccas@coosanimals.org	12345	(541)269-1989	97420	Coos Bay	OR
-OR207	The Pixie Project	info@pixieproject.org	12345	(503)542-3433	97201	Portland	OR
-PA68	Cat Angel Network	Jaysing@aol.com	12345	610-327-6870	19464	Stowe	PA
-PA773	Silver Lake Animal Rescue	fourhounds@comcast.net	12345	2159320248	18940	Newtown	PA
-PR41	Fundacion MiMi, Inc.	info@fundacionmimi.org	12345	(787)949-4550	00754	San Lorenzo	PR
+NY1165	Heart of Niagara Animal Rescue, Inc.	heartofniagara@hotmail.com	12345	(716)345-7129	14094	Lockport	NY
+OH395	Morrow County Dog Shelter	dogwarden@morrowcountyohio.gov	12345	419-946-1747	43338	Mount Gilead	OH
+OH370	Fort Defiance Humane Society	newbestfriend@fortdefiancehumanesociety.org	12345	(419)658-2298	43512	Defiance	OH
+OK148	Sapulpa Furry Friends	foster4sff@gmail.com	12345	(539)777-0991	74066	Sapulpa	OK
+OK413	Route 66 Pet Rescue	route66petrescuetulsa@gmail.com	12345	918-402-9696	74152	Tulsa	OK
+OR103	Humane Society of Eastern Oregon  Pet Rescue	hseopr@hotmail.com	12345	541-564-6222	97838	Hermiston	OR
+OR07	Cat Adoption Team	contactus@catadoptionteam.org	12345	(503)925-8903	97140	Sherwood	OR
+PA1036	Stray Cat Relief Fund	straycatreliefund@gmail.com	12345	(267)507-5297	19148	Philadelphia	PA
+PA714	Lauras Hope Rescue	Laurashoperescue@gmail.com	12345	None	18824	Hop Bottom	PA
 PR35	Defensa Animal de Puerto Rico	defensarincon@gmail.com	12345	None	00677	Rincon	PR
-RI69	Animal Shelter Aid Program	nwaybright@hotmail.com	12345	None	02917	Smithfield	RI
-RI84	Almost Home Rescue, Inc.	support@almosthomeri.org	12345	(401)400-1107	02940	Providence	RI
-SC429	Hallie Hill Animal Sanctuary	adoptions@halliehill.com	12345	(843)889-3713	29449	Hollywood	SC
-SC514	Bottle Babies / Lowcountry Kitten Rescue (LKR)	lowcountrykittenrescue@gmail.com	12345	(843)200-9844	29464	Mt Pleasant	SC
+PR44	The Pawsuit of Happiness	thepawsuitofhappiness@gmail.com	12345	None	00959	Bayamon	PR
+RI16	Animal Rescue Rhode Island	shelter@animalrescueri.org	12345	(401)783-7606	02879	South Kingstown	RI
+RI135	Small Dog Rescue of New England Inc	smalldogrescuene@gmail.com	12345	None	02920	Cranston	RI
+SC538	For the Love of Mutts	lisafludzinski@gmail.com	12345	(347)225-6712	29401	Charleston	SC
+SC411	Team Stinkykiss	tskadoptions@gmail.com	12345	None	29803	Aiken	SC
 SD75	The Kitten League	TheKittenLeague@gmail.com	12345	None	57013	Canton	SD
-SD08	Western Hills Humane Society	sdwhhs@gmail.com	12345	(605)642-1576	57783	Spearfish	SD
-TN86	Greyhound Rescue Foundation of Tennessee	greyhoundrescuefoundationoftn@yahoo.com	12345	865-690-0009,865-539-9942	37950	Knoxville	TN
-TN937	HappiDog Animal Rescue	happidogrescueapplications@gmail.com	12345	(901)359-1010	38002	Lakeland	TN
-TX2428	Critter Shack Rescue	crittershackrescue@gmail.com	12345	(325)450-7074	76904	San Angelo	TX
-TX1985	New Life Rescue, Inc.	pennykbryce@gmail.com	12345	None	77075	Houston	TX
-UT215	Carbon Cat Rescue	carboncatrescue@gmail.com	12345	None	84501	Price	UT
-UT169	Bulldog Club of Utah/Rescue	eviltwin53@gmail.com	12345	(801)750-0587	84096	Herriman	UT
-VA261	King Street Cats	contact@kingstreetcats.org	12345	(703)231-7199	22314	Alexandria	VA
-VA238	Appalachian Great Pyrenees Rescue	bpkennel@msn.com	12345	(804)795-1369	23231	Richmond	VA
-VT12	Homeward Bound Animal Welfare Center	shelter@homewardboundanimals.org	12345	(802)388-1100	05753	Middlebury	VT
-VT96	Winnies Legacy Canine Rescue	WinniesLegacy@gmavt.net	12345	(802)425-3768	05473	Ferrisburgh	VT
-WA704	Feline Friends of Sammamish	felinefriendssammamish@gmail.com	12345	None	98074	Sammamish	WA
-WA675	Seattle Dogs Homeless Program	seattledogs@hotmail.com	12345	(206)519-1697	98102	Seattle	WA
-WI513	Apple Valley Pit Crew	taylor.j.mandich@gmail.com	12345	None	54915	Appleton	WI
-WI320	Tiny Paws Small Dog Rescue	tinypaws.email@gmail.com	12345	(262)496-9324	53182	Union Grove	WI
-WV59	Animal Friends of Barbour County	animalfriendsweb@yahoo.com	12345	(304)823-2012	26416	Philippi	WV
+SD76	Border Paws Dog Rescue	borderpawsrescue@outlook.com	12345	(605)545-2016	57702	Rapid City	SD
+TN794	Music City Animal Rescue	MusicCityAnimalRescue@gmail.com	12345	(615)485-4452	37217	Nashville	TN
+TN221	Perfect Match Animal Rescue	jillk1969@gmail.com	12345	None	38127	Memphis	TN
+TX848	St. Clouds Rescue	stcloudsrescue@yahoo.com	12345	(972)679-5319	75025	McKinney	TX
+TX801	New Beginnings Animal Rescue	jana@newbark.org	12345	(325)651-0659	76904	San Angelo	TX
+UT28	Humane Society of Utah	adoptions@utahhumane.org	12345	(801)261-2919option4	84157	Murray	UT
+UT67	Utah Friends of Basset Hounds	adopt@utahbassethoundrescue.com	12345	801/466-2639	84108	Salt Lake City	UT
+VA352	CATS RULE! Feline Rescue	info@catsrule.org	12345	pleasee'mail	22031	Fairfax	VA
+VA797	Galax Carroll Grayson Animal Shelter	jboyer@galaxva.com	12345	(276)236-8501	24333	Galax	VA
+VT50	Good Karma Rescue Inc.	goodkarmarescue@gmail.com	12345	(802)595-5110	05602	Montpelier	VT
+VT84	Passion 4 Paws	Passion4pawsvt@gmail.com	12345	None	05482	Shelburne	VT
+WA444	Genevieve G. Animal Advocacy	gganimaladvocacy@gmail.com	12345	None	98116	Seattle	WA
+WA546	Northwest Boxer Rescue	inquiry@nwboxerrescue.org	12345	(833)269-3771	98072	Woodinville	WA
+WI157	K9 Lifeline Rescue Inc.	ApplicationK9LLR@aol.com	12345	None	53128	Genoa City	WI
+WI105	Watertown Humane Society	info@whsadopt.org	12345	(920)261-1270	53094	Watertown	WI
 WV183	WV Pet, Inc.	Sherisanders@comcast.net	12345	None	26508	Morgantown	WV
-WY18	Waggin Tails Shelter	waggin_tails_shelter@hotmail.com	12345	(307)532-7001	82240	Torrington	WY
-WY78	Small Town Community Cats INC	stkitties68@yahoo.com	12345	(307)260-6722	83123	La Barge 	WY
+WV188	River Cities Bully Buddies	rcbbrescue@gmail.com	12345	None	25705	Huntington	WV
+WY37	City/County Animal Shelter	actl@gillettewy.gov	12345	(307)686-5249	82716	Gillette	WY
+WY13	Western Australian Shepherd Rescue	westernaussierescue@gmail.com	12345	None	82801	Sheridan	WY

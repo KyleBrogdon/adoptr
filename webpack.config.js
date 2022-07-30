@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        'scripts/siteAdmin/usersSA': path.join(__dirname, "src", "siteAdmin", "usersSA.js"),
+        'scripts/siteAdmin/users': path.join(__dirname, "src", "siteAdmin", "users.js"),
         'scripts/siteAdmin/shelters': path.join(__dirname, "src", "siteAdmin", "shelters.js")
       },
     mode: 'development',

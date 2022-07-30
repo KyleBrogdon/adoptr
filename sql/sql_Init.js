@@ -19,7 +19,8 @@ const pool = new Pool(credentials);
 
 
 const createDB = fs.readFileSync(path.join(__dirname, "DDL.sql")).toString();
-const popDB = fs.readFileSync(path.join(__dirname,"table_seeding.sql")).toString();
+//const popDB = fs.readFileSync(path.join(__dirname,"table_seeding.sql")).toString();
+const popDB = fs.readFileSync(path.join(__dirname,"/petFinderInterface/seedSQL.txt")).toString();
 
 // pool.query(createDB, (err) => {
 //   if (err) {

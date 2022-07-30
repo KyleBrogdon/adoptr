@@ -61,7 +61,11 @@ ALTER TABLE IF EXISTS disposition
 CREATE TABLE IF NOT EXISTS images
 (
     imageID SERIAL PRIMARY KEY,
-    imageURL VARCHAR(100)
+    imageURL VARCHAR(100),
+    petID INT,   
+    CONSTRAINT fk_pet
+      FOREIGN KEY(petID) 
+	  REFERENCES pet(petID),
 );
 
 ALTER TABLE IF EXISTS images
