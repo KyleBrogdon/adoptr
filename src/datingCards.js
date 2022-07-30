@@ -1,6 +1,7 @@
 const { default: axios } = require("axios");
 
 // work in progress
+console.log('running dating cards script');
 
 class RetrievedPet {
     constructor(
@@ -17,7 +18,7 @@ class RetrievedPet {
       typeid,
       shelterid,
       imageid,
-      firstimg,
+      images,
     ) {
       this.petid = petid;
       this.petname = petname;
@@ -31,10 +32,10 @@ class RetrievedPet {
       this.avid = avid;
       this.typeid = typeid;
       this.shelterid = shelterid;
-      this.imageid = imageid;  // need to get this from separate axios call
-      this.firstimg = firstimg; // need to store this as a separate variable 
+      this.images = images; // need to store this as a separate variable 
     }
 
+    // need to get this to display 
     generateCard() {
         let element = document.createElement("ul");
         element.innerHTML = `
@@ -54,8 +55,18 @@ const setupList = async () => {
     console.log("Pet List setup executed")
     let mainList = document.getElementById("petCardList");
     let pets = Array();
-  
+    let petImages = Array();
 
+    //test image query
+    axios.get('/getPetImages', {params: {id: '1'}}).then((response) => {
+        if (response.status == 200){
+            console.log(response.data);
+            const petJson = response.data
+            console.log(petJson);
+            // iterate through both arrays, update each Pet in the Pets array with image values
+        }
+    })
+    
 
     axios.get('/pet').then((response) => {
       console.log(response.status);
@@ -65,17 +76,33 @@ const setupList = async () => {
         const parsedJson = response.data
         console.log(parsedJson);
 
-        // Get image url
+        
 
-            console.log(pet);
             parsedJson.forEach(pet => {
             pets.push(new RetrievedPet(pet.petid, pet.petname, pet.age, pet.sex, pet.blurb, 
-                pet.dateprofile, pet.sizeid, pet.snstatus, pet.ststatus, pet.avid, pet.typeid, pet.shelterid, 'img variable here'))
+                pet.dateprofile, pet.sizeid, pet.snstatus, pet.ststatus, pet.avid, pet.typeid, pet.shelterid, []))
             });
-            // users.push(new UserEntry(user.petid, user.petname, user.lastname, user.email, user.password, user.adminstatus));
+
+            // loop through eat Pet in the Pets array
+            pets.forEach(pet =>{
+                // select all images from pet_image table where petid matches one in the array
+                axios.get('/getPetImages', {params: {id: pet.petid}}).then((response) => {
+                    if (response.status == 200){
+                        console.log(response.data);
+                        const petJson = response.data
+                        console.log(petJson);
+                        // iterate through both arrays, update each Pet in the Pets array with image values
+                        petJson.forEach(image => {
+                            if (image.petid == pet.petid){
+                                pet.images.push(image.imageURL)
+                            }
+                        })
+                    }
+                })
+            })
         
       
-        // Activate buttons for detailed item views
+        // insert rows into cards
         pets.forEach((pet) => { 
           mainList.appendChild(pet.generateCard());
           // add blurb
@@ -111,10 +138,9 @@ const setupList = async () => {
     });
 
     // Get item list from server
-
-  
-
   
 
 };
+setupList();
+  
 

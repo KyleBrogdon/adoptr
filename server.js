@@ -49,6 +49,7 @@ app.delete("/dbUsers/:userid", dbUsers.deleteUser);
 //pet sql
 app.get("/pet/:petid", pets.readPet);
 app.get("/pet", pets.readPets);
+app.get("/getPetImages/:petid", pets.getPetImages);
 app.post("/pet", pets.createPet);
 app.put("/pet/:petid", pets.updatePet);
 app.delete("/pet/:petid", pets.deletePet);
