@@ -21,8 +21,8 @@ router.get("/users", (req, res) => {
 
 
 //shelter Admins
-router.get("/shelterAdmins", (req, res) => {
-  res.render("../views/pages/siteAdmin/shelterAdmins", {});
+router.get("/shelters", (req, res) => {
+  res.render("../views/pages/siteAdmin/sheltersSA", {});
   /*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/shelterADmins", {});
   }
@@ -32,10 +32,6 @@ router.get("/shelterAdmins", (req, res) => {
   } */
 });
 
-router.get("/shelterAdminsList", async (req, res) => {
-  //var shelterAdmins = await db.getUsers();
-  res.json(shelterAdmins);
-});
 
 //atributesindex
 router.get("/atributes", (req, res) => {
@@ -74,12 +70,7 @@ router.get("/atributes/breed", (req, res) => {
   } */
 });
 
-router.get("/breedList"),
-  (req, res) => {
-    console.log("returning list of breeds");
-  };
 
-/////////////////////////////////////////////////////////
 //Disposition
 router.get("/atributes/disposition", (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/disposition", {});
@@ -92,7 +83,6 @@ router.get("/atributes/disposition", (req, res) => {
   } */
 });
 
-//Size///////////////////////////////////////////////////////////////////////////////////
 router.get("/atributes/size", (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/size", {});
   /*   if(req.session.userID == 1){
@@ -104,7 +94,6 @@ router.get("/atributes/size", (req, res) => {
   } */
 });
 
-//////////////////////////////////////////////////////////////////////////////////////////////
 //Type
 router.get("/atributes/type", (req, res) => {
   res.render("../views/pages/siteAdmin/atributes/type", {});

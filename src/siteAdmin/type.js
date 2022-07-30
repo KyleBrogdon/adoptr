@@ -1,33 +1,28 @@
-// Site Admin Users page
+// Site Admin types page
 // Database access:
-// CREATE/READ/UPDATE/DESTROY to the usser table
-
-  
-const updateTypeModal = new bootstrap.Modal(document.getElementById('updateTypeModal'), {
-    keyboard: false
-});
-  
+// CREATE/READ/UPDATE/DESTROY to the type table
+const { default: axios, Axios } = require("axios");
   
 class typeEntry {
     constructor(
-      typeID,
-      typeName  
+      typeid,
+      typename  
     ) {
-      this.typeID = typeID;
-      this.typeName = typeName;
+      this.typeid = typeid;
+      this.typename = typename;
     }
   
     generateRow() {
       let element = document.createElement("tr");
       element.innerHTML = `
-        <th scope="row">${this.typeID}</th>
+        <th scope="row">${this.typeid}</th>
         <td>
-          <span>${this.typeName}</span>
-          <data hidden id="type-name-${this.typeID}" value = ${this.typeName}></data>
+          <span>${this.typename}</span>
+          <data hidden id="type-name-${this.typeid}" value = ${this.typename}></data>
         </td>
   
         <td>
-        <button type="button" class="btn btn-outline-danger btn-sm" id="delete-button-${this.typeID}" >Delete</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" id="delete-button-${this.typeid}" >Delete</button>
         </td>`;
 
       return element;
@@ -35,76 +30,94 @@ class typeEntry {
   
     generateOption() {
       let element = document.createElement("option");
-      element.innerHTML = `<option value="${this.typeID}">${this.typeID}</option>`;
+      element.innerHTML = `<option value="${this.typeid}">${this.typeid}</option>`;
       return element;
     }
   
 };
   
   
-  
 function addEventListeners(type){
-    document.getElementById(`delete-button-${type.typeID}`).addEventListener("click", () => { //add delete
-        // var req = new XMLHttpRequest();
-        // var payload = "/admin/deleteType?typeID=" + type.typeID ;
-        // console.log("sending " + payload);
-        // req.open("POST", payload, true);
-        // req.send();
-        // location.reload();
+    document.getElementById(`delete-button-${type.typeid}`).addEventListener("click", () => { //add delete
+      axios.delete(`/dbtypes/${type.typeid}`).then((response) => {
+        console.log(response.status)
+        if (response.status == 200) {
+          console.log(type.typeid + " deleted")
+          location.reload();
+
+        }else{
+          console.log("API error");        
+        }
+      })  
+      
         console.log("delete button enabled")
     });
+  
+  
 }
   
-
-async function addType(){
+async function addtype(){
     console.log("adding");
-    if(document.getElementById('new-type').value.length > 0){
+    if(document.getElementById('new-type-name').value.length > 0){
 
-        var req = new XMLHttpRequest();
-        var type = {typeName: null};
-        type.typeName = document.getElementById('new-typeName').value;
+        //var req = new XMLHttpRequest();
+        var type = {typename: null};
+        type.typename = document.getElementById('new-type-name').value;
 
 
-        // var payload = "/siteAdmin/newType/?typeName=" + type.typeName;
+        axios.post(`/dbtypes`,{
+          typename : type.typename,
+        }).then((response) => {
+          console.log(response.status)
+          if (response.status >= 200 && response.status<300) {
+            console.log("type added")
+            location.reload();
+  
+          }else{
+            console.log("API error");        
+          }
+        })  
 
-        // console.log("sending " + payload);
-        // req.open("POST", payload, true);
-        // await req.send();
-        // console.log(req.status);
-        // location.reload();
-        console.log("add Type button enabled")
+        console.log("add type button enabled")
     }
     else{
         console.log("invlaid input");
     }
 }
-
   
 function populateUpdate(){
-    var id = document.getElementById('update-type-pk-menu').value; //post db updated, update entry without having to reload the page
-    var typeName = document.getElementById('typeName-' + id).value;
+  var id = document.getElementById('update-type-pk-menu').value;
+  var typename = document.getElementById('type-name-' + id).value;
 
-    document.getElementById('update-typeName').value = typeName;
-    
+  document.getElementById('update-type-name').value = typename;
 }
   
-function updateType(){
+function updatetype(){
     if(document.getElementById('update-type-pk-menu').value != 'number' &&
-     document.getElementById('update-typeName').value.length > 0 ){
+     document.getElementById('update-type-name').value.length > 0){
   
-      var req = new XMLHttpRequest();
-      var type = {typeID: null, typeName: null}
+      //var req = new XMLHttpRequest();
+      var type = {typeid: null, typename: null}
       
-    type.typeID = document.getElementById('update-type-pk-menu').value;
-    type.typeName = document.getElementById('update-typeName').value;
+      type.typeid = document.getElementById('update-type-pk-menu').value;
+      type.typename = document.getElementById('update-type-name').value;
 
-    //   var payload = "/siteAdmin/updateType?typeID="+ type.typeID + "&typeName=" + type.typeName;
 
-    //   console.log("sending " + payload);
-    //   req.open("POST", payload, true);
-    //   req.send();
-    //   location.reload();
-      console.log("populate enabled")
+      console.log(type)
+      axios.put(`/dbTypes/${type.typeid}`,{
+        typename : type.typename,
+
+      }).then((response) => {
+        console.log(response.status)
+        if (response.status >= 200 && response.status<300) {
+          console.log("type updated")
+          location.reload();
+
+        }else{
+          console.log("API error");        
+        }
+      })  
+
     }
     else{
       console.log("invlaid input");
@@ -112,44 +125,138 @@ function updateType(){
 }
   
   
+function selectProperty(){
+    if(document.getElementById('searchBar').value.length  > 0 && 
+      document.getElementById('atribute-form').value.length > 0 && 
+      document.getElementById('atribute-form').value != 'Attribute'){
+    
+        console.log("search bar: " + document.getElementById('searchBar').value)
+        document.getElementById("loadingbar").style.display = "inline";
+    
+        var search = {property: null, value: null};      
+        search.property = document.getElementById('atribute-form').value;
+        search.value = document.getElementById('searchBar').value;
+
+        axios.get(`/dbtypes/${search.property}/${search.value}`).then((response) => {
+          console.log(response.status)
+          if (response.status == 200) {
+            console.log(response.data)
+            const parsedJson = response.data
+            console.log(parsedJson);
+            
+            if (parsedJson.length > 0){
+              console.log("results exist")
+
+            // parsedJson.forEach(type => {
+            //   if(type.typeid != 1){
+            //     if (type.adminstatus){
+            //       type.adminstatus = "true"
+            //     }
+            //     else{
+            //       type.adminstatus = "false"
+            //     }
+            //     console.log(type)
+            //     types.push(new typeEntry(type.typeid, type.firstname, type.lastname, type.email, type.password, type.adminstatus));
+            //   }
+            // });
+          
+          
+            // // Activate buttons for detailed item views
+            // types.forEach((type) => { 
+            //   mainList.appendChild(type.generateRow());
+            //   typePK.append(type.generateOption());
+            //   addEventListeners(type);
+            // })
+
+            } else{
+              console.log("no results returned")
+            }
+    
+            document.getElementById("addtypeButton").addEventListener("click", () => {
+              addtype();
+            });
+          
+            document.getElementById("updatetypeButton").addEventListener("click", () => {
+              updatetype();
+            });
+          
+            document.getElementById("searchButton").addEventListener("click", () => {
+              selectProperty()
+            });
+          
+          
+            document.getElementById('update-type-pk-menu').addEventListener("change", () => {
+              populateUpdate();
+            });
+          
+            document.getElementById("loadingbar").style.display = "none";
+          }else{
+            console.log("API error");        
+          }
+        })  
+
+        console.log('search Enabled')
+    }
+}
   
-   
+  
 const setupList = async () => {
     console.log("setupList executed")
     let mainList = document.getElementById("main-rows");
     let typePK = document.getElementById("update-type-pk-menu");
     let types = Array();
   
-    // // Get type list from server
-    // const response = await fetch('/siteAdmin/typeList');
-    // const parsedJson = await response.json();
-    // console.log(parsedJson);
-  
-    // parsedJson.forEach(type => {
-    //     types.push(new typeEntry(type.typeID, type.typeName));    
-    // });
-  
-  
-    // // Activate buttons for detailed item views
-    // types.forEach((type) => { 
-    //   mainList.appendChild(type.generateRow());
-    //   typePK.append(type.generateOption());
-    //   addEventListeners(type);
-    // })
-  
-    document.getElementById("addTypeButton").addEventListener("click", () => {
-      addType();
+    axios.get('/dbtypes').then((response) => {
+      console.log(response.status);
+      if (response.status == 200) {
+        console.log(response.data);
+
+        const parsedJson = response.data
+        console.log(parsedJson);
+
+
+        parsedJson.forEach(type => {
+          console.log(type)
+          types.push(new typeEntry(type.typeid, type.typename));
+        });
+      
+      
+        // Activate buttons for detailed item views
+        types.forEach((type) => { 
+          mainList.appendChild(type.generateRow());
+          typePK.append(type.generateOption());
+          addEventListeners(type);
+        })
+
+
+        document.getElementById("addtypeButton").addEventListener("click", () => {
+          addtype();
+        });
+      
+        document.getElementById("updatetypeButton").addEventListener("click", () => {
+          updatetype();
+        });
+      
+        document.getElementById("searchButton").addEventListener("click", () => {
+          selectProperty()
+        });
+      
+      
+        document.getElementById('update-type-pk-menu').addEventListener("change", () => {
+          populateUpdate();
+        });
+      
+        document.getElementById("loadingbar").style.display = "none";
+
+
+
+
+      } else {
+        console.log("API error");
+      }
     });
-  
-    document.getElementById("updateTypeButton").addEventListener("click", () => {
-      updateType();
-    });
-  
-    document.getElementById('update-Type-pk-menu').addEventListener("change", () => {
-      populateUpdate();
-    });
-  
-    document.getElementById("loadingbar").style.display = "none";
+
+    // Get item list from server
 };
   
   

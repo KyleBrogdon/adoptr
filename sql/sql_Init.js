@@ -20,7 +20,7 @@ const pool = new Pool(credentials);
 
 const createDB = fs.readFileSync(path.join(__dirname, "DDL.sql")).toString();
 const popDB = fs.readFileSync(path.join(__dirname,"table_seeding.sql")).toString();
-//create db with data
+
 // pool.query(createDB, (err) => {
 //   if (err) {
 //     console.log(err);

@@ -86,10 +86,30 @@ const deleteUser = (request, response) => {
     }
   );
 };
+
+const searchUser = (request, response) => { //not working for some reason
+  console.log(request.params)
+  
+  const value = request.params.value;
+  const property = request.params.property
+  pool.query(
+    "SELECT * FROM app_user WHERE $1=$2",
+    [property, value],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      console.log(results.rows) //Nothing is being returned 
+      response.status(200).json(results.rows)
+    }
+  );
+};
+
 module.exports = {
   readUsers,
   readUser,
   createUser,
   updateUser,
   deleteUser,
+  searchUser,
 };
