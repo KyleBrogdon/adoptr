@@ -8,7 +8,7 @@ const credentials = {
 
   host: "localhost",
   user: "postgres",
-  password: "KobeBryant24",
+  password: "password",
   database: "postgres",
   port: 5432,
 }
