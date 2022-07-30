@@ -55,22 +55,6 @@ CREATE TABLE IF NOT EXISTS disposition
 ALTER TABLE IF EXISTS disposition
     OWNER to postgres;
 
--- Table: image
-
-
-CREATE TABLE IF NOT EXISTS images
-(
-    imageID SERIAL PRIMARY KEY,
-    imageURL VARCHAR(100),
-    petID INT,   
-    CONSTRAINT fk_pet
-      FOREIGN KEY(petID) 
-	  REFERENCES pet(petID),
-);
-
-ALTER TABLE IF EXISTS images
-    OWNER to postgres;
-
 
 -- Table: size
 
@@ -153,7 +137,7 @@ ALTER TABLE IF EXISTS zipcode
 CREATE TABLE IF NOT EXISTS shelter
 (
     shelterID SERIAL PRIMARY KEY,
-    shelterName VARCHAR(50) NOT NULL,
+    shelterName VARCHAR(75) NOT NULL,
     shelterCode VARCHAR(10) NOT NULL,
     email VARCHAR(50) NOT NULL,
     shelterPassword VARCHAR(25) NOT NULL,
@@ -209,6 +193,23 @@ CREATE TABLE IF NOT EXISTS pet
 
 ALTER TABLE IF EXISTS pet
     OWNER to postgres;
+
+-- Table: image
+
+
+CREATE TABLE IF NOT EXISTS images
+(
+    imageID SERIAL PRIMARY KEY,
+    imageURL VARCHAR(100),
+    petID INT,   
+    CONSTRAINT fk_pet
+      FOREIGN KEY(petID) 
+	  REFERENCES pet(petID)
+);
+
+ALTER TABLE IF EXISTS images
+    OWNER to postgres;
+
 
 -- Table: disposition-pet
 

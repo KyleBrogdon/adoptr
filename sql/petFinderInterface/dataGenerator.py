@@ -1,4 +1,3 @@
-from matplotlib.style import use
 import petpy
 import random
 import datetime
@@ -82,7 +81,7 @@ for x in range(3,10):
 
 with open('./txtSQL/12_names_sql.txt','w', encoding="utf-8") as nameF:
     nameF.write('INSERT INTO \n')
-    nameF.write('\tapp_user (firstname, lastname, email, password, adminstatus)\n')
+    nameF.write('\tapp_user (firstname, lastname, email, userpassword, adminstatus)\n')
     nameF.write('VALUES\n')
     for x in range(len(firstName)):
         if x == len(firstName)-1:
@@ -204,7 +203,7 @@ with open('./txtSQL/2_city_sql.txt','w',encoding="utf-8") as cityF:
 
 with open('./txtSQL/1_state_sql.txt','w',encoding="utf-8") as stateF:
     stateF.write('INSERT INTO \n')
-    stateF.write('\tstate (statename, statecode)\n')
+    stateF.write('\tshelter_state (statename, statecode)\n')
     stateF.write('VALUES\n')
     for x in range(len(stateList)):
         if x == len(stateList) - 1:
@@ -219,8 +218,8 @@ time_elapsed(tic, "Cities")
 tic= time.time()
 
 
-apiKey ='hV1nfrraIBbpA3NQ7y0qqTkIFJHm5pdnrqTXTJtBnUIxW4nErQ'
-secretKey ='WPv7M1lfZGbpwejoJkMGTRIncBk8fSVRAuGvWmwP'
+apiKey ='gXzEc4lp2J8UHnAzuccokjj0Hdq9dCmTcDNdEkX0PhNX3Bo92X'
+secretKey ='UxiggbkVWwH4nJxBBrIEeZ4GSCt7pkd9gZFxmzRT'
 
 
 pf = petpy.Petfinder(apiKey,secretKey)
@@ -291,8 +290,10 @@ password = '12345'
 for x in orgs:
     orgIDS.append(x['id'])
     orgNames.append(str(x['name']).replace("'",''))
-    orgEmail.append(str(x['email']).replace(" ",''))
-    orgPhone.append(str(x['phone']).replace(" ",''))
+    tempEmail = str(x['email']).replace("'",'')
+    orgEmail.append(tempEmail.replace(" ",''))
+    tempPhone = str(x['phone']).replace("'",'')
+    orgPhone.append(tempPhone.replace(" ",''))
     orgAdd.append(x['address'])
 
 
@@ -526,13 +527,13 @@ fkValues(avlIDFK,petStatus,adoptOps)
 
 with open('./txtSQL/15_pet_photos_sql.txt','w', encoding="utf-8") as petPhotoF:
     petPhotoF.write('INSERT INTO\n')
-    petPhotoF.write('\tpet_image (petid,image\n')
+    petPhotoF.write('\timages (petid,imageURL)\n')
     petPhotoF.write('VALUES\n')
     for x in range(len(petImages)):
         if x == len(petImages) - 1:
-            petPhotoF.write("\t("+ str(photoPetFKID[x]) + ", " + str(petImages[x]) +  ");")
+            petPhotoF.write("\t("+ str(photoPetFKID[x]) + ", '" + str(petImages[x]) +  "');")
         else:
-            petPhotoF.write("\t("+ str(photoPetFKID[x]) + ", " + str(petImages[x])  +  "),\n")
+            petPhotoF.write("\t("+ str(photoPetFKID[x]) + ", '" + str(petImages[x])  +  "'),\n")
 
 
 # with open('./txtSQL/photo_sql.txt','w', encoding="utf-8") as petPicF:
@@ -716,7 +717,7 @@ with open('./txtSQL/17_rej_pets_sql.txt','w',encoding="utf-8") as pet_rejF:
     pet_rejF.write('\tuser_rejected_pet (userid, petid)\n')
     pet_rejF.write('VALUES\n')
     for x in range(len(user)):
-        if x == len(use)-1:
+        if x == len(user)-1:
             pet_rejF.write('\t(' + str(user[x]) + ', ' + str(petID[x])+');')
         else:
             pet_rejF.write('\t(' + str(user[x]) + ', ' + str(petID[x]) + '),\n')

@@ -7,7 +7,8 @@
     "start": "nodemon server.js",
     "test": "echo \"no test specified\" && exit 0",
     "build": "webpack",
-    "genDB": "node ./sql/sql_init.js"
+    "genDB": "node ./sql/sql_init.js",
+    "seedDB": "node ./sql/sql_init.js seed"
   },
   "repository": {
     "type": "git",
