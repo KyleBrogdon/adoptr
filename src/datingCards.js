@@ -17,8 +17,7 @@ class RetrievedPet {
       avid,
       typeid,
       shelterid,
-      imageid,
-      images,
+      images = [],
     ) {
       this.petid = petid;
       this.petname = petname;
@@ -32,15 +31,21 @@ class RetrievedPet {
       this.avid = avid;
       this.typeid = typeid;
       this.shelterid = shelterid;
-      this.images = []; // empty array that we will store all pet imageURLs in later
+      this.images = images; // empty array that we will store all pet imageURLs in later
     }
 
     // need to get this to display 
     generateCard() {
-        let element = document.createElement("ul");
+        let element = document.createElement("li");
+        if (this.petid == 1){
         element.innerHTML = `
-        <li class="card">1</li>
+        <li class="card current">${this.petid}</li>
         `;
+        } else {
+            element.innerHTML = `
+            <li class="card">${this.petid}</li>
+            `; 
+        }
         return element;
       }
     };
@@ -81,7 +86,7 @@ const setupList = async () => {
 
             parsedJson.forEach(pet => {
             pets.push(new RetrievedPet(pet.petid, pet.petname, pet.age, pet.sex, pet.blurb, 
-                pet.dateprofile, pet.sizeid, pet.snstatus, pet.ststatus, pet.avid, pet.typeid, pet.shelterid))
+                pet.dateprofile, pet.sizeid, pet.snstatus, pet.ststatus, pet.avid, pet.typeid, pet.shelterid,))
             });
             console.log(pets[0].petid);
 
@@ -91,24 +96,27 @@ const setupList = async () => {
                 axios.get(`/getPetImages/${pet.petid}`).then((response) => {
                     if (response.status == 200){
                         const petJson = response.data
-                        console.log(petJson);
                         // iterate through both arrays, update each Pet in the Pets array with image values
                         petJson.forEach(image => {
                             if (image.petid == pet.petid){
-                                pet.images.push(image.imageURL)
+                                pet.images.push(image.imageurl)
+                            }
+                            if (image.petid == 27){
+                                console.log(pets[27])
+                                console.log(pets[27].images);
+                                console.log(pets[27].images[0]);
                             }
                         })
                     }
                 })
             })
-        
-      
         // insert rows into cards
         pets.forEach((pet) => { 
           mainList.appendChild(pet.generateCard());
           // add blurb
         //   addEventListeners(user);
         })
+        console.log(pets[25].images[0]);
 
 
         // document.getElementById("addUserButton").addEventListener("click", () => {
@@ -140,8 +148,8 @@ const setupList = async () => {
 
     // Get item list from server
   
-
 };
 setupList();
+
   
 

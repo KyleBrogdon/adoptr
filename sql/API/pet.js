@@ -30,7 +30,7 @@ const readPetShelter = (request, response) => {
 const getPetImages = (request, response) => {
   const id = parseInt(request.params.petid);
   pool.query(
-    "SELECT * FROM pet_image WHERE petid = $1",
+    "SELECT * FROM images WHERE petid = $1",
     [id],
     (error, results) => {
       if (error) {
