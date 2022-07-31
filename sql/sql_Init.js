@@ -11,7 +11,7 @@ const credentials = {
   host: "localhost",
   user: "postgres",
   password: "password",
-  database: "adoptrdb",
+  database: "postgres",
   port: 5432,
 }
 
@@ -92,9 +92,5 @@ if (args != null){
     });
   }
 }
-
-//const popDB = fs.readFileSync(path.join(__dirname,"table_seeding.sql")).toString();
-
-
 
 module.exports = pool;

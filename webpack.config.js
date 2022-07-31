@@ -2,8 +2,11 @@ const path = require('path');
 
 module.exports = {
     entry: {
+
         'scripts/siteAdmin/users': path.join(__dirname, "src", "siteAdmin", "users.js"),
-        'scripts/siteAdmin/shelters': path.join(__dirname, "src", "siteAdmin", "shelters.js")
+        'scripts/siteAdmin/shelters': path.join(__dirname, "src", "siteAdmin", "shelters.js"),
+        'scripts/pets/datingCards': path.join(__dirname, "src", "datingCards.js")
+
       },
     mode: 'development',
     resolve: {
@@ -14,5 +17,4 @@ module.exports = {
         filename: "[name].js",
         publicPath: "/"
     }, 
-
 };
