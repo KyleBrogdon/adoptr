@@ -27,6 +27,20 @@ const readPetShelter = (request, response) => {
   );
 };
 
+const getPetImages = (request, response) => {
+  const id = parseInt(request.params.petid);
+  pool.query(
+    "SELECT * FROM pet_image WHERE petid = $1",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 const readPet = (request, response) => {
   const id = parseInt(request.params.petid);
   pool.query("SELECT * FROM pet WHERE petid = $1", [id], (error, results) => {
@@ -140,4 +154,5 @@ module.exports = {
   createPet,
   updatePet,
   deletePet,
+  getPetImages,
 };

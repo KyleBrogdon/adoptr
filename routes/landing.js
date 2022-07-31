@@ -9,6 +9,12 @@ router.get("/landingPage", (req,res) => {
     });
 })
 
+router.get("/petCards", (req,res) => {
+    res.render("../views/pages/general/datingCards", {
+  
+    });
+})
+
 router.get('/login', (req, res) => {
     res.render("../views/pages/general/login", { //need to add
 
