@@ -27,6 +27,23 @@ const readShelter = (request, response) => {
   );
 };
 
+const readShelterCredential = (request, response) => {
+  console.log("GET shelter/sheltercode/shelterpassword");
+  const sheltercode = request.params.sheltercode;
+  const shelterpassword = request.params.shelterpassword;
+  console.log(sheltercode + "<-sheltercode!");
+  pool.query(
+    "SELECT * FROM shelter WHERE sheltercode = $1 AND shelterpassword = $2",
+    [sheltercode, shelterpassword],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 const createShelter = (request, response) => {
   const {
     sheltername,
@@ -120,6 +137,7 @@ const deleteShelter = (request, response) => {
 module.exports = {
   readShelters,
   readShelter,
+  readShelterCredential,
   createShelter,
   updateShelter,
   deleteShelter,

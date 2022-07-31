@@ -18,8 +18,6 @@ app.use(
   })
 );
 
-
-
 ///////////////main routes//////////////////////
 const adminRoutes = require("./routes/siteAdmin");
 const landingRoutes = require("./routes/landing");
@@ -31,41 +29,131 @@ app.use("/landing", landingRoutes);
 app.use("/shelterAdmin", shelterAdminRoutes);
 app.use("/users", userRoutes);
 
+///////////API endpoints routes/////////////////////
+const dbUsers = require("./sql/API/user");
+const pets = require("./sql/API/pet");
+const shelters = require("./sql/API/shelter");
+const adminshelters = require("./sql/API/adminshelter");
+const usersavedpet = require("./sql/API/usersavedpet");
+const userrejectedpet = require("./sql/API/userrejectpet");
+const availability = require("./sql/API/availability");
+const petbreed = require("./sql/API/petbreed");
+const breed = require("./sql/API/breed");
+const disposition = require("./sql/API/disposition");
+const size = require("./sql/API/size");
+const type = require("./sql/API/type");
+const city = require("./sql/API/city");
+const zipcode = require("./sql/API/zipcode");
+const shelterstate = require("./sql/API/shelterstate");
 
-
-
-///////////sql routes/////////////////////
-const dbUsers = require("./sql/CRUD/user");
-const pets = require("./sql/CRUD/pet");
-const shelters = require("./sql/CRUD/shelter");
-
-//user sql
+//user API endpoints
 app.get("/dbUsers/:userid", dbUsers.readUser);
 app.get("/dbUsers", dbUsers.readUsers);
 app.get("/dbUsers/:property/:value", dbUsers.searchUser);
+app.get("/dbUsers/:userid/:password", dbUsers.readUserCredential);
 app.post("/dbUsers", dbUsers.createUser);
 app.put("/dbUsers/:userid", dbUsers.updateUser);
 app.delete("/dbUsers/:userid", dbUsers.deleteUser);
 
-//pet sql
+//pet API endpoints
 app.get("/pet/:petid", pets.readPet);
+app.get("/petshelter/:shelterid", pets.readPetShelter);
 app.get("/pet", pets.readPets);
 app.get("/getPetImages/:petid", pets.getPetImages);
 app.post("/pet", pets.createPet);
 app.put("/pet/:petid", pets.updatePet);
 app.delete("/pet/:petid", pets.deletePet);
 
-
-//shelter sql
+//shelter API endpoints
 app.get("/shelter/:shelterid", shelters.readShelter);
+app.get(
+  "/shelter/:sheltercode/:shelterpassword",
+  shelters.readShelterCredential
+);
 app.get("/shelter", shelters.readShelters);
+app.get("/shelter/:shelterid", shelters.readShelter);
 app.post("/shelter", shelters.createShelter);
 app.put("/shelter/:shelterid", shelters.updateShelter);
 app.delete("/shelter/:shelterid", shelters.deleteShelter);
 
+//Admin-shelter API endpoints
+app.get("/adminshelter/:id", adminshelters.readAdminShelter);
+app.get("/adminshelteruser/:userid", adminshelters.readAdminShelterUser);
+app.get("/adminshelter", adminshelters.readAdminShelters);
+app.post("/adminshelter", adminshelters.createAdminShelter);
+app.put("/adminshelter/:id", adminshelters.updateAdminShelter);
+app.delete("/adminshelter/:id", adminshelters.deleteAdminShelter);
 
+//usersavedpets API endpoints
+app.post("/usersavedpet", usersavedpet.createUserSavedPets);
+app.delete("/usersavedpet/:userid/:petid", usersavedpet.deleteUserSavedPet);
 
-////////////////Main Page/////////////////////////////
+//userrejectpets API endpoints
+app.post("/userrejectedpet", userrejectedpet.createUserRejectPets);
+
+//availability API endpoints
+app.get("/availability/:avid", availability.readAvailabilty);
+app.get("/availability", availability.readAvailabilties);
+app.post("/availability", availability.createAvailability);
+app.put("/availability/:avid", availability.updateAvailability);
+app.delete("/availability/:avid", availability.deleteAvailability);
+
+//petbreed API endpoints
+app.get("/petbreed/:id", petbreed.readPetBreed);
+app.get("/petbreed", petbreed.readPetBreeds);
+app.post("/petbreed", petbreed.createPetBreed);
+app.put("/petbreed/:id", petbreed.updatePetBreed);
+app.delete("/petbreed/:id", petbreed.deletePetBreed);
+
+//Breed API endpoints
+app.get("/breed/:breedid", breed.readBreed);
+app.get("/breed", breed.readBreeds);
+app.post("/breed", breed.createBreed);
+app.put("/breed/:breedid", breed.updateBreed);
+app.delete("/breed/:breedid", breed.deleteBreed);
+
+//Disposition API endpoints
+app.get("/disposition/:dispid", disposition.readDisposition);
+app.get("/disposition", disposition.readDispositions);
+app.post("/disposition", disposition.createDisposition);
+app.put("/disposition/:dispid", disposition.updateDisposition);
+app.delete("/disposition/:dispid", disposition.deleteDisposition);
+
+//Size API endpoints
+app.get("/size/:sizeid", size.readSize);
+app.get("/size", size.readSizes);
+app.post("/size", size.createSize);
+app.put("/size/:sizeid", size.updateSize);
+app.delete("/size/:sizeid", size.deleteSize);
+
+//Type API endpoints
+app.get("/type/:typeid", type.readType);
+app.get("/type", type.readTypes);
+app.post("/type", type.createType);
+app.put("/type/:typeid", type.updateType);
+app.delete("/type/:typeid", type.deleteType);
+
+//City API endpoints
+app.get("/city/:cityid", city.readCity);
+app.get("/city", city.readCities);
+app.post("/city", city.createCity);
+app.put("/city/:cityid", city.updateCity);
+app.delete("/city/:cityid", city.deleteCity);
+
+//Zipcode API endpoints
+app.get("/zipcode/:zipcodeid", zipcode.readZipcode);
+app.get("/zipcode", zipcode.readZipcodes);
+app.post("/zipcode", zipcode.createZipcode);
+app.put("/zipcode/:zipcodeid", zipcode.updateZipcode);
+app.delete("/zipcode/:zipcodeid", zipcode.deleteZipcode);
+
+//State API endpoints
+app.get("/state/:stateid", shelterstate.readState);
+app.get("/state", shelterstate.readStates);
+app.post("/state", shelterstate.createState);
+app.put("/state/:stateid", shelterstate.updateState);
+app.delete("/state/:stateid", shelterstate.deleteState);
+
 app.get("/", (req, res) => {
   res.render("../views/pages/general/landingPage", {});
 });
