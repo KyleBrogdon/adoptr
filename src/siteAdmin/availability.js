@@ -8,26 +8,26 @@ const updateAvailabilityModal = new bootstrap.Modal(document.getElementById('upd
 });
   
   
-class avEntry {
+class availabilityEntry {
     constructor(
-      avID,
-      pet_availability  
+      availabilityid,
+      availabilityStatus  
     ) {
-      this.avID = avID;
-      this.pet_availability = pet_availability;
+      this.availabilityid = availabilityid;
+      this.availabilityStatus = availabilityStatus;
     }
   
     generateRow() {
       let element = document.createElement("tr");
       element.innerHTML = `
-        <th scope="row">${this.avID}</th>
+        <th scope="row">${this.availabilityid}</th>
         <td>
-          <span>${this.pet_availability}</span>
-          <data hidden id="availability-${this.avID}" value = ${this.pet_availability}></data>
+          <span>${this.availabilityStatus}</span>
+          <data hidden id="availability-${this.availabilityid}" value = ${this.availabilityStatus}></data>
         </td>
   
         <td>
-        <button type="button" class="btn btn-outline-danger btn-sm" id="delete-button-${this.avID}" >Delete</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" id="delete-button-${this.availabilityid}" >Delete</button>
         </td>`;
 
       return element;
@@ -35,124 +35,237 @@ class avEntry {
   
     generateOption() {
       let element = document.createElement("option");
-      element.innerHTML = `<option value="${this.avID}">${this.avID}</option>`;
+      element.innerHTML = `<option value="${this.availabilityid}">${this.availabilityid}</option>`;
       return element;
     }
   
 };
   
   
-  
-function addEventListeners(avail){
-    document.getElementById(`delete-button-${avail.avID}`).addEventListener("click", () => { //add delete
-        // var req = new XMLHttpRequest();
-        // var payload = "/siteAdmin/deleteAvailability?avID=" + avail.avID ;
-        // console.log("sending " + payload);
-        // req.open("POST", payload, true);
-        // req.send();
-        // location.reload();
-        console.log("delete button enabled")
-    });
+   
+function addEventListeners(availability){
+  document.getElementById(`delete-button-${availability.availabilityid}`).addEventListener("click", () => { //add delete
+    axios.delete(`/dbAvailability/${availability.availabilityid}`).then((response) => {
+      console.log(response.status)
+      if (response.status == 200) {
+        console.log(availability.availabilityid + " deleted")
+        location.reload();
+
+      }else{
+        console.log("API error");        
+      }
+    })  
+    
+      console.log("delete button enabled")
+  });
+
+
 }
-  
 
 async function addAvailability(){
-    console.log("adding");
-    if(document.getElementById('new-availability').value.length > 0){
+  console.log("adding");
+  if(document.getElementById('new-availability-name').value.length > 0){
 
-        var req = new XMLHttpRequest();
-        var avail = {pet_availability: null};
-        avail.pet_availability = document.getElementById('new-availability').value;
+      //var req = new XMLHttpRequest();
+      var availability = {availabilityStatus: null};
+      availability.availabilityStatus = document.getElementById('new-availability-name').value;
 
 
-        // var payload = "/siteAdmin/newAvailability/?pet_availability=" + avail.pet_availability;
+      axios.post(`/dbAvailability`,{
+        availabilityStatus : availability.availabilityStatus,
+      }).then((response) => {
+        console.log(response.status)
+        if (response.status >= 200 && response.status<300) {
+          console.log("availability added")
+          location.reload();
 
-        // console.log("sending " + payload);
-        // req.open("POST", payload, true);
-        // await req.send();
-        // console.log(req.status);
-        // location.reload();
-        console.log("add availability button enabled")
-    }
-    else{
-        console.log("invlaid input");
-    }
-}
+        }else{
+          console.log("API error");        
+        }
+      })  
 
-  
-function populateUpdate(){
-    var id = document.getElementById('update-avail-pk-menu').value; //post db updated, update entry without having to reload the page
-    var pet_availability = document.getElementById('availability-' + id).value;
-
-    document.getElementById('update-availability').value = pet_availability;
-    
-}
-  
-function updateAvailability(){
-    if(document.getElementById('update-availability-pk-menu').value != 'number' &&
-     document.getElementById('update-availability').value.length > 0 ){
-  
-      var req = new XMLHttpRequest();
-      var avail = {avID: null, pet_availability: null}
-      
-    avail.avID = document.getElementById('update-availability-pk-menu').value;
-    avail.pet_availability = document.getElementById('update-availability').value;
-
-    //   var payload = "/siteAdmin/updateAvailability?avID="+ avail.avID + "&pet_availability=" + avail.pet_availability;
-
-    //   console.log("sending " + payload);
-    //   req.open("POST", payload, true);
-    //   req.send();
-    //   location.reload();
-      console.log("populate enabled")
-    }
-    else{
+      console.log("add availability button enabled")
+  }
+  else{
       console.log("invlaid input");
-    }
+  }
 }
+
+function populateUpdate(){
+var id = document.getElementById('update-availability-pk-menu').value;
+var availabilityStatus = document.getElementById('availability-name-' + id).value;
+
+document.getElementById('update-availability-name').value = availabilityStatus;
+}
+
+function updateAvailability(){
+  if(document.getElementById('update-availability-pk-menu').value != 'number' &&
+   document.getElementById('update-availability-name').value.length > 0){
+
+    //var req = new XMLHttpRequest();
+    var availability = {availabilityid: null, availabilityStatus: null}
+    
+    availability.availabilityid = document.getElementById('update-availability-pk-menu').value;
+    availability.availabilityStatus = document.getElementById('update-availability-name').value;
+
+
+    console.log(availability)
+    axios.put(`/dbAvailability/${availability.availabilityid}`,{
+      availabilityStatus : availability.availabilityStatus,
+
+    }).then((response) => {
+      console.log(response.status)
+      if (response.status >= 200 && response.status<300) {
+        console.log("availability updated")
+        location.reload();
+
+      }else{
+        console.log("API error");        
+      }
+    })  
+
+  }
+  else{
+    console.log("invlaid input");
+  }
+}
+
+
+function selectProperty(){
+  if(document.getElementById('searchBar').value.length  > 0 && 
+    document.getElementById('atribute-form').value.length > 0 && 
+    document.getElementById('atribute-form').value != 'Attribute'){
   
+      console.log("search bar: " + document.getElementById('searchBar').value)
+      document.getElementById("loadingbar").style.display = "inline";
   
+      var search = {property: null, value: null};      
+      search.property = document.getElementById('atribute-form').value;
+      search.value = document.getElementById('searchBar').value;
+
+      axios.get(`/dbAvailability/${search.property}/${search.value}`).then((response) => {
+        console.log(response.status)
+        if (response.status == 200) {
+          console.log(response.data)
+          const parsedJson = response.data
+          console.log(parsedJson);
+          
+          if (parsedJson.length > 0){
+            console.log("results exist")
+
+          // parsedJson.forEach(availability => {
+          //   if(availability.availabilityid != 1){
+          //     if (availability.adminstatus){
+          //       availability.adminstatus = "true"
+          //     }
+          //     else{
+          //       availability.adminstatus = "false"
+          //     }
+          //     console.log(availability)
+          //     availabilitys.push(new availabilityEntry(availability.availabilityid, availability.firstname, availability.lastname, availability.email, availability.password, availability.adminstatus));
+          //   }
+          // });
+        
+        
+          // // Activate buttons for detailed item views
+          // availabilitys.forEach((availability) => { 
+          //   mainList.appendChild(availability.generateRow());
+          //   availabilityPK.append(availability.generateOption());
+          //   addEventListeners(availability);
+          // })
+
+          } else{
+            console.log("no results returned")
+          }
   
-   
+          document.getElementById("addAvailabilityButton").addEventListener("click", () => {
+            addAvailability();
+          });
+        
+          document.getElementById("updateAvailabilityButton").addEventListener("click", () => {
+            updateAvailability();
+          });
+        
+          document.getElementById("searchButton").addEventListener("click", () => {
+            selectProperty()
+          });
+        
+        
+          document.getElementById('update-availability-pk-menu').addEventListener("change", () => {
+            populateUpdate();
+          });
+        
+          document.getElementById("loadingbar").style.display = "none";
+        }else{
+          console.log("API error");        
+        }
+      })  
+
+      console.log('search Enabled')
+  }
+}
+
+
 const setupList = async () => {
-    console.log("setupList executed")
-    let mainList = document.getElementById("main-rows");
-    let availPK = document.getElementById("update-availability-pk-menu");
-    let avails = Array();
-  
-    // // Get availability list from server
-    // const response = await fetch('/siteAdmin/avList');
-    // const parsedJson = await response.json();
-    // console.log(parsedJson);
-  
-    // parsedJson.forEach(avail => {
-    //     avails.push(new avEntry(avail.avID, avail.pet_availability));    
-    // });
-  
-  
-    // // Activate buttons for detailed item views
-    // avails.forEach((avail) => { 
-    //   mainList.appendChild(avEntry.generateRow());
-    //   availPK.append(avEntry.generateOption());
-    //   addEventListeners(avail);
-    // })
-  
-    document.getElementById("addAvailabilityButton").addEventListener("click", () => {
-      addAvailability();
-    });
-  
-    document.getElementById("updateAvailabilityButton").addEventListener("click", () => {
-      updateAvailability();
-    });
-  
-    document.getElementById('update-availability-pk-menu').addEventListener("change", () => {
-      populateUpdate();
-    });
-  
-    document.getElementById("loadingbar").style.display = "none";
+  console.log("setupList executed")
+  let mainList = document.getElementById("main-rows");
+  let availabilityPK = document.getElementById("update-availability-pk-menu");
+  let availabilitys = Array();
+
+  axios.get('/dbAvailability').then((response) => {
+    console.log(response.status);
+    if (response.status == 200) {
+      console.log(response.data);
+
+      const parsedJson = response.data
+      console.log(parsedJson);
+
+
+      parsedJson.forEach(availability => {
+        console.log(availability)
+        availabilitys.push(new availabilityEntry(availability.availabilityid, availability.availabilityStatus));
+      });
+    
+    
+      // Activate buttons for detailed item views
+      availabilitys.forEach((availability) => { 
+        mainList.appendChild(availability.generateRow());
+        availabilityPK.append(availability.generateOption());
+        addEventListeners(availability);
+      })
+
+
+      document.getElementById("addFispositionButton").addEventListener("click", () => {
+        addavailability();
+      });
+    
+      document.getElementById("updateavailabilityButton").addEventListener("click", () => {
+        updateavailability();
+      });
+    
+      document.getElementById("searchButton").addEventListener("click", () => {
+        selectProperty()
+      });
+    
+    
+      document.getElementById('update-availability-pk-menu').addEventListener("change", () => {
+        populateUpdate();
+      });
+    
+      document.getElementById("loadingbar").style.display = "none";
+
+
+
+
+    } else {
+      console.log("API error");
+    }
+  });
+
+  // Get item list from server
 };
-  
-  
-  
+
+
+
 console.log("Running successfully!");
 setupList();

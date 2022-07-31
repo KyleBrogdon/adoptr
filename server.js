@@ -42,6 +42,7 @@ const shelters = require("./sql/CRUD/shelter");
 //user sql
 app.get("/dbUsers/:userid", dbUsers.readUser);
 app.get("/dbUsers", dbUsers.readUsers);
+app.get("/dbUsers/:property/:value", dbUsers.searchUser);
 app.post("/dbUsers", dbUsers.createUser);
 app.put("/dbUsers/:userid", dbUsers.updateUser);
 app.delete("/dbUsers/:userid", dbUsers.deleteUser);
