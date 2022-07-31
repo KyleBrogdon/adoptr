@@ -13,6 +13,20 @@ const readPets = (request, response) => {
   });
 };
 
+const readPetShelter = (request, response) => {
+  const id = parseInt(request.params.shelterid);
+  pool.query(
+    "SELECT * FROM pet WHERE shelterid = $1",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 const readPet = (request, response) => {
   const id = parseInt(request.params.petid);
   pool.query("SELECT * FROM pet WHERE petid = $1", [id], (error, results) => {
@@ -122,6 +136,7 @@ const deletePet = (request, response) => {
 module.exports = {
   readPets,
   readPet,
+  readPetShelter,
   createPet,
   updatePet,
   deletePet,

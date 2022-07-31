@@ -27,6 +27,21 @@ const readUser = (request, response) => {
   );
 };
 
+const readUserCredential = (request, response) => {
+  const userid = parseInt(request.params.userid);
+  const password = parseInt(request.params.password);
+  pool.query(
+    "SELECT * FROM app_user WHERE userid = $1 AND userpassword = $2",
+    [userid, password],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 const createUser = (request, response) => {
   const queryVals = [
     request.body.firstname,
@@ -89,6 +104,7 @@ const deleteUser = (request, response) => {
 module.exports = {
   readUsers,
   readUser,
+  readUserCredential,
   createUser,
   updateUser,
   deleteUser,
