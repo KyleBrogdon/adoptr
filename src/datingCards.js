@@ -32,7 +32,7 @@ class RetrievedPet {
       this.avid = avid;
       this.typeid = typeid;
       this.shelterid = shelterid;
-      this.images = images; // need to store this as a separate variable 
+      this.images = []; // empty array that we will store all pet imageURLs in later
     }
 
     // need to get this to display 
@@ -40,14 +40,15 @@ class RetrievedPet {
         let element = document.createElement("ul");
         element.innerHTML = `
         <li class="card">1</li>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petid}" value = ${this.petid}>Expand</button>
-          <td>
-          <button type="button" class="btn btn-outline-danger btn-sm" id="delete-button-${this.petid}" >Delete</button>
-          </td>
         `;
         return element;
       }
     };
+
+    // <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petid}" value = ${this.petid}>Expand</button>
+    // <td>
+    // <button type="button" class="btn btn-outline-danger btn-sm" id="delete-button-${this.petid}" >Delete</button>
+    // </td>
 // grab first twenty pets
 
 //generate pictures and data for dating cards
@@ -58,14 +59,14 @@ const setupList = async () => {
     let petImages = Array();
 
     //test image query
-    axios.get('/getPetImages', {params: {id: '1'}}).then((response) => {
-        if (response.status == 200){
-            console.log(response.data);
-            const petJson = response.data
-            console.log(petJson);
-            // iterate through both arrays, update each Pet in the Pets array with image values
-        }
-    })
+    // axios.get('/getPetImages', {params: {id: '1'}}).then((response) => {
+    //     if (response.status == 200){
+    //         console.log(response.data);
+    //         const petJson = response.data
+    //         console.log(petJson);
+    //         // iterate through both arrays, update each Pet in the Pets array with image values
+    //     }
+    // })
     
 
     axios.get('/pet').then((response) => {
@@ -80,15 +81,15 @@ const setupList = async () => {
 
             parsedJson.forEach(pet => {
             pets.push(new RetrievedPet(pet.petid, pet.petname, pet.age, pet.sex, pet.blurb, 
-                pet.dateprofile, pet.sizeid, pet.snstatus, pet.ststatus, pet.avid, pet.typeid, pet.shelterid, []))
+                pet.dateprofile, pet.sizeid, pet.snstatus, pet.ststatus, pet.avid, pet.typeid, pet.shelterid))
             });
+            console.log(pets[0].petid);
 
             // loop through eat Pet in the Pets array
             pets.forEach(pet =>{
-                // select all images from pet_image table where petid matches one in the array
-                axios.get('/getPetImages', {params: {id: pet.petid}}).then((response) => {
+                // select all images from pet_image table where petid matches a pet
+                axios.get(`/getPetImages/${pet.petid}`).then((response) => {
                     if (response.status == 200){
-                        console.log(response.data);
                         const petJson = response.data
                         console.log(petJson);
                         // iterate through both arrays, update each Pet in the Pets array with image values
