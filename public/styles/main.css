@@ -106,14 +106,14 @@
   
   .tinder--buttons {
     flex: 0 0 200px;
-    text-align: center;
     padding-top: 0px;
   }
   
   .tinder--buttons button {
     border-radius: 50%;
     line-height: 60px;
-    width: 60px;
+    width: 100px;
+    height: 100px;
     border: 0;
     background: #f5f5f5;
     display: inline-block;
@@ -125,9 +125,13 @@
   }
   
   .tinder--buttons i {
-    font-size: 32px;
+    font-size: 102px;
+    margin: auto;
+    text-align: center;
     vertical-align: middle;
+    align-items: center;
   }
+
   
   .fa-heart {
     color: red;
