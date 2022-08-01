@@ -11,7 +11,7 @@
       <div class="row">
         <div  id="profileFields" class="col" style="padding-right: 10%;">
             <h6 class="display-6" style ="text-decoration: underline;">User Profile</h6>
-            <data hidden id="shelterID"></data>
+            <data hidden id="hidden-userID"></data>
             <div id="profileUpdateField"></div>
         </div>
     </div>
@@ -37,12 +37,11 @@
                     <h6 class="display-6" style ="text-decoration: underline;">email</h6>
                     <div class="mb-3">
                       <input class="form-control" id="newEmail">
-                  </div>
+                    </div>
                   <button class="btn btn-primary" id="updateName">Update</button>
-                    <br><br>
+                  <br><br>
                 </div>
             </div>
-
 
         </div>
         <div class="col">
@@ -62,7 +61,8 @@
                     </div>
                     <button class="btn btn-primary" id="updatePassword">Update</button>
                     <br><br>
-            </div>  
+            </div>
+
         </div>
     </div>
 
@@ -86,24 +86,32 @@
           <button type="button" class="btn btn-success" id="searchButton">SELECT Pet(s)</button>
         </div>
       </div>
-  
+      <div class = "row">
+        <div id="resetButtons">
+            <h6 class="display-6" style ="text-decoration: underline;">Reset Pets</h6>
+            <div class="mb-3">
+              <button class="btn btn-primary" id="resetLikesButton">Reset Likes</button>
+              <button class="btn btn-primary" id="resetRejectsButton">Reset Dislikes</button>
+            </div>
+        </div>  
+      </div>
 
 
-        <h6 class="display-6" style ="text-decoration: underline; padding-top: 2%;">Pet List</h6>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                <th scope="col">Pet ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">type</th>
-                <th scope="col">age</th>
-                <th scope="col">sex</th>
-                <th scope="col">Actions</th>           
-                </tr>
-            </thead>
-            <tbody id="main-rows">
-            </tbody>
-        </table>
+      <h6 class="display-6" style ="text-decoration: underline; padding-top: 2%;">Pet List</h6>
+      <table class="table table-striped">
+          <thead>
+              <tr>
+              <th scope="col">Name</th>
+              <th scope="col">type</th>
+              <th scope="col">breed</th>
+              <th scope="col">age</th>
+              <th scope="col">sex</th>
+              <th scope="col">Actions</th>           
+              </tr>
+          </thead>
+          <tbody id="main-rows">
+          </tbody>
+      </table>
 
     </div>
 

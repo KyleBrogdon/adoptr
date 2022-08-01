@@ -17,11 +17,11 @@
           <div class="col-2">
             <select class="form-select " id="atribute-form"> 
               <option selected> Attribute </option>
-              <option value="userID">customerID</option>
-              <option value="firstName">First Name</option>
-              <option value="lastName">Last Name</option> 
+              <option value="userid">userID</option>
+              <option value="firstname">First Name</option>
+              <option value="lastname">Last Name</option> 
               <option value="email">Email</option>
-              <option value="adminStatus">Admin Status</option>
+              <option value="adminstatus">Admin Status</option>
             </select>
           </div>
 
@@ -55,9 +55,16 @@
             <span class="input-group-text" id="inputGroup-sizing-sm">password</span>
             <input type="text" id="new-password" class="form-control" aria-label="password" aria-describedby="inputGroup-sizing-sm" >
           </div>
-          <div class="input-group input-group-sm mb-3">
+          <!--<div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">admin Status</span>
             <input type="text" id="new-admin-status" class="form-control" aria-label="adminStatus" aria-describedby="inputGroup-sizing-sm" >
+          </div>-->
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value=" " id="new-admin-status">
+            <label class="form-check-label" for="flexCheckChecked">
+              Admin Status
+            </label>
           </div>
           <div class="my-3 mx-4 border-top"></div>
           <div class="container-sm">
@@ -98,10 +105,17 @@
             <span class="input-group-text" id="inputGroup-sizing-sm">password</span>
             <input type="text" id="update-password" class="form-control" aria-label="password" aria-describedby="inputGroup-sizing-sm" placeholder="Optional">
           </div>
-          <div class="input-group input-group-sm mb-3">
+          <!-- <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">admin Status</span>
             <input type="text" id="update-admin-status" class="form-control" aria-label="adminStatus" aria-describedby="inputGroup-sizing-sm" placeholder="Optional">
+          </div> -->
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value=" " id="update-admin-status">
+            <label class="form-check-label" for="flexCheckChecked">
+              Admin Status (Optional)
+            </label>
           </div>
+
           <div class="my-3 mx-4 border-top"></div>
           <div class="container-sm">
             <button type="button" class="btn btn-success" id="updateUserButton">UPDATE User entry</button>
@@ -109,12 +123,11 @@
         </div>
       </div>
 
-
-
+      
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">CustomerID</th>
+            <th scope="col">userID</th>
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
             <th scope="col">Email</th>
@@ -187,7 +200,7 @@
             integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
             crossorigin="anonymous">
     </script>
-   <script src="../../scripts/siteAdmin/usersSA.js"></script>
+   <script src="../../scripts/siteAdmin/users.js"></script>
 
   </body>
 </html>

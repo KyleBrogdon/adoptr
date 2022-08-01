@@ -188,6 +188,7 @@ CREATE TABLE IF NOT EXISTS pet
    CONSTRAINT fk_shelter
       FOREIGN KEY(shelterID) 
 	  REFERENCES shelter(shelterID)
+      ON DELETE SET NULL
 );
 
 
@@ -340,11 +341,11 @@ CREATE TABLE IF NOT EXISTS admin_shelter
    CONSTRAINT fk_user
       FOREIGN KEY(userID) 
 	  REFERENCES app_user(userID)
-      ON DELETE SET NULL,
+      ON DELETE CASCADE,
    CONSTRAINT fk_shelter
       FOREIGN KEY(shelterID) 
 	  REFERENCES shelter(shelterID)
-      ON DELETE SET NULL
+      ON DELETE CASCADE
 );
 
 ALTER TABLE IF EXISTS admin_shelter

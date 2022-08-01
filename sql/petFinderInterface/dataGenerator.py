@@ -79,17 +79,15 @@ for x in range(3,10):
     adminStatus.append(aStatus)
 
 
-
-with open('./txtSQL/names_sql.txt','w', encoding="utf-8") as nameF:
+with open('./txtSQL/12_names_sql.txt','w', encoding="utf-8") as nameF:
     nameF.write('INSERT INTO \n')
-    nameF.write('\tapp_user (firstname, lastname, email, password, adminstatus)\n')
+    nameF.write('\tapp_user (firstname, lastname, email, userpassword, adminstatus)\n')
     nameF.write('VALUES\n')
     for x in range(len(firstName)):
         if x == len(firstName)-1:
             nameF.write("\t('" + str(firstName[x]) + "', '"+ str(lastName[x]) +"', '" + str(email[x]) + "', '" + str(password) + "', '" + str(adminStatus[x]) + "');")
         else:
             nameF.write("\t('" + str(firstName[x]) + "', '"+ str(lastName[x]) + "', '" + str(email[x]) + "', '" + str(password) + "', '" + str(adminStatus[x]) + "'),\n")
-
 
 
 time_elapsed(tic, "Users")
@@ -181,7 +179,7 @@ for x in range(len(zipCode)):
 
 
 
-with open('./txtSQL/zip_sql.txt','w',encoding="utf-8") as zipF:
+with open('./txtSQL/3_zip_sql.txt','w',encoding="utf-8") as zipF:
     zipF.write('INSERT INTO \n')
     zipF.write('\tzipcode (zipcode, cityid)\n')
     zipF.write('VALUES\n')
@@ -192,7 +190,7 @@ with open('./txtSQL/zip_sql.txt','w',encoding="utf-8") as zipF:
             zipF.write("\t(" + str(zipCode[x]) + ", "+ str(cityIDFK[x]) +"),\n")
 
 
-with open('./txtSQL/city_sql.txt','w',encoding="utf-8") as cityF:
+with open('./txtSQL/2_city_sql.txt','w',encoding="utf-8") as cityF:
     cityF.write('INSERT INTO \n')
     cityF.write('\tcity (cityname, stateid)\n')
     cityF.write('VALUES\n')
@@ -203,9 +201,9 @@ with open('./txtSQL/city_sql.txt','w',encoding="utf-8") as cityF:
             cityF.write("\t('" + str(cityNameDump[x]) + "', "+ str(stateIDFK[x]) +"),\n")
 
 
-with open('./txtSQL/state_sql.txt','w',encoding="utf-8") as stateF:
+with open('./txtSQL/1_state_sql.txt','w',encoding="utf-8") as stateF:
     stateF.write('INSERT INTO \n')
-    stateF.write('\tstate (statename, statecode)\n')
+    stateF.write('\tshelter_state (statename, statecode)\n')
     stateF.write('VALUES\n')
     for x in range(len(stateList)):
         if x == len(stateList) - 1:
@@ -220,8 +218,8 @@ time_elapsed(tic, "Cities")
 tic= time.time()
 
 
-apiKey ='hV1nfrraIBbpA3NQ7y0qqTkIFJHm5pdnrqTXTJtBnUIxW4nErQ'
-secretKey ='WPv7M1lfZGbpwejoJkMGTRIncBk8fSVRAuGvWmwP'
+apiKey ='gXzEc4lp2J8UHnAzuccokjj0Hdq9dCmTcDNdEkX0PhNX3Bo92X'
+secretKey ='UxiggbkVWwH4nJxBBrIEeZ4GSCt7pkd9gZFxmzRT'
 
 
 pf = petpy.Petfinder(apiKey,secretKey)
@@ -292,8 +290,10 @@ password = '12345'
 for x in orgs:
     orgIDS.append(x['id'])
     orgNames.append(str(x['name']).replace("'",''))
-    orgEmail.append(str(x['email']).replace(" ",''))
-    orgPhone.append(str(x['phone']).replace(" ",''))
+    tempEmail = str(x['email']).replace("'",'')
+    orgEmail.append(tempEmail.replace(" ",''))
+    tempPhone = str(x['phone']).replace("'",'')
+    orgPhone.append(tempPhone.replace(" ",''))
     orgAdd.append(x['address'])
 
 
@@ -348,9 +348,9 @@ with open('./sourceFiles/shelter_List.txt','w',encoding="utf-8") as shelterF:
 
 
 
-with open('./txtSQL/shelter_sql.txt','w',encoding="utf-8") as shelterF:
+with open('./txtSQL/6_shelter_sql.txt','w',encoding="utf-8") as shelterF:
     shelterF.write('INSERT INTO \n')
-    shelterF.write('\tshelter (sheltercode, sheltername, email, password, phonenumber, zipcodeid, cityid, stateid)\n')
+    shelterF.write('\tshelter (sheltercode, sheltername, email, shelterpassword, phonenumber, zipcodeid, cityid, stateid)\n')
     shelterF.write('VALUES\n')
     for x in range(len(orgIDS)):
         if x == len(orgIDS) - 1:
@@ -475,7 +475,7 @@ for x in pets:
 
 
 
-with open('./sourceFiles/pet_list.txt','w', encoding="utf-8") as petF:
+with open('./sourceFiles/pets.txt','w', encoding="utf-8") as petF:
     for x in range(len(petNames)):
         petF.write('#' + str(x) + ' ')
         petF.write('Name: ' + str(petNames[x]) + '\n')
@@ -525,29 +525,29 @@ fkValues(avlIDFK,petStatus,adoptOps)
 # print('petType: ' + str(len(typeIDFK)))
 # print('petShelter: ' + str(len(shelterIDFK)))
 
-with open('./txtSQL/pet_id_photos_sql.txt','w', encoding="utf-8") as petPhotoF:
+with open('./txtSQL/15_pet_photos_sql.txt','w', encoding="utf-8") as petPhotoF:
     petPhotoF.write('INSERT INTO\n')
-    petPhotoF.write('\tpet_image (petid,imageid\n')
+    petPhotoF.write('\timages (petid,imageURL)\n')
     petPhotoF.write('VALUES\n')
     for x in range(len(petImages)):
         if x == len(petImages) - 1:
-            petPhotoF.write("\t("+ str(photoPetFKID[x]) + ", " + str(photoPicFKID[x]) +  ");")
+            petPhotoF.write("\t("+ str(photoPetFKID[x]) + ", '" + str(petImages[x]) +  "');")
         else:
-            petPhotoF.write("\t("+ str(photoPetFKID[x]) + ", " + str(photoPicFKID[x]) +  "),\n")
+            petPhotoF.write("\t("+ str(photoPetFKID[x]) + ", '" + str(petImages[x])  +  "'),\n")
 
 
-with open('./txtSQL/photo_sql.txt','w', encoding="utf-8") as petPicF:
-    petPicF.write('INSERT INTO\n')
-    petPicF.write('\timages (imageurl)\n')
-    petPicF.write('VALUES\n')    
-    for x in range(len(petImages)):
-        if x == len(petImages) - 1:
-            petPicF.write("\t('"+ str(petImages[x]) + "');")
-        else:
-            petPicF.write("\t('"+ str(petImages[x]) + "'),\n")
+# with open('./txtSQL/photo_sql.txt','w', encoding="utf-8") as petPicF:
+#     petPicF.write('INSERT INTO\n')
+#     petPicF.write('\timages (imageurl)\n')
+#     petPicF.write('VALUES\n')    
+#     for x in range(len(petImages)):
+#         if x == len(petImages) - 1:
+#             petPicF.write("\t('"+ str(petImages[x]) + "');")
+#         else:
+#             petPicF.write("\t('"+ str(petImages[x]) + "'),\n")
 
 
-with open('./txtSQL/dispositionTable_sql.txt','w', encoding="utf-8") as dispF:
+with open('./txtSQL/11_dispositionTable_sql.txt','w', encoding="utf-8") as dispF:
     dispF.write('INSERT INTO \n')
     dispF.write('\tdisposition (dispstatus)\n')
     dispF.write('VALUES\n')
@@ -558,9 +558,9 @@ with open('./txtSQL/dispositionTable_sql.txt','w', encoding="utf-8") as dispF:
             dispF.write("\t('" + str(dispOps[x]) + "'),\n")
 
 
-with open('./txtSQL/adopt_sql.txt','w',encoding="utf-8") as adoptF:
+with open('./txtSQL/8_availability_sql.txt','w',encoding="utf-8") as adoptF:
     adoptF.write('INSERT INTO \n')
-    adoptF.write('\tavailability (availability)\n')
+    adoptF.write('\tpet_availability (pet_availability)\n')
     adoptF.write('VALUES\n')
     for x in range(len(adoptOps)):
         if x == len(adoptOps)-1:
@@ -569,9 +569,9 @@ with open('./txtSQL/adopt_sql.txt','w',encoding="utf-8") as adoptF:
             adoptF.write("\t('" + str(adoptOps[x]) +  "'),\n")
 
 
-with open('./txtSQL/size_sql.txt','w',encoding="utf-8") as sizeF:
+with open('./txtSQL/5_size_sql.txt','w',encoding="utf-8") as sizeF:
     sizeF.write('INSERT INTO \n')
-    sizeF.write('\tsize (petSize)\n')
+    sizeF.write('\tpet_size (petSize)\n')
     sizeF.write('VALUES\n')
     for x in range(len(sizeOps)):
         if x == len(sizeOps)-1:
@@ -580,9 +580,9 @@ with open('./txtSQL/size_sql.txt','w',encoding="utf-8") as sizeF:
             sizeF.write("\t('" + str(sizeOps[x]) +  "'),\n")
 
 
-with open('./txtSQL/pet_disp_sql.txt','w',encoding="utf-8") as petDispF:
+with open('./txtSQL/14_pet_disp_sql.txt','w',encoding="utf-8") as petDispF:
     petDispF.write('INSERT INTO\n')
-    petDispF.write('\tdispositino_pet (dispid,petid)\n')
+    petDispF.write('\tdisposition_pet (dispid,petid)\n')
     petDispF.write('VALUES\n')
     for x in range(len(petDispIDFK)):
         if x == len(petDispIDFK) -1:
@@ -591,9 +591,9 @@ with open('./txtSQL/pet_disp_sql.txt','w',encoding="utf-8") as petDispF:
             petDispF.write("\t("+ str(dispIDFK[x]) + ", " + str(petDispIDFK[x]) +  "),\n")
 
 
-with open('./txtSQL/pet_sql.txt','w',encoding="utf-8") as petF:
+with open('./txtSQL/9_pet_sql.txt','w',encoding="utf-8") as petF:
     petF.write('INSERT INTO \n')
-    petF.write('\tpet (name, age, sex, blurb, dateprofile, snstatus, ststatus, sizeid, avid, typeid, shelterid)\n')
+    petF.write('\tpet (petname, age, sex, blurb, dateprofile, snstatus, ststatus, sizeid, avid, typeid, shelterid)\n')
     petF.write('VALUES\n')
     for x in range(len(petNames)):
         if x == len(petNames) -1:
@@ -655,9 +655,9 @@ time_elapsed(tic, "Properties")
 tic= time.time()
 
 
-with open('./txtSQL/type_sql.txt','w',encoding="utf-8") as typeF:
+with open('./txtSQL/4_type_sql.txt','w',encoding="utf-8") as typeF:
     typeF.write('INSERT INTO \n')
-    typeF.write('\ttype (typeName)\n')
+    typeF.write('\tpet_type (typename)\n')
     typeF.write('VALUES\n')
     for x in range(len(animalTypeNames)):
         if x == len(animalTypeNames)-1:
@@ -666,7 +666,7 @@ with open('./txtSQL/type_sql.txt','w',encoding="utf-8") as typeF:
             typeF.write("\t('" + str(animalTypeNames[x]) + "'),\n")
 
 
-with open('./txtSQL/breed_sql.txt','w',encoding="utf-8") as breedF:
+with open('./txtSQL/10_breed_sql.txt','w',encoding="utf-8") as breedF:
     breedF.write('INSERT INTO \n')
     breedF.write('\tbreed (breedname, typeid)\n')
     breedF.write('VALUES\n')
@@ -677,7 +677,7 @@ with open('./txtSQL/breed_sql.txt','w',encoding="utf-8") as breedF:
             breedF.write("\t('" + str(breedList[x]) + "', "  + str(typeIDFK[x]) + "),\n")
 
 
-with open('./txtSQL/pet_breed_sql.txt','w',encoding="utf-8") as pet_breedF:
+with open('./txtSQL/13_pet_breed_sql.txt','w',encoding="utf-8") as pet_breedF:
     pet_breedF.write('INSERT INTO \n')
     pet_breedF.write('\tpet_breed (breedid, petid)\n')
     pet_breedF.write('VALUES\n')
@@ -687,6 +687,40 @@ with open('./txtSQL/pet_breed_sql.txt','w',encoding="utf-8") as pet_breedF:
         else:
             pet_breedF.write('\t(' + str(breedIDFK[x]) + ', ' + str(petIDFK[x]) + '),\n')
 
+
+user =[]
+petID = []
+for x in range(0,20):
+    user.append(random.randint(1,10))
+    petID.append(random.randint(1,500))
+
+with open('./txtSQL/16_fav_pets_sql.txt','w',encoding="utf-8") as pet_favF:
+    pet_favF.write('INSERT INTO \n')
+    pet_favF.write('\tuser_saved_pet (userid, petid)\n')
+    pet_favF.write('VALUES\n')
+    for x in range(len(user)):
+        if x == len(user)-1:
+            pet_favF.write('\t(' + str(user[x]) + ', ' + str(petID[x])+');')
+        else:
+            pet_favF.write('\t(' + str(user[x]) + ', ' + str(petID[x]) + '),\n')
+
+
+
+user =[]
+petID = []
+for x in range(0,20):
+    user.append(random.randint(1,10))
+    petID.append(random.randint(1,500))
+
+with open('./txtSQL/17_rej_pets_sql.txt','w',encoding="utf-8") as pet_rejF:
+    pet_rejF.write('INSERT INTO \n')
+    pet_rejF.write('\tuser_rejected_pet (userid, petid)\n')
+    pet_rejF.write('VALUES\n')
+    for x in range(len(user)):
+        if x == len(user)-1:
+            pet_rejF.write('\t(' + str(user[x]) + ', ' + str(petID[x])+');')
+        else:
+            pet_rejF.write('\t(' + str(user[x]) + ', ' + str(petID[x]) + '),\n')
 
 time_elapsed(tic, "Sql")
 tic= time.time()

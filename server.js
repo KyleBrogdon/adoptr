@@ -49,6 +49,7 @@ const shelterstate = require("./sql/API/shelterstate");
 //user API endpoints
 app.get("/dbUsers/:userid", dbUsers.readUser);
 app.get("/dbUsers", dbUsers.readUsers);
+app.get("/dbUsers/:property/:value", dbUsers.searchUser);
 app.get("/dbUsers/:userid/:password", dbUsers.readUserCredential);
 app.post("/dbUsers", dbUsers.createUser);
 app.put("/dbUsers/:userid", dbUsers.updateUser);
