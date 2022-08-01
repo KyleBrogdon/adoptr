@@ -58,43 +58,94 @@ class RetrievedPet {
 const setupCards = async () => {
     console.log("Pet List setup executed")
     let mainList = document.getElementById("tinder--container");
-    let buttonList = document.getElementById("tinder--buttons");
     let pets = Array();
+    let counter = 0;
 
+    axios
+        .get('/pet')
+        .then((response) => {
+            console.log(response.status);
+            if (response.status == 200) {
+                console.log(response.data);
+                const parsedJson = response.data
 
-    axios.get('/pet').then((response) => {
-        console.log(response.status);
-        if (response.status == 200) {
-            console.log(response.data);
+                parsedJson.forEach(pet => {
+                    pets.push(new RetrievedPet(pet.petid, pet.petname, pet.age, pet.sex, pet.blurb,
+                        pet.dateprofile, pet.sizeid, pet.snstatus, pet.ststatus, pet.avid, pet.typeid, pet.shelterid))
+                })
+            }      console.log(pets[counter].petid);})
+        .get(`/getPetImages/${pets[counter].petid}`)
+        .then ((response) => {
+            if (response.status == 200) {
+                console.log(response.data);
+                const parsedJson = response.data
+                if (parsedJson.petid == pets[counter].petid) {
+                    pets[counter].images.push(parsedJson.imageurl)
+                }
+                if (parsedJson.petid == 27) {
+                    console.log(pets[27])
+                    console.log(pets[27].images);
+                    console.log(pets[27].images.length);
+                    console.log(pets[27].images[0]);
+                }
+            }})
+        .then (restOfSetup());
+        
 
-            const parsedJson = response.data
-
-            parsedJson.forEach(pet => {
-                pets.push(new RetrievedPet(pet.petid, pet.petname, pet.age, pet.sex, pet.blurb,
-                    pet.dateprofile, pet.sizeid, pet.snstatus, pet.ststatus, pet.avid, pet.typeid, pet.shelterid))
-            });
 
             // loop through eat Pet in the Pets array
-            pets.forEach(pet => {
-                // select all images from pet_image table where petid matches a pet
-                axios.get(`/getPetImages/${pet.petid}`).then((response) => {
-                    if (response.status == 200) {
-                        const petJson = response.data
-                        // iterate through both arrays, update each Pet in the Pets array with image values
-                        petJson.forEach(image => {
-                            if (image.petid == pet.petid) {
-                                pet.images.push(image.imageurl)
-                            }
-                            if (image.petid == 27) {
-                                console.log(pets[27])
-                                console.log(pets[27].images);
-                                console.log(pets[27].images[0]);
-                            }
-                        })
-                    }
-                })
-            })
-            // insert rows into cards
+            // async function getImages(pet){
+            //         let response = await axios.get(`/getPetImages/${pet.petid}`);
+            //             if (response.status == 200) {
+            //                 console.log(response.data);
+            //                 return response.data
+            //          // iterate through both arrays, update each Pet in the Pets array with image values
+            //             };
+            //     }
+            
+            // await storeImages()
+
+        //     async function storeImages(){
+        //         for (const pet of pets){
+        //         let petJson = await getImages(pet) 
+        //         console.log(petJson.petid);
+        //         if (petJson.petid == pet.petid) {
+        //             console.log (petJson.imageurl);
+        //             pet.images.push(petJson.imageurl)
+        //         }
+        //         if (petJson.petid == 27) {
+        //             console.log(pets[27])
+        //             console.log(pets[27].images);
+        //             console.log(pets[27].images.length);
+        //             console.log(pets[27].images[0]);
+        //         }
+        //     }
+        // }
+
+            // pets.forEach(pet => {
+            //     // select all images from pet_image table where petid matches a pet
+            //    axios.get(`/getPetImages/${pet.petid}`).then((response) => {
+            //         if (response.status == 200) {
+            //             const petJson = response.data
+            //             // iterate through both arrays, update each Pet in the Pets array with image values
+            //             petJson.forEach(image => {
+            //                 if (image.petid == pet.petid) {
+            //                     pet.images.push(image.imageurl)
+            //                 }
+            //                 if (image.petid == 27) {
+            //                     console.log(pets[27])
+            //                     console.log(pets[27].images);
+            //                     console.log(pets[27].images.length);
+            //                     console.log(pets[27].images[0]);
+            //                 }
+            //             })
+            //         }
+            //     })
+            // })
+
+            function restOfSetup() {
+
+            // insert cards 
             let i = 0;
                 pets.forEach((pet) => {
                     if ( i > 20){
@@ -201,11 +252,7 @@ const setupCards = async () => {
 
             nope.addEventListener('click', nopeListener);
             love.addEventListener('click', loveListener);
-
-        } else {
-            console.log("API error");
-        }
-    });
+        };
 };
 setupCards();
 
