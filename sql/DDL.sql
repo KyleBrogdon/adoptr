@@ -55,18 +55,6 @@ CREATE TABLE IF NOT EXISTS disposition
 ALTER TABLE IF EXISTS disposition
     OWNER to postgres;
 
--- Table: image
-
-
-CREATE TABLE IF NOT EXISTS images
-(
-    imageID SERIAL PRIMARY KEY,
-    imageURL VARCHAR(100)
-);
-
-ALTER TABLE IF EXISTS images
-    OWNER to postgres;
-
 
 -- Table: size
 
@@ -149,7 +137,7 @@ ALTER TABLE IF EXISTS zipcode
 CREATE TABLE IF NOT EXISTS shelter
 (
     shelterID SERIAL PRIMARY KEY,
-    shelterName VARCHAR(50) NOT NULL,
+    shelterName VARCHAR(75) NOT NULL,
     shelterCode VARCHAR(10) NOT NULL,
     email VARCHAR(50) NOT NULL,
     shelterPassword VARCHAR(25) NOT NULL,
@@ -206,6 +194,24 @@ CREATE TABLE IF NOT EXISTS pet
 ALTER TABLE IF EXISTS pet
     OWNER to postgres;
 
+-- Table: image
+
+
+CREATE TABLE IF NOT EXISTS images
+(
+    imageID SERIAL PRIMARY KEY,
+    imageURL VARCHAR(100),
+    petID INT,   
+    CONSTRAINT fk_pet
+      FOREIGN KEY(petID) 
+	  REFERENCES pet(petID)
+      ON DELETE SET NULL
+);
+
+ALTER TABLE IF EXISTS images
+    OWNER to postgres;
+
+
 -- Table: disposition-pet
 
 
@@ -220,6 +226,7 @@ CREATE TABLE IF NOT EXISTS disposition_pet
    CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
 	  REFERENCES pet(petID)
+      ON DELETE SET NULL
 );
 
 ALTER TABLE IF EXISTS disposition_pet
@@ -251,7 +258,8 @@ CREATE TABLE IF NOT EXISTS pet_breed
     breedID INT,
    CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
-	  REFERENCES pet(petID),
+	  REFERENCES pet(petID)
+      ON DELETE SET NULL,
    CONSTRAINT fk_breed
       FOREIGN KEY(breedID) 
 	  REFERENCES breed(breedID)
@@ -270,7 +278,8 @@ CREATE TABLE IF NOT EXISTS pet_image
     imageID INT,
    CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
-	  REFERENCES pet(petID),
+	  REFERENCES pet(petID)
+      ON DELETE SET NULL,
    CONSTRAINT fk_image
       FOREIGN KEY(imageID) 
 	  REFERENCES images(imageID)
@@ -289,10 +298,12 @@ CREATE TABLE IF NOT EXISTS user_saved_pet
     petID INT,
    CONSTRAINT fk_user
       FOREIGN KEY(userID) 
-	  REFERENCES app_user(userID),
+	  REFERENCES app_user(userID)
+      ON DELETE CASCADE,
    CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
 	  REFERENCES pet(petID)
+      ON DELETE CASCADE
 );
 
 ALTER TABLE IF EXISTS user_saved_pet
@@ -307,10 +318,12 @@ CREATE TABLE IF NOT EXISTS user_rejected_pet
     petID INT,
    CONSTRAINT fk_user
       FOREIGN KEY(userID) 
-	  REFERENCES app_user(userID),
+	  REFERENCES app_user(userID)
+      ON DELETE CASCADE,
    CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
 	  REFERENCES pet(petID)
+      ON DELETE CASCADE
 );
 
 ALTER TABLE IF EXISTS user_rejected_pet
@@ -326,10 +339,12 @@ CREATE TABLE IF NOT EXISTS admin_shelter
     shelterId INT,
    CONSTRAINT fk_user
       FOREIGN KEY(userID) 
-	  REFERENCES app_user(userID),
+	  REFERENCES app_user(userID)
+      ON DELETE SET NULL,
    CONSTRAINT fk_shelter
       FOREIGN KEY(shelterID) 
 	  REFERENCES shelter(shelterID)
+      ON DELETE SET NULL
 );
 
 ALTER TABLE IF EXISTS admin_shelter
