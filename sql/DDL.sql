@@ -188,6 +188,7 @@ CREATE TABLE IF NOT EXISTS pet
    CONSTRAINT fk_shelter
       FOREIGN KEY(shelterID) 
 	  REFERENCES shelter(shelterID)
+      ON DELETE SET NULL
 );
 
 
@@ -205,6 +206,7 @@ CREATE TABLE IF NOT EXISTS images
     CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
 	  REFERENCES pet(petID)
+      ON DELETE SET NULL
 );
 
 ALTER TABLE IF EXISTS images
@@ -225,6 +227,7 @@ CREATE TABLE IF NOT EXISTS disposition_pet
    CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
 	  REFERENCES pet(petID)
+      ON DELETE SET NULL
 );
 
 ALTER TABLE IF EXISTS disposition_pet
@@ -256,7 +259,8 @@ CREATE TABLE IF NOT EXISTS pet_breed
     breedID INT,
    CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
-	  REFERENCES pet(petID),
+	  REFERENCES pet(petID)
+      ON DELETE SET NULL,
    CONSTRAINT fk_breed
       FOREIGN KEY(breedID) 
 	  REFERENCES breed(breedID)
@@ -275,7 +279,8 @@ CREATE TABLE IF NOT EXISTS pet_image
     imageID INT,
    CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
-	  REFERENCES pet(petID),
+	  REFERENCES pet(petID)
+      ON DELETE SET NULL,
    CONSTRAINT fk_image
       FOREIGN KEY(imageID) 
 	  REFERENCES images(imageID)
@@ -294,10 +299,12 @@ CREATE TABLE IF NOT EXISTS user_saved_pet
     petID INT,
    CONSTRAINT fk_user
       FOREIGN KEY(userID) 
-	  REFERENCES app_user(userID),
+	  REFERENCES app_user(userID)
+      ON DELETE CASCADE,
    CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
 	  REFERENCES pet(petID)
+      ON DELETE CASCADE
 );
 
 ALTER TABLE IF EXISTS user_saved_pet
@@ -312,10 +319,12 @@ CREATE TABLE IF NOT EXISTS user_rejected_pet
     petID INT,
    CONSTRAINT fk_user
       FOREIGN KEY(userID) 
-	  REFERENCES app_user(userID),
+	  REFERENCES app_user(userID)
+      ON DELETE CASCADE,
    CONSTRAINT fk_pet
       FOREIGN KEY(petID) 
 	  REFERENCES pet(petID)
+      ON DELETE CASCADE
 );
 
 ALTER TABLE IF EXISTS user_rejected_pet
@@ -331,10 +340,12 @@ CREATE TABLE IF NOT EXISTS admin_shelter
     shelterId INT,
    CONSTRAINT fk_user
       FOREIGN KEY(userID) 
-	  REFERENCES app_user(userID),
+	  REFERENCES app_user(userID)
+      ON DELETE CASCADE,
    CONSTRAINT fk_shelter
       FOREIGN KEY(shelterID) 
 	  REFERENCES shelter(shelterID)
+      ON DELETE CASCADE
 );
 
 ALTER TABLE IF EXISTS admin_shelter
