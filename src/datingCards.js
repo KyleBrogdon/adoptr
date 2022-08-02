@@ -90,7 +90,7 @@ function setupCards () {
     // }
 
     axios
-        .get('/pet')
+        .get('/readPetsForCards')
         .then((response) => {
             console.log(response.status);
             if (response.status == 200) {
@@ -306,8 +306,10 @@ function setupCards () {
 
                     if (love) {
                         card.style.transform = 'translate(' + moveOutWidth + 'px, -100px) rotate(-30deg)';
+                        // add to user saved pet
                     } else {
                         card.style.transform = 'translate(-' + moveOutWidth + 'px, -100px) rotate(30deg)';
+                        // add to user rejected pet
                     }
 
                     initCards();

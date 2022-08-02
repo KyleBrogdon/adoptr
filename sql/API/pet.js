@@ -13,6 +13,18 @@ const readPets = (request, response) => {
   });
 };
 
+const readPetsForCards = (request, response) => {
+    pool.query("SELECT * FROM pet WHERE NOT EXISTS \
+    (SELECT * FROM user_rejected_pet WHERE pet.petid = user_rejected_pet.petid) \
+    AND NOT EXISTS (SELECT * FROM user_saved_pet WHERE pet.petid = user_saved_pet.petid)", 
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    });
+  };
+
 const readPetShelter = (request, response) => {
   const id = parseInt(request.params.shelterid);
   pool.query(
@@ -155,4 +167,5 @@ module.exports = {
   updatePet,
   deletePet,
   getPetImages,
+  readPetsForCards,
 };

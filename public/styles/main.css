@@ -5,14 +5,21 @@
   }
 
   body {
-    background: #CCFBFE;
+    background: #ecf8f9;
     font-family: sans-serif;
   }
   
+  h1.datingCard--title{
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    padding-top: 30px;
+    font-size: 4em;
+  }
+
   .tinder {
     width: 100vw;
     height: 100vh;
-    max-height: 650px;
+    /* max-height: 650px; */
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -59,13 +66,13 @@
   
   .tinder--container {
     flex-grow: 1;;
-    padding-top: 40px;
+    padding-top: 0px;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: flex-end;
     z-index: 1;
-    max-height: 50vh;
+    max-height: 600px;
     outline: grey;
   }
   
@@ -94,8 +101,10 @@
   }
   
   .tinder--card img {
+    padding-top: 10px;
     max-width: 70%;
-    max-height: 70%;
+    height:70%;
+    max-height: 400px;
     pointer-events: none;
     overflow: hidden;
   }
@@ -115,20 +124,18 @@
   }
   
   .tinder--buttons {
-    flex: 0 0 200px;
-    padding-top: 0px;
-    top:10%
+    flex: 0, 0, 100px;
+    padding-top: 10px;
+    position: relative;
   }
   
   .tinder--buttons button {
     border-radius: 50%;
-    line-height: 60px;
-    width: 100px;
-    height: 100px;
+    width: 7vw;
+    height: 10vh;
     border: 0;
-    background: #f5f5f5;
+    background: white;
     display: inline-block;
-    margin: 0 8px;
   }
   
   .tinder--buttons button:focus {
@@ -136,11 +143,7 @@
   }
   
   .tinder--buttons i {
-    font-size: 102px;
-    margin: auto;
-    text-align: center;
     vertical-align: middle;
-    align-items: center;
   }
 
   
