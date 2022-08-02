@@ -3,6 +3,7 @@ const { default: axios } = require("axios");
 // work in progress
 console.log('running dating cards script');
 let pets = Array();
+let tempArray = Array();
 
 class RetrievedPet {
     constructor(
@@ -110,24 +111,29 @@ function setupCards () {
                axios.get(`/getPetImages/${pet.petid}`).then((response) => {
                     if (response.status == 200) {
                         const petJson = response.data
+                        if (petJson.petid == 27){
+                            tempArray.push(petJson.imageurl);
+                        }
                         // iterate through both arrays, update each Pet in the Pets array with image values
-                        petJson.forEach(image => {
-                            if (image.petid == pet.petid) {
-                                pet.images.push(image.imageurl)
-                            }
-                            if (image.petid == 27) {
-                                console.log(pets[27])
-                                console.log(pets[27].images);
-                            }
-                        })
+                        // petJson.forEach(image => {
+                        //     if (image.petid == pet.petid) {
+                        //         pet.images.push(image.imageurl)
+                        //     }
+                        //     if (image.petid == 27) {
+                        //         console.log(pets[27])
+                        //         console.log(pets[27].images);
+                        //     }
+                        // })
                     }
                 })
-            })})
+            })
+        Promise.all(tempArray).then(response => (console.log(response)));
+        })
         .then(() => {
             Promise.all(pets);
             console.log(pets);
-            Promise.all(pets[27].images)
-            console.log(pets[27].images);
+            Promise.all(pets[27].images).then(result => (console.log(result)))
+;
 
         // console.log(pets[0])
 
