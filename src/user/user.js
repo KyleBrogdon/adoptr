@@ -3,9 +3,12 @@
 // CREATE/READ/UPDATE to the user table
 const { default: axios, Axios } = require("axios");
 
-const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
-    keyboard: false
-});
+
+
+// const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
+//     keyboard: false
+// });
+
 
 class petEntry {
   constructor(
@@ -53,6 +56,75 @@ class petEntry {
     `;
     return element;
   }
+
+  getSize(){
+    axios.get(`/size/${this.petSize}`).then((response) => {
+      if(response.status >= 200 && response.status < 300){
+        var sizedata = response.data
+        this.petSize = sizedata.petsize
+      }
+      else{
+        console.log('API error')
+      }
+    })
+  }
+
+  getType(){
+    axios.get(`/type/${this.petType}`).then((response) => {
+      if(response.status >= 200 && response.status < 300){
+        var typedata = response.data
+        this.petType = typedata.typename
+      }
+      else{
+        console.log('API error')
+      }
+    })
+  }
+
+  getAvailability(){
+    axios.get(`/availability/${this.petAvailability}`).then((response) => {
+      if(response.status >= 200 && response.status < 300){
+        var availdata = response.data
+        this.petAvailability = availdata.pet_availability
+      }
+      else{
+        console.log('API error')
+      }
+    })
+  }
+
+  getBreed(){
+    axios.get(`petbreedPID/${this.petID}`).then((response)=>{
+      if(response.status >= 200 && response.status < 300){
+        var pbData = response.data
+        pbID = pbData.breedID
+        axios.get(`/breed/${pbID}`).then((response) => {
+          if(response.status >= 200 && response.data < 300){
+            var breedData = response.data
+            this.petBreed = breedData.breedname
+          }
+          else{
+            console.log('API error')
+          }
+        })
+      }else{
+        console.log('API error')
+      }
+    })
+  }
+
+  getImages(){
+    axios.get(`/getPetImages/${this.petID}`).then((response) => {
+      if(response.status >= 200 && response.status < 300){
+        var imageData = response.data
+        return imageData.imageurl
+      }
+      else{
+        console.log('API error')
+      }
+    })
+  }
+
 };
 
 function unfav(pet){
@@ -296,11 +368,44 @@ function updateProfile(){
   }
 }
 
+function executeQuery(pet,petArray){
+  return new Promise((resolve,reject) =>{
+    axios.get(`/pet/${pet.petid}`).then((response) => {
+      if (response.status == 200 && response.status < 300) {
+        const petResponse = response.data
+        console.log(petResponse)
+        petArray.push(
+          new petEntry(
+            petResponse.petID, petResponse.petName,
+            petResponse.petAge, petResponse.petSex,
+            petResponse.petSN, petResponse.petSN,
+            petResponse.petBlurb, petResponse.petSize,
+            petResponse.petType, petResponse.petAvailability,
+            petResponse.petBreed, null
+          )
+        );
+      }else{
+        console.log('failed pet pull')
+        reject('failed pet pull');
+      }
+      resolve(console.log('call complete'))
+    })
+  })
+}
+
+// async function compileList(petArray){
+//   for (const pet of petArray){
+//     await executeQuery(pet,petArray)
+//   }
+// }
+
+
 
 function resetLikesTable(){
-  userID = document.getElementById("hidden-userID").value;
-  axios.delete(`/resetLikes/${user.userID}`).then((response) => {
-    if(response.status >= 200 && response.data < 300){
+  
+  userid= document.getElementById("hidden-userID").value;
+  axios.delete(`/resetLikes/${user.userid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
       console.log('likes reset')
       let element = document.createElement("div");
       element.setAttribute('class','modal fade')
@@ -330,9 +435,10 @@ function resetLikesTable(){
 }
 
 function resetRejectsTable(){
-  userID = document.getElementById("hidden-userID").value;
-  axios.delete(`/resetRejects/${user.userID}`).then((response) => {
-    if(response.status >= 200 && response.data < 300){
+  console.log('resetTable')
+  userid = document.getElementById("hidden-userID").value;
+  axios.delete(`/resetRejects/${user.userid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
       console.log('likes rejects')
       let element = document.createElement("div");
       element.setAttribute('class','modal fade')
@@ -367,13 +473,13 @@ function resetRejectsTable(){
 const setupList = async () => {
   let user ={userID: null}
   user.userID = 5 //test
-
+  console.log('setting up list')
   document.getElementById('hidden-userID').value = user.userID
   axios.get(`/dbUsers/${user.userID}`).then((response) => {
-    console.log(response.status);
-    if (response.status == 200) {
-      profileResponse = response.data
+    console.log(response);
+    if (response.status >= 200 && response.status < 300) {
 
+      const profileResponse = response.data
       console.log(profileResponse);
 
       //document.getElementById("userID").value = profileResponse.userID;
@@ -413,66 +519,54 @@ const setupList = async () => {
       userInfo.append(element3);
       userInfo.append(element4);
 
-//////////////////////////////////////
-      axios.get(`/dbUsers/${user.userID}`).then((response) => {
+      axios.get(`/usersavedpet/${user.userID}`).then((response) => {
         console.log(response.status);
-        if (response.status == 200) {
+        if (response.status >= 200 && response.status < 300) {
+          //console.log(response.data)
+          const parsedJson = response.data
+          //console.log(parsedJson);
+          const pets = Array();
+          parsedJson.forEach(pet=>{
+            pets.push(pet)
+          })
+          console.log(pets)
+          //compileList(pets)
+          console.log(pets)
 
-          //need call to query that gets pets user likes 
-          const petResponse = await orderResponse.json();
-
-          console.log(petResponse);
-        
-          let mainList = document.getElementById("main-rows");
-          let pets = Array();
-        
-        
-          petResponse.forEach(pet => {
-            console.log(pet);
-            pets.push(new petEntry(pet.petID,pet.petName,pet.petAge,pet.petSex,pet.petSN,pet.petSN,pet.petBlurb,pet.petSize,pet.petType,pet.petAvailability,pet.petBreed,pet.petPic));
-          });
-    
-          pets.forEach((pet, index) => {
-            mainList.appendChild(pet.generateRow());
-          });
-        
-          document.getElementById("loadingbar").style.display = "none";
-        
-          document.getElementById("searchButton").addEventListener("click", () => {
-            selectProperty()
-          });
-        
-          document.getElementById("updatePassword").addEventListener("click", () => {
-            updatePassword();
-          });
-        
-        
-          document.getElementById("updateProfileButton").addEventListener("click", () => {
-            updateProfile();
-          });
-      
-          document.getElementById("resetRejectsButton").addEventListener("click", () => {
-            resetRejectsTable();
-          });
-      
-          document.getElementById("resetLikesButton").addEventListener("click", () => {
-            resetLikesTable();
-          });
         }
         else{
           console.log("API error");
         }
       })
       
+      document.getElementById("loadingbar").style.display = "none";
+        
+      document.getElementById("searchButton").addEventListener("click", () => {
+        selectProperty()
+      });
+    
+      document.getElementById("updatePassword").addEventListener("click", () => {
+        updatePassword();
+      });
+    
+    
+      document.getElementById("updateProfileButton").addEventListener("click", () => {
+        updateProfile();
+      });
+  
+      document.getElementById("resetRejectsButton").addEventListener("click", () => {
+        resetRejectsTable();
+      });
+  
+      document.getElementById("resetLikesButton").addEventListener("click", () => {
+        resetLikesTable();
+      });
+
+
     } else {
       console.log("API error");
     }
   });
-
-
-  //const orderResponse = await fetch('/user/orderInfo')
-  
-  
 
 };
 

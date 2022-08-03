@@ -27,6 +27,23 @@ const readPetBreed = (request, response) => {
   );
 };
 
+
+const readPetBreedPetID = (request, response) => {
+  const petid = parseInt(request.params.petid);
+  pool.query(
+    "SELECT * FROM pet_breed WHERE petid = $1",
+    [petid],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+
+
 const createPetBreed = (request, response) => {
   const { petid, breedid } = request.body;
   // console.log(request.body);
@@ -81,4 +98,5 @@ module.exports = {
   createPetBreed,
   updatePetBreed,
   deletePetBreed,
+  readPetBreedPetID,
 };
