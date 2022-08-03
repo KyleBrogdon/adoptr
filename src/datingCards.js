@@ -88,7 +88,9 @@ async function setupCards () {
     //                 }
     // }
 
-    async function getPets()
+    async function getPets(){
+        return 1;
+    };
 
     axios
         .get('/readPetsForCards')

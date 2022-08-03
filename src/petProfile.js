@@ -143,7 +143,7 @@ async function setupCards () {
     let resp = await getPet();
     console.log(JSON.stringify(resp[0].petid));
     pet = new RetrievedPet(JSON.stringify(resp[0].petid), resp[0].petname, resp[0].age, resp[0].sex, JSON.stringify(resp[0].blurb),
-        JSON.stringify(resp[0].dateprofile), JSON.stringify(resp[0].sizeid), JSON.stringify(resp[0].snstatus), JSON.stringify(resp[0].ststatus, JSON.stringify(resp[0].avid)), JSON.stringify(resp[0].typeid), JSON.stringify(resp[0].shelterid), Array());
+        JSON.stringify(resp[0].dateprofile), JSON.stringify(resp[0].sizeid), JSON.stringify(resp[0].snstatus), JSON.stringify(resp[0].ststatus), JSON.stringify(resp[0].avid), JSON.stringify(resp[0].typeid), JSON.stringify(resp[0].shelterid), Array());
 
     console.log(pet);
 
