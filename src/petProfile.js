@@ -49,6 +49,55 @@ class RetrievedPet {
         }
         return div;
     }
+
+    
+    generateParagraph() {
+        let para = document.createElement("p")
+        para.setAttribute('class', 'petProfile--blurb')
+        para.innerHTML = `${this.blurb}`
+        return para;
+    }
+
+    generateTable() {
+        let tbody = document.createElement('tbody');
+        tbody.setAttribute("id", "main-rows");
+        tbody.innerHTML = `
+        <tr>
+            <th scope="col">name</th>
+            <th scope="col">${this.petname}</th>     
+        </tr>
+        <tr>
+            <th scope="col">age</th>
+            <th scope="col">${this.age}</th>   
+        </tr>
+        <tr>
+            <th scope="col">sex</th>
+            <th scope="col">${this.sex}</th>   
+        </tr>
+        <tr>
+            <th scope="col">type</th>
+            <th scope="col">${this.typeid}</th>      
+        </tr>
+        <tr>
+            <th scope="col">availability</th>
+            <th scope="col">${this.avid}</th>     
+
+        </tr>
+        <tr>
+            <th scope="col">size</th>
+            <th scope="col">${this.sizeid}</th>    
+        </tr>
+        <tr>
+            <th scope="col">spayed/neutered</th>
+            <th scope="col">${this.snstatus}</th>   
+        </tr>
+        <tr>
+            <th scope="col">Shots Current</th>
+            <th scope="col">${this.ststatus}</th>   
+        </tr>`
+        return tbody;
+    }
+
 };
 let pet;
 
@@ -57,7 +106,9 @@ let tempPet = new RetrievedPet(10, 'test', 10, 'male', 'dsfafsd', 0832022, 5, 'y
 //generate pictures and data for dating cards
 async function setupCards () {
     console.log("Pet List setup executed")
-    let mainList = document.getElementById("tinder--container");
+    let tinderDiv = document.getElementById("tinder--container");
+    let blurbDiv = document.getElementById("mb-3");
+    let table = document.getElementById("petProfile--properties");
     let idArray = Array();
     let counter = 0;
 
@@ -91,7 +142,7 @@ async function setupCards () {
 
     let resp = await getPet();
     console.log(JSON.stringify(resp[0].petid));
-    pet = new RetrievedPet(JSON.stringify(resp[0].petid), JSON.stringify(resp[0].petname), JSON.stringify(resp[0].age), JSON.stringify(resp[0].sex), JSON.stringify(resp[0].blurb),
+    pet = new RetrievedPet(JSON.stringify(resp[0].petid), resp[0].petname, resp[0].age, resp[0].sex, JSON.stringify(resp[0].blurb),
         JSON.stringify(resp[0].dateprofile), JSON.stringify(resp[0].sizeid), JSON.stringify(resp[0].snstatus), JSON.stringify(resp[0].ststatus, JSON.stringify(resp[0].avid)), JSON.stringify(resp[0].typeid), JSON.stringify(resp[0].shelterid), Array());
 
     console.log(pet);
@@ -102,7 +153,32 @@ async function setupCards () {
     }
 
     let respImg = await getImage();
-    console.log(JSON.stringify(respImg))
+    console.log(JSON.stringify(respImg));
+
+    async function getType() {
+        const response = await axios.get(`/type/${pet.typeid}`);
+        return response.data;
+    }
+
+    let respType = await getType();
+    console.log(JSON.stringify(respType[0].typename));
+    pet.typeid = respType[0].typename;
+
+    async function getAvid(){
+        const response = await axios.get(`/availability/${pet.avid}`);
+        return response.data;
+    }
+
+    let respAvid = await getAvid();
+    pet.avid = respAvid[0].pet_availability;
+
+    async function getSize() {
+        const response = await axios.get(`/size/${pet.sizeid}`)
+        return response.data;
+    }
+
+    let respSize = await getSize();
+    pet.sizeid = respSize[0].petsize;
         
         //     ;})
         // .then(() => {
@@ -207,7 +283,9 @@ async function setupCards () {
 
 
             // insert cards 
-                mainList.appendChild(pet.generateCard());
+                tinderDiv.appendChild(pet.generateCard());
+                blurbDiv.appendChild(pet.generateParagraph());
+                table.appendChild(pet.generateTable());
                 // add blurb
                 //   addEventListeners(user);
 
