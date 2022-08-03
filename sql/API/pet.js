@@ -43,7 +43,10 @@ const getPetImages = (request, response) => {
 
 const readPet = (request, response) => {
   const id = parseInt(request.params.petid);
-  pool.query("SELECT * FROM pet WHERE petid = $1", [id], (error, results) => {
+  pool.query(
+    "SELECT * FROM pet WHERE petid = $1", 
+    [id],
+    (error, results) => {
     if (error) {
       throw error;
     }

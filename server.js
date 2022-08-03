@@ -86,6 +86,7 @@ app.delete("/adminshelter/:id", adminshelters.deleteAdminShelter);
 
 //usersavedpets API endpoints
 app.post("/usersavedpet", usersavedpet.createUserSavedPets);
+app.get("/usersavedpet/:userid", usersavedpet.readUserSavedPet)
 app.delete("/usersavedpet/:userid/:petid", usersavedpet.deleteUserSavedPet);
 
 //userrejectpets API endpoints
@@ -101,6 +102,7 @@ app.delete("/availability/:avid", availability.deleteAvailability);
 //petbreed API endpoints
 app.get("/petbreed/:id", petbreed.readPetBreed);
 app.get("/petbreed", petbreed.readPetBreeds);
+app.get("/petbreedPID/:petid", petbreed.readPetBreedPetID)
 app.post("/petbreed", petbreed.createPetBreed);
 app.put("/petbreed/:id", petbreed.updatePetBreed);
 app.delete("/petbreed/:id", petbreed.deletePetBreed);

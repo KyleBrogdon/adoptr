@@ -24,6 +24,22 @@ const createUserSavedPets = (request, response) => {
   );
 };
 
+
+const readUserSavedPet = (request, response) => {
+  const id = parseInt(request.params.userid);
+  pool.query(
+    "SELECT * FROM user_saved_pet WHERE userid = $1",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+
 const deleteUserSavedPet = (request, response) => {
   const userid = parseInt(request.params.userid);
   const petid = parseInt(request.params.petid);
@@ -42,4 +58,5 @@ const deleteUserSavedPet = (request, response) => {
 module.exports = {
   createUserSavedPets,
   deleteUserSavedPet,
+  readUserSavedPet
 };
