@@ -1,132 +1,157 @@
-/* Design of a card */
-.cardcontainer {
-    padding: 60px;
+*, *:before, *:after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  body {
+    background: #ecf8f9;
+    font-family: sans-serif;
+  }
+  
+  h1.datingCard--title{
     text-align: center;
-    margin-left:auto;
-    margin-right:auto;
-    margin-top:auto;
-    margin-bottom: auto;
-    width: 700px;
-    height: 700px;
-    background-color: white;
+    font-family: 'Courier New', Courier, monospace;
+    padding-top: 30px;
+    font-size: 4em;
   }
 
-.card {
-    margin:auto;
+  .tinder {
+    width: 100vw;
+    height: 100vh;
+    /* max-height: 650px; */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    font-size: 14px;
-    border-radius: 1%;
-    line-height: 200px;
-    text-align:center;
-    width: 520px;
-    height: 520px;
-    display: block;
-    background-color: white;
-    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.1);
-    -webkit-transform-origin: 50% 99%;
-    transform-origin: 50% 99%;
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+    flex-wrap: wrap;
   }
-
-
-
-/* List functionality */
-.list .cardlist {
-  margin: 0;
-  padding: 0;
-}
-.datingCard .list .card {
-  display: none;
-}
-.datingCard .list .current {
-  display: block;
-}
-
-/* Button designs */
-
-.but-nope, .but-yay, .nopes, .yays {
-  display: none;
-}
-
-.datingCard .but-nope, .datingCard .but-yay,
-.datingCard .nopes, .datingCard .yays {
-  display: inline-block;
-}
-
-.cardcontainer button {
-  background: #0c0;
-  position: relative;
-  border: none;
-  color: white;
-  border-radius: 50% 50%;
-  width: 70px;
-  height: 70px;
-  line-height: 30px;
-  margin: auto 4em;
-  display: inline-block;
-}
-.cardcontainer button:focus {
-  outline: 0;
-  background: #0f0;
-}
-.cardcontainer .but-nope {
-  background: #c00;
-}
-.cardcontainer .but-nope:focus {
-  outline: 0;
-  background: #f00;
-}
-
-
-/* Card animations */
-.datingCard .cardcontainer.yes .card {
-  -webkit-animation: yay 0.7s ease-out;
-  animation: yay 0.7s ease-out;
-}
-.datingCard .cardcontainer.nope .card {
-  -webkit-animation: nope 0.7s ease-out;
-  animation: nope 0.7s ease-out;
-}
-
-@keyframes yay {
-  from {
-    transform: rotate(0deg);
+  
+  .loaded.tinder {
+    text-align: center;
     opacity: 1;
   }
-  to {
-    transform: rotate(40deg) translateY(-80px);
-    opacity: 0;
+  
+  .tinder--status {
+    position: absolute;
+    top: 50%;
+    margin-top: -30px;
+    z-index: 2;
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
   }
-}
+  
+  .tinder--status i {
+    font-size: 100px;
+    opacity: 0;
+    transform: scale(0.3);
+    transition: all 0.2s ease-in-out;
+    position: absolute;
+    width: 100px;
+    margin-left: -50px;
+  }
+  
+  .tinder_love .fa-heart {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  
+  .tinder_nope .fa-remove {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  
+  .tinder--container {
+    flex-grow: 1;;
+    padding-top: 0px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1;
+    max-height: 600px;
+    outline: grey;
+  }
+  
+  .tinder--card {
+    display: inline-block;
+    width: 80vw;
+    max-width: 400px;
+    height: 50%;
+    max-height: 500px;
+    background: #FFFFFF;
+    padding-bottom: 0px;
+    border-radius: 8px;
+    position: absolute;
+    will-change: transform;
+    transition: all 0.3s ease-in-out;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+  }
+  
+  .moving.tinder--card {
+    transition: none;
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+    cursor: grabbing;
+  }
+  
+  .tinder--card img {
+    padding-top: 10px;
+    max-width: 70%;
+    height:70%;
+    max-height: 400px;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  
+  .tinder--card h3 {
+    margin-top: 32px;
+    font-size: 32px;
+    padding: 0 8px;
+    pointer-events: none;
+  }
+  
+  .tinder--card p {
+    margin-top: 24px;
+    font-size: 20px;
+    padding: 0 16px;
+    pointer-events: none;
+  }
+  
+  .tinder--buttons {
+    flex: 0, 0, 100px;
+    padding-top: 10px;
+    position: relative;
+  }
+  
+  .tinder--buttons button {
+    border-radius: 50%;
+    width: 7vw;
+    height: 10vh;
+    border: 0;
+    background: white;
+    display: inline-block;
+  }
+  
+  .tinder--buttons button:focus {
+    outline: 1;
+  }
+  
+  .tinder--buttons i {
+    vertical-align: middle;
+  }
 
-@-webkit-keyframes yay {
-  from {
-    -webkit-transform: rotate(0deg);
-    opacity: 1;
+  
+  .fa-heart {
+    color: red;
   }
-  to {
-    -webkit-transform: rotate(40deg) translateY(-80px);
-    opacity: 0;
+  
+  .fa-remove {
+    color: green;
   }
-}
-
-@keyframes nope {
-  from {
-    transform: rotate(0deg);
-    opacity: 1;
-  }
-  to {
-    transform: rotate(-40deg) translateY(-80px);
-    opacity: 0;
-  }
-}
-
-@-webkit-keyframes nope {
-  from {
-    -webkit-transform: rotate(0deg);
-    opacity: 1;
-  }
-  to {
-    -webkit-transform: rotate(-40deg) translateY(-80px);
-    opacity: 0;
-  }
-}
+  
