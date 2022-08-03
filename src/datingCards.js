@@ -59,7 +59,7 @@ class RetrievedPet {
 
 
 //generate pictures and data for dating cards
-function setupCards () {
+async function setupCards () {
     console.log("Pet List setup executed")
     let mainList = document.getElementById("tinder--container");
     let idArray = Array();
@@ -87,6 +87,8 @@ function setupCards () {
     //                     console.log(pets[27].images[0]);
     //                 }
     // }
+
+    async function getPets()
 
     axios
         .get('/readPetsForCards')
