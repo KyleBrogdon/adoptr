@@ -6,7 +6,8 @@ module.exports = {
         'scripts/siteAdmin/users': path.join(__dirname, "src", "siteAdmin", "users.js"),
         'scripts/siteAdmin/shelters': path.join(__dirname, "src", "siteAdmin", "shelters.js"),
         'scripts/user/user': path.join(__dirname, "src", "user", "user.js"),
-        'scripts/pets/datingCards': path.join(__dirname, "src", "datingCards.js")
+        'scripts/pets/datingCards': path.join(__dirname, "src", "datingCards.js"),
+        'scripts/user/petProfile': path.join(__dirname, "src", "petProfile.js")
 
       },
     mode: 'development',
