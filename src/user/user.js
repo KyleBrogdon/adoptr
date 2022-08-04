@@ -3,7 +3,6 @@
 // CREATE/READ/UPDATE to the user table
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
-const { response } = require("express");
 
 
 
@@ -235,53 +234,29 @@ function updatePassword(){
       user.newPassword = document.getElementById("newPassword").value;
       user.oldPassword = document.getElementById("currentPassword").value;
     
-      const status = false
-      axios.get(`/dbUsers/${user.userid}/${user.oldPassword}`).then((response) => {
-        if(response.status >= 200 && response.status < 300){
-          let data = response.data
-          let validPass = data.userpassword
-          if (validPass == user.oldPassword){
-            return true
-          }
+      axios.put(`/dbUserPassword/${user.userid}`,{
+        userpassword: user.newPassword
+      }).then((response) => {
+        console.log(response.status)
+        if (response.status >= 200 && response.status<300) {
+          console.log("password updated");
+          let element = document.createElement('div');
+          element.innerHTML = `Password Updated`;
+          element.setAttribute("class","alert alert-primary");
+          element.setAttribute("id","password message");
+          updatefield.appendChild(element);
+          
+        }else{
+          console.log("API error");  
+          console.log("password failed");
+          let element = document.createElement('div');
+          element.innerHTML = `Password Failed`;
+          element.setAttribute("class","alert alert-danger");
+          element.setAttribute("id","password message");
+          updatefield.appendChild(element);
+                
         }
-        else{
-          console.log('API error')
-        }
-      })
-      
-
-      if(status){
-        axios.put(`/dbUserPassword/${user.userid}`,{
-          userpassword: user.newPassword
-        }).then((response) => {
-          console.log(response.status)
-          if (response.status >= 200 && response.status<300) {
-            console.log("password updated");
-            let element = document.createElement('div');
-            element.innerHTML = `Password Updated`;
-            element.setAttribute("class","alert alert-primary");
-            element.setAttribute("id","password message");
-            updatefield.appendChild(element);
-            
-          }else{
-            console.log("API error");  
-            console.log("password failed");
-            let element = document.createElement('div');
-            element.innerHTML = `Password Failed`;
-            element.setAttribute("class","alert alert-danger");
-            element.setAttribute("id","password message");
-            updatefield.appendChild(element);
-          }
-        })  
-      }else{
-        console.log("API error");  
-        console.log("password failed");
-        let element = document.createElement('div');
-        element.innerHTML = `Password Failed`;
-        element.setAttribute("class","alert alert-danger");
-        element.setAttribute("id","password message");
-        updatefield.appendChild(element);
-      }
+      })  
   }
   else{ 
     console.log("new password does not match");
@@ -415,27 +390,6 @@ function resetRejectsTable(){
   })
 
 }
-
-
-async function checkPassword(user){
-  const response = await axios.get(`/dbUsers/${user.userid}/${user.oldPassword}`).then((response) => {
-    if(response.status >= 200 && response.status < 300){
-      let data = response.data
-      let validPass = data.userpassword
-      if (validPass == user.oldPassword){
-        return true
-      }
-      else{
-        return false  
-      }
-
-    }
-    else{
-      console.log('API error')
-    }
-  })
-  return response
-} 
 
 async function getShelter(pet){
   const response = await axios.get(`/shelter/${pet.shelterid}`).then((response) => {
