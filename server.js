@@ -2,7 +2,7 @@ const express = require("express");
 const ejs = require("ejs");
 const session = require("express-session");
 
-const PORT = process.argv[2] || 3000; //sets port for site, default to 3000
+const PORT = process.env.PORT || 3000; //dynamically acquire ports, default to 3000 if not assigned
 
 let app = express();
 app.set("view engine", "ejs");
