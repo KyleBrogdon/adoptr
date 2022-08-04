@@ -1,9 +1,9 @@
 const { default: axios } = require("axios");
+const { get } = require("lodash");
 
 // work in progress
 console.log('running dating cards script');
 let pets = Array();
-let tempArray = Array("https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56509313/1/?bust=1659201126", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56509316/1/?bust=1659200455", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56483375/1/?bust=1658971544", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56483288/2/?bust=1658970763", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56450040/4/?bust=1658970812", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56329461/1/?bust=1657869073", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56328152/1/?bust=1657847814", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56206162/1/?bust=1657072686", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56094788/1/?bust=1656307150", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/55982038/1/?bust=1655574637", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/55981772/1/?bust=1655574035", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/55702407/2/?bust=1655866896");
 
 class RetrievedPet {
     constructor(
@@ -39,23 +39,22 @@ class RetrievedPet {
     generateCard() {
         let div = document.createElement("div");
         div.setAttribute('class', "tinder--card")
-        if (this.petid < 9) {
+        // check if images were uploaded
+        if (this.images === undefined || this.images.length == 0) {
             div.innerHTML = `
-            <img src= "${this.images[0]}">
+            <img src= "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930">
             <h3>${this.petname}</h3>
             `;
         } else {
             div.innerHTML = `
-            <img src= "${tempArray[0]}">
+            <img src= "${this.images[0]}">
             <h3>${this.petname}</h3>
             `;
-            tempArray.splice(0, 1);
         }
         return div;
     }
 
 };
-
 
 
 //generate pictures and data for dating cards
@@ -65,167 +64,37 @@ async function setupCards () {
     let idArray = Array();
     let counter = 0;
 
-    // const petRes = await axios.get('/pet');
-    // const petResData =  petRes.data;
-    // for (let i = 0; i < petRes.data.length; i++){
-    //     pets.push(new RetrievedPet(petResData[i].petid, petResData[i].petname, petResData[i].age, petResData[i].sex, petResData[i].blurb,
-    //         petResData[i].dateprofile, petResData[i].sizeid, petResData[i].snstatus, petResData[i].ststatus, petResData[i].avid, petResData[i].typeid, petResData[i].shelterid));
-    // };
-    // console.log(pets[4]);
-    // for (let x = 0; x < pets.length; x++){
-    //     let imageRes = await axios.get(`/getPetImages/${pets[x].petid}`);
-    //     let imageResData = imageRes.data;
-    //     console.log(imageResData);
-    //     if (imageResData.petid == pets[x].petid) {
-    //                     console.log (imageResData.imageurl);
-    //                     pets[x].images.push(imageResData.imageurl)
-    //                 }
-    //                 if (imageResData.petid == 27) {
-    //                     console.log(pets[27])
-    //                     console.log(pets[27].images);
-    //                     console.log(pets[27].images.length);
-    //                     console.log(pets[27].images[0]);
-    //                 }
-    // }
-
     async function getPets(){
-        return 1;
+        const response = await axios.get('/readPetsForCards')
+        return response.data
     };
+    let resp = await getPets();
+    for (let i = 0; i < resp.length; i++){
+        pets.push(new RetrievedPet(resp[i].petid, resp[i].petname, resp[i].age, resp[i].sex, resp[i].blurb,
+            resp[i].dateprofile, resp[i].sizeid, resp[i].snstatus, resp[i].ststatus, resp[i].avid, resp[i].typeid, resp[i].shelterid, Array()));
+            idArray.push(resp[i].petid);
+    }
 
-    axios
-        .get('/readPetsForCards')
-        .then((response) => {
-            console.log(response.status);
-            if (response.status == 200) {
-                const parsedJson = response.data
+    async function getAllImages() {
+        const response = await axios.get(`/getAllImages`);
+        return response.data;
+    }
 
-                parsedJson.forEach(pet => {
-                    pets.push(new RetrievedPet(pet.petid, pet.petname, pet.age, pet.sex, pet.blurb,
-                        pet.dateprofile, pet.sizeid, pet.snstatus, pet.ststatus, pet.avid, pet.typeid, pet.shelterid, Array()));
-                        idArray.push(pet.petid);
-                })
-            }      console.log(pets[counter].images)
-            Promise.all(pets).then(results => {
-                console.log(results);
-            })
-            ;})
-        .then(() => {
-            pets.forEach(pet => {
-                // select all images from pet_image table where petid matches a pet
-               axios.get(`/getPetImages/${pet.petid}`).then((response) => {
-                    if (response.status == 200) {
-                        const petJson = response.data
-                        // if (petJson.petid == 27){
-                        //     tempArray.push(petJson.imageurl);
-                        // }
-                        // iterate through both arrays, update each Pet in the Pets array with image values
-                        petJson.forEach(image => {
-                            if (image.petid == pet.petid) {
-                                pet.images.push(image.imageurl)
-                            }
-                            if (image.petid == 27) {
-                                console.log(pets[27])
-                                console.log(pets[27].images);
-                            }
-                        })
-                    }
-                })
-            })
-
-        // console.log(pets[0])
-
-        
-        //    promiseRecursive(pets[0]).then(console.log(pets[0]));
-
-
-        //     function promiseRecursive(obj) {
-        //         const getPromises = obj =>
-        //             Object.keys(obj).reduce( (acc, key) =>
-        //                 Object(obj[key]) !== obj[key]
-        //                     ? acc
-        //                     : acc.concat(
-        //                         typeof obj[key].then === "function"
-        //                             ? [[obj, key]]
-        //                             : getPromises(obj[key])
-        //                       )
-        //             , []);
-        //         const all = getPromises(obj);
-        //         return Promise.all(all.map(([obj, key]) => obj[key])).then( responses =>
-        //             (all.forEach( ([obj, key], i) => obj[key] = responses[i]), obj) 
-        //         );
-        //     }
-
-
-            // function resolvePromises(obj){
-            //     let resolvedObj = []
-            //     return Promise.all(Object.keys(obj).map(service => {
-            //         return Promise.all(obj[service]).then(result => resolvedObj[service] = result)
-            //     })).then(result => resolvedObj);
-            // }
-
-
-        //     async function Resolve(array){
-        //     Promise.all(pets).then(results => {
-        //     console.log(results);
-        //     })
-        // }
-
-        // resolve(pets);
-        // console.log(pets);
-
-        // const {
-        //     isArray,
-        //     isPlainObject,
-        //     zipObject
-        //   } = require('lodash');
-          
-        //   async function resolve(value) {
-        //     // Await the value in case it's a promise.
-        //     const resolved = await value;
-          
-        //     if (isPlainObject(resolved)) {
-        //       const keys = Object.keys(resolved);
-        //       // Recursively resolve object values.
-        //       const resolvedValues = await Promise.all(
-        //         Object.values(resolved).map(resolve)
-        //       );
-        //       return zipObject(keys, resolvedValues);
-        //     } else if (isArray(resolved)) {
-        //       // Recursively resolve array values.
-        //       return Promise.all(resolved.map(resolve));
-        //     }
-          
-        //     return resolved;
-        //   }
-
-        // Promise.allRecursive(pets);
-
-        // Promise.allRecursive = function (entity) {
-        //     const keys = Object.keys(entity)
-        //     return Promise.all(keys.map(key => {
-        //         const value = entity[key]
-        //         if (typeof value === 'object' && !value.then) {
-        //           return Promise.allRecursive(value)
-        //         }
-        //         return value
-        //       }))
-        //       .then(
-        //         data => 
-        //           keys.reduce((accumulator, currentKey, index) => {
-        //             accumulator[currentKey] = data[index]
-        //             return accumulator
-        //           }, Array.isArray(entity) ? [] : {})
-        //       )
-        //   }
+    let respImgs = await getAllImages();
+    pets.forEach (pet => {
+        for (let x = 0; x < respImgs.length; x++){
+            if (respImgs[x].petid == pet.petid){
+                pet.images.push(respImgs[x].imageurl)
+            }
+        }
+    })
 
 
             // insert cards 
-            let i = 0;
                 pets.forEach((pet) => {
                     if (pet.petid < 9){
                         return}
                     mainList.appendChild(pet.generateCard());
-                    i = i + 1;
                 // add blurb
                 //   addEventListeners(user);
                 })
@@ -247,7 +116,8 @@ async function setupCards () {
             }
     
             initCards();
-            // issues with animations, need to fix
+
+            // issues with swipe animations, stretch goal to fix
 
             // allCards.forEach(function (el) {
             //     var hammertime = new Hammer(el);
@@ -317,12 +187,6 @@ async function setupCards () {
 
                     initCards();
                     event.preventDefault();
-                    // if (love){
-                    //     var w = window.open(',','width = 100, height = 100');
-                    //     w.document.write("Pet added to favorites");
-                    //     w.focus()
-                    //     setTimeout(function() {w.close()}, 3000)
-                    // }
                 };
             }
 
@@ -331,60 +195,7 @@ async function setupCards () {
 
             nope.addEventListener('click', nopeListener);
             love.addEventListener('click', loveListener);
-
-        })
         
-
-
-            // loop through eat Pet in the Pets array
-            // async function getImages(pet){
-            //         let response = await axios.get(`/getPetImages/${pet.petid}`);
-            //             if (response.status == 200) {
-            //                 console.log(response.data);
-            //                 return response.data
-            //          // iterate through both arrays, update each Pet in the Pets array with image values
-            //             };
-            //     }
-            
-            // await storeImages()
-
-        //     async function storeImages(){
-        //         for (const pet of pets){
-        //         let petJson = await getImages(pet) 
-        //         console.log(petJson.petid);
-        //         if (petJson.petid == pet.petid) {
-        //             console.log (petJson.imageurl);
-        //             pet.images.push(petJson.imageurl)
-        //         }
-        //         if (petJson.petid == 27) {
-        //             console.log(pets[27])
-        //             console.log(pets[27].images);
-        //             console.log(pets[27].images.length);
-        //             console.log(pets[27].images[0]);
-        //         }
-        //     }
-        // }
-
-            // pets.forEach(pet => {
-            //     // select all images from pet_image table where petid matches a pet
-            //    axios.get(`/getPetImages/${pet.petid}`).then((response) => {
-            //         if (response.status == 200) {
-            //             const petJson = response.data
-            //             // iterate through both arrays, update each Pet in the Pets array with image values
-            //             petJson.forEach(image => {
-            //                 if (image.petid == pet.petid) {
-            //                     pet.images.push(image.imageurl)
-            //                 }
-            //                 if (image.petid == 27) {
-            //                     console.log(pets[27])
-            //                     console.log(pets[27].images);
-            //                     console.log(pets[27].images.length);
-            //                     console.log(pets[27].images[0]);
-            //                 }
-            //             })
-            //         }
-            //     })
-            // })
 
 
 };

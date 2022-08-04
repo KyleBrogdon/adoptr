@@ -61,6 +61,7 @@ app.get("/petshelter/:shelterid", pets.readPetShelter);
 app.get("/pet", pets.readPets);
 app.get("/readPetsForCards", pets.readPetsForCards);
 app.get("/getPetImages/:petid", pets.getPetImages);
+app.get("/getAllImages", pets.getAllImages);
 app.post("/pet", pets.createPet);
 app.put("/pet/:petid", pets.updatePet);
 app.delete("/pet/:petid", pets.deletePet);
