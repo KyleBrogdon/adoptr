@@ -5,8 +5,13 @@ const { table } = require("console");
 const fs = require("fs");
 const path = require("path");
 
-//update credentials with your local db info
+//for web deployment, comment this out if testing locally
 const credentials = {
+
+  //host: "ec2-3-224-184-9.compute-1.amazonaws.com",
+  //user: "wbzkszrqyydneh",
+  //password: "c66bc34eae0b43e4317b1c08e1b5771905c38a5e653e8dcea41ccc04a24dcae3",
+  //database: "d5khufng7stn58",
 
   host: "localhost",
   user: "postgres",
@@ -14,6 +19,16 @@ const credentials = {
   database: "adoptrdb",
   port: 5432,
 }
+
+//update credentials with your local db info. Uncomment if testing local
+// const credentials = {
+
+//     host: "localhost",
+//     user: "postgres",
+//     password: "password",
+//     database: "adoptrdb",
+//     port: 5432,
+//   }
 
 
 function executeQuery(newpath){

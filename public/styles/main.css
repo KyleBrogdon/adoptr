@@ -8,6 +8,7 @@
     background: #ecf8f9;
     font-family: sans-serif;
   }
+
   
   h1.datingCard--title{
     text-align: center;
@@ -154,4 +155,19 @@
   .fa-remove {
     color: green;
   }
+
+
+  /* petProfiles row */
+  /* Three image containers (use 25% for four, and 50% for two, etc) */
+.petColumn {
+    float: left;
+    width: 33.33%;
+    padding: 5px;
+  }
   
+  /* Clear floats after image containers */
+  .petRow::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
