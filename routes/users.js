@@ -1,8 +1,8 @@
 const express = require("express");
-//const pool = require("../sql/sql_init");
+//const pool = require("../sql/sql_Init");
 const router = express.Router();
 //const db = require('../sql/admin')
-//const pool = require('../sql/sql_init');
+//const pool = require('../sql/sql_Init');
 
 //shelter Admin profile
 router.get("/userProfile", (req, res) => {
