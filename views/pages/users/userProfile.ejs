@@ -10,7 +10,7 @@
     <div class="container overflow-hidden">
       <div class="row">
         <div  id="profileFields" class="col" style="padding-right: 10%;">
-            <h6 class="display-6" style ="text-decoration: underline;">User Profile</h6>
+
             <data hidden id="hidden-userID"></data>
             <!-- <div id="profileUpdateField"></div> -->
         </div>
@@ -18,31 +18,7 @@
     <br><br.<br>
     <div class="row">
         <div class="col" id =profileUpdateField >
-            <!-- <div class = row>
-                <div id="nameUpdateField" class="col" style="padding-left: 10%;">
-                    <div class="mb-3">
-                        <h3 class="display-6" style ="text-decoration: underline;" id="currentName"> Name</h6>
-                        
-                    </div>
-                    <div class="mb-3">
-                        <input type="name" class="form-control" id="newName">
-                    </div>
-    
-                    <button class="btn btn-primary" id="updateName">Update</button>
-                    <br><br>
-                </div>
-            </div>
-            <div class = "row">
-                <div id="nameUpdateField" class="col" style="padding-left: 10%;">
-                    <h6 class="display-6" style ="text-decoration: underline;">email</h6>
-                    <div class="mb-3">
-                      <input class="form-control" id="newEmail">
-                    </div>
-                  <button class="btn btn-primary" id="updateName">Update</button>
-                  <br><br>
-                </div>
-            </div> -->
-
+          <h6 class="display-6" style ="text-decoration: underline;">User Profile</h6>
         </div>
         <div class="col">
           <div id="passwordUpdateField" class="col" style="padding-left: 10%;">
@@ -101,7 +77,6 @@
           <tr>
             <th scope="col">Name</th>
             <th scope="col">type</th>
-            <th scope="col">breed</th>
             <th scope="col">age</th>
             <th scope="col">sex</th>
             <th scope="col">Actions</th>           
@@ -123,26 +98,19 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal fade" id="petModal" tabindex="-1" aria-labelledby="petModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalTitle">Pet Details</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" id="petModalBody">
+            <img id="petIMG">
             <h6 class="display-6" style ="text-decoration: underline; padding-top: 2%;"></h6>
             <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">location</th>
-                </tr>
-              </thead>
               <tbody id="modal-table">
-
               </tbody>
-
             </table>
           </div>
         </div>

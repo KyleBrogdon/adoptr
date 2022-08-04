@@ -11,7 +11,7 @@ const credentials = {
   host: "localhost",
   user: "postgres",
   password: "password",
-  database: "postgres",
+  database: "adoptrdb",
   port: 5432,
 }
 

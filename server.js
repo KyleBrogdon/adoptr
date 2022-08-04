@@ -17,6 +17,7 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use('/images', express.static('images'))
 
 ///////////////main routes//////////////////////
 const adminRoutes = require("./routes/siteAdmin");
@@ -53,7 +54,10 @@ app.get("/dbUsers/:property/:value", dbUsers.searchUser);
 app.get("/dbUsers/:userid/:password", dbUsers.readUserCredential);
 app.post("/dbUsers", dbUsers.createUser);
 app.put("/dbUsers/:userid", dbUsers.updateUser);
+app.put("/dbUserPassword/:userid", dbUsers.updateUserPassword)
+app.put("/dbUserNameEmail/:userid", dbUsers.updateUserNameEmail)
 app.delete("/dbUsers/:userid", dbUsers.deleteUser);
+
 
 //pet API endpoints
 app.get("/pet/:petid", pets.readPet);

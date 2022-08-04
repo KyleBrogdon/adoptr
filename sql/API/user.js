@@ -87,6 +87,47 @@ const updateUser = (request, response) => {
   );
 };
 
+
+const updateUserPassword = (request, response) => {
+  const id = parseInt(request.params.userid);
+  const {userpassword} =
+    request.body;
+
+  pool.query(
+    "UPDATE app_user \
+    SET userpassword = $2 \
+    WHERE userid = $1",
+    [id, userpassword],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`User modified with ID: ${id}`);
+    }
+  );
+};
+
+const updateUserNameEmail = (request, response) => {
+  const id = parseInt(request.params.userid);
+  const { firstname, lastname, email} =
+    request.body;
+
+  pool.query(
+    "UPDATE app_user \
+    SET firstname = $1, lastname = $2, email = $3 \
+    WHERE userid = $6",
+    [firstname, lastname, email, id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`User modified with ID: ${id}`);
+    }
+  );
+};
+
+
+
 const deleteUser = (request, response) => {
   const id = parseInt(request.params.userid);
   console.log("DELETE/" + id);
@@ -128,4 +169,6 @@ module.exports = {
   updateUser,
   deleteUser,
   searchUser,
+  updateUserPassword,
+  updateUserNameEmail
 };
