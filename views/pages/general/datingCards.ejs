@@ -27,6 +27,25 @@
         </div class>
       </div>
 
+          <!-- Modal -->
+    <div class="modal fade" id="petModal" tabindex="-1" aria-labelledby="petModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalTitle">Pet Details</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="petModalBody">
+              <img id="petIMG">
+              <h6 class="display-6" style ="text-decoration: underline; padding-top: 2%;"></h6>
+              <table class="table table-striped">
+                <tbody id="modal-table">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
     <%- include('../../partials/footer'); %>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
