@@ -3,6 +3,7 @@ const { query } = require("express");
 const express = require("express");
 const router = express.Router();
 const pool = require("../sql_init");
+console.log('hi');
 
 const readAdminShelters = (request, response) => {
   pool.query("SELECT * FROM admin_shelter", (error, results) => {
