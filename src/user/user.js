@@ -1,138 +1,99 @@
 // user Profile script
 // Database access:
 // CREATE/READ/UPDATE to the user table
+const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
 
 
 
-// const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
-//     keyboard: false
-// });
+const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
+    keyboard: false
+});
 
 
 class petEntry {
   constructor(
-    petID,
-    petName,
-    petAge,
-    petSex,
-    petSN,
-    petST,
-    petBlurb,
-    petSize,
-    petType,
-    petAvailability,
-    petBreed,
-    petPic
+    petid,
+    petname,
+    age,
+    sex,
+    snstatus,
+    ststatus,
+    blurb,
+    sizeid,
+    typeid,
+    avid,
+    shelterid,
+    images
   ) {
-    this.petID = petID;
-    this.petName = petName;
-    this.petAge = petAge;
-    this.petSex = petSex;
-    this.petSN = petSN;
-    this.petST = petST;
-    this.petBlurb = petBlurb;
-    this.petSize = petSize;
-    this.petType = petType;
-    this.petAvailability = petAvailability;
-    this.petBreed = petBreed;
-    this.petPic = petPic
+    this.petid = petid;
+    this.petname = petname;
+    this.age = age;
+    this.sex = sex;
+    this.snstatus = snstatus;
+    this.ststatus = ststatus;
+    this.blurb = blurb;
+    this.sizeid = sizeid;
+    this.typeid = typeid;
+    this.avid = avid;
+    this.shelterid = shelterid;
+    this.images = images; // empty array that we will store all pet imageURLs in later
   }
 
   generateRow() {
     let element = document.createElement("tr");
     element.innerHTML = `
-      <th scope="row">${this.petName}</th>
-      <td>${this.petType}}</td>
-      <td>${this.petBreed}}</td>
-      <td>${this.petAge}}</td>
-      <td>${this.petSex}}</td>
+      <th scope="row">${this.petname}</th>
+      <td>${this.typeid}</td>
+      <td>${this.age}</td>
+      <td>${this.sex}</td>
       <td>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petID}" value = "${this.petID}">Expand</button>
-      </td>
-      <td>
-          <button type="button" class="btn btn-outline-primary btn-sm" id="unfav-button-${this.petID}" value = "${this.petID}">Unfav</button>
+        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petid}" value = "${this.petid}">Expand</button>
+        <button type="button" class="btn btn-outline-primary btn-sm" id="unfav-button-${this.petid}" value = "${this.petid}">Unfav</button>
       </td>
     `;
     return element;
   }
 
-  getSize(){
-    axios.get(`/size/${this.petSize}`).then((response) => {
-      if(response.status >= 200 && response.status < 300){
-        var sizedata = response.data
-        this.petSize = sizedata.petsize
-      }
-      else{
-        console.log('API error')
-      }
-    })
-  }
-
-  getType(){
-    axios.get(`/type/${this.petType}`).then((response) => {
-      if(response.status >= 200 && response.status < 300){
-        var typedata = response.data
-        this.petType = typedata.typename
-      }
-      else{
-        console.log('API error')
-      }
-    })
-  }
-
-  getAvailability(){
-    axios.get(`/availability/${this.petAvailability}`).then((response) => {
-      if(response.status >= 200 && response.status < 300){
-        var availdata = response.data
-        this.petAvailability = availdata.pet_availability
-      }
-      else{
-        console.log('API error')
-      }
-    })
-  }
-
-  getBreed(){
-    axios.get(`petbreedPID/${this.petID}`).then((response)=>{
-      if(response.status >= 200 && response.status < 300){
-        var pbData = response.data
-        pbID = pbData.breedID
-        axios.get(`/breed/${pbID}`).then((response) => {
-          if(response.status >= 200 && response.data < 300){
-            var breedData = response.data
-            this.petBreed = breedData.breedname
-          }
-          else{
-            console.log('API error')
-          }
-        })
-      }else{
-        console.log('API error')
-      }
-    })
-  }
-
-  getImages(){
-    axios.get(`/getPetImages/${this.petID}`).then((response) => {
-      if(response.status >= 200 && response.status < 300){
-        var imageData = response.data
-        return imageData.imageurl
-      }
-      else{
-        console.log('API error')
-      }
-    })
-  }
-
 };
 
+
+
+const getBasePetInfo = async (pet) =>{
+  try{
+    const resp = await axios.get(`/pet/${pet.petid}`).then((response) => {
+      if (response.status == 200 && response.status < 300) {
+        const petResponse = response.data
+        console.log(petResponse)
+        return new petEntry(
+            JSON.stringify(petResponse[0].petid), petResponse[0].petname,
+            petResponse[0].age, petResponse[0].sex,
+            JSON.stringify(petResponse[0].snstatus), JSON.stringify(petResponse[0].ststatus),
+            petResponse[0].blurb, JSON.stringify(petResponse[0].sizeid),
+            JSON.stringify(petResponse[0].typeid), JSON.stringify(petResponse[0].avid), JSON.stringify(petResponse[0].shelterid),
+            null
+          )
+      }else{
+        console.log('failed pet pull')
+      }
+    })
+    console.log(resp)
+    return resp
+  }catch(err){
+
+  }
+}
+
+
+
+
+
 function unfav(pet){
-  document.getElementById(`unfav-button-${pet.petID}`).addEventListener("click",() => {
-      axios.delete(`/favPets/${pet.petID}`).then((response) => {
+  document.getElementById(`unfav-button-${pet.petid}`).addEventListener("click",() => {
+      axios.delete(`/favPets/${pet.petid}`).then((response) => {
           console.log(response.status)
           if (response.status == 200) {
-            console.log(pet.petID + " deleted")
+            console.log(pet.petid + " deleted")
             location.reload();
   
           }else{
@@ -145,24 +106,44 @@ function unfav(pet){
 
 
 function petDetails(pet){
-  document.getElementById(`expand-button-${pet.petID}`).addEventListener("click", () => {
+  document.getElementById(`expand-button-${pet.petid}`).addEventListener("click", () => {
       let modalTable = document.getElementById("modal-table");
   
       while(modalTable.firstChild){
           modalTable.removeChild(modalTable.firstChild)
       }
   
-      var id = pet.petID
-      headers =['Name','Age','Sex','Type','Breed','Spayed/Neutered','Shots','Size','Availability']
-      values = [pet.petName, pet.petAge, pet.petSex, pet.petType, pet.petBreed, pet.petSN, pet.petST, pet.petSize, pet.petAvailability]
-      
-      var pic = pet.petPic
-      //   var req = new XMLHttpRequest();
-      //   var payload = "/user/orderItems?orderID=" + id.orderId;
-      //   console.log(payload);
-      //   req.open("GET", payload, true);
-      //   req.send();
+      let pID = pet.petid
+      headers =['Name','Age','Sex','Spayed/Neutered','Shots','blurb','Size','type','Availability','shelter']
+      values =[
+        pet.petname,
+        pet.age,
+        pet.sex,
+        pet.snstatus,
+        pet.ststatus,
+        pet.blurb,
+        pet.sizeid,
+        pet.typeid,
+        pet.avid,
+        pet.shelterid,
+      ]
 
+      const img = document.getElementById("petIMG")
+      img.src = "/images/image-not-found.png"
+      img.className = "img-thumbnail mx-auto d-block"
+      img.style="width: 300px; height: 300px; object-fit: cover;"
+
+      const pics = pet.images
+      picL = pics.length;
+      if(picL > 0){
+        console.log(pics[0])
+        let pic = pics[0].imageurl
+        console.log(pic)
+        console.log(img)
+        img.src = pic
+      }
+
+      console.log(pet.images.length)
 
       for (let i  = 0; i < values.length; i++){
           console.log(headers[i] + " " + values[i])
@@ -199,27 +180,6 @@ function selectProperty(){
           
           if (parsedJson.length > 0){
             console.log("results exist")
-
-          // parsedJson.forEach(user => {
-          //   if(user.userid != 1){
-          //     if (user.adminstatus){
-          //       user.adminstatus = "true"
-          //     }
-          //     else{
-          //       user.adminstatus = "false"
-          //     }
-          //     console.log(user)
-          //     users.push(new UserEntry(user.userid, user.firstname, user.lastname, user.email, user.password, user.adminstatus));
-          //   }
-          // });
-        
-        
-          // // Activate buttons for detailed item views
-          // users.forEach((user) => { 
-          //   mainList.appendChild(user.generateRow());
-          //   userPK.append(user.generateOption());
-          //   addEventListeners(user);
-          // })
 
           } else{
             console.log("no results returned")
@@ -258,11 +218,7 @@ function selectProperty(){
 }
 
 
-
 function updatePassword(){
-/*   console.log("updating password")
-  console.log(document.getElementById('currentPassword').value);
-  console.log(document.getElementById('newPassword').value); */
   let updatefield = document.getElementById("passwordUpdateField");
 
   if(document.body.contains(document.getElementById("password message"))){
@@ -273,14 +229,13 @@ function updatePassword(){
     && document.getElementById('newPassword').value.length > 0
     && document.getElementById('confirmPassword').value.length > 0 
     && document.getElementById('newPassword').value == document.getElementById('confirmPassword').value){
-      var user ={userID:null, newPassword: null, oldPassword: null};
-      user.userID = document.getElementById("userID").value;
+      var user ={userid:null, newPassword: null, oldPassword: null};
+      user.userid = document.getElementById("hidden-userID").value;
       user.newPassword = document.getElementById("newPassword").value;
       user.oldPassword = document.getElementById("currentPassword").value;
     
-      axios.put(`/userPasswordUpdate/${user.userid}`,{
-        oldPassword: user.oldPassword,
-        newPassword: user.newPassword
+      axios.put(`/dbUserPassword/${user.userid}`,{
+        userpassword: user.newPassword
       }).then((response) => {
         console.log(response.status)
         if (response.status >= 200 && response.status<300) {
@@ -314,7 +269,6 @@ function updatePassword(){
 }
 
 
-
 function updateProfile(){
   console.log("updating profile")
 
@@ -328,13 +282,13 @@ function updateProfile(){
   && document.getElementById('InputLastName').value.length > 0
   && document.getElementById('InputEmail').value.length > 0){
     
-    var user ={userID:null, firstName: null, lastName: null, email:null};
-    user.userID = document.getElementById("userID").value;
-    user.firstName = document.getElementById("InputFirstName").value;
-    user.lastName = document.getElementById("InputLastName").value;
+    var user ={userid:null, firstname: null, lastname: null, email:null};
+    user.userid = document.getElementById("hidden-userID").value;
+    user.firstname = document.getElementById("InputFirstName").value;
+    user.lastname = document.getElementById("InputLastName").value;
     user.email = document.getElementById("InputEmail").value;
 
-    axios.put(`/userUpdateProfile/${user.userid}`,{
+    axios.put(`/dbUserNameEmail/${user.userid}`,{
       firstname: user.firstname,
       lastname: user.lastname,
       email : user.email
@@ -367,38 +321,6 @@ function updateProfile(){
     updatefield.appendChild(element);
   }
 }
-
-function executeQuery(pet,petArray){
-  return new Promise((resolve,reject) =>{
-    axios.get(`/pet/${pet.petid}`).then((response) => {
-      if (response.status == 200 && response.status < 300) {
-        const petResponse = response.data
-        console.log(petResponse)
-        petArray.push(
-          new petEntry(
-            petResponse.petID, petResponse.petName,
-            petResponse.petAge, petResponse.petSex,
-            petResponse.petSN, petResponse.petSN,
-            petResponse.petBlurb, petResponse.petSize,
-            petResponse.petType, petResponse.petAvailability,
-            petResponse.petBreed, null
-          )
-        );
-      }else{
-        console.log('failed pet pull')
-        reject('failed pet pull');
-      }
-      resolve(console.log('call complete'))
-    })
-  })
-}
-
-// async function compileList(petArray){
-//   for (const pet of petArray){
-//     await executeQuery(pet,petArray)
-//   }
-// }
-
 
 
 function resetLikesTable(){
@@ -469,13 +391,103 @@ function resetRejectsTable(){
 
 }
 
+async function getShelter(pet){
+  const response = await axios.get(`/shelter/${pet.shelterid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
+} 
+
+async function getSize(pet){
+  const response = await axios.get(`/size/${pet.sizeid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
+} 
+
+async function getType(pet){
+  const response = await axios.get(`/type/${pet.typeid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
+} 
+
+async function getAvailability(pet){
+  const response = await axios.get(`/availability/${pet.avid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
+} 
+
+async function getImage(pet){
+  const response = await axios.get(`/getPetImages/${pet.petid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
+} 
+
+async function updatePet(pet){
+  console.log(pet)
+  let size = await getSize(pet)
+
+  let type = await getType(pet)
+
+  let avail = await getAvailability(pet)
+
+  let pics = await getImage(pet)
+
+  let shelter = await getShelter(pet)
+  console.log(size)
+  console.log(type)
+  console.log(avail)
+  console.log(pics)
+  console.log(shelter)
+
+  pet.sizeid =size
+  pet.typeid =type
+  pet.avid = avail
+  pet.images =pics
+}
+
 
 const setupList = async () => {
   let user ={userID: null}
   user.userID = 5 //test
   console.log('setting up list')
   document.getElementById('hidden-userID').value = user.userID
-  axios.get(`/dbUsers/${user.userID}`).then((response) => {
+
+  // const userCallTest = await fetch(`/dbUsers/${user.userID}`)
+  // const profileResponse = await userCallTest.json();
+
+  // console.log(profileResponse[0])
+
+
+  const userCall = await axios.get(`/dbUsers/${user.userID}`).then((response) => {
     console.log(response);
     if (response.status >= 200 && response.status < 300) {
 
@@ -489,21 +501,21 @@ const setupList = async () => {
       let element1 = document.createElement("div");
       element1.innerHTML = `
         <label for="InputFirstName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="InputFirstName" value="${profileResponse.firstName}">
+        <input type="text" class="form-control" id="InputFirstName" value="${profileResponse[0].firstname}">
       `
       element1.classList.add("mb-3")
     
       let element2 = document.createElement("div");
       element2.innerHTML = `
         <label for="InputLastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="InputLastName" value="${profileResponse.lastName}">
+        <input type="text" class="form-control" id="InputLastName" value="${profileResponse[0].lastname}">
       `
       element2.classList.add("mb-3")
     
       let element3 = document.createElement("div");
       element3.innerHTML = `
         <label for="InputEmail" class="form-label">Email Address</label>
-        <input type="text" class="form-control" id="InputEmail" value="${profileResponse.email}">
+        <input type="text" class="form-control" id="InputEmail" value="${profileResponse[0].email}">
       `
       element3.classList.add("mb-3")
     
@@ -519,54 +531,81 @@ const setupList = async () => {
       userInfo.append(element3);
       userInfo.append(element4);
 
-      axios.get(`/usersavedpet/${user.userID}`).then((response) => {
-        console.log(response.status);
-        if (response.status >= 200 && response.status < 300) {
-          //console.log(response.data)
-          const parsedJson = response.data
-          //console.log(parsedJson);
-          const pets = Array();
-          parsedJson.forEach(pet=>{
-            pets.push(pet)
-          })
-          console.log(pets)
-          //compileList(pets)
-          console.log(pets)
-
-        }
-        else{
-          console.log("API error");
-        }
-      })
-      
-      document.getElementById("loadingbar").style.display = "none";
-        
-      document.getElementById("searchButton").addEventListener("click", () => {
-        selectProperty()
-      });
-    
-      document.getElementById("updatePassword").addEventListener("click", () => {
-        updatePassword();
-      });
-    
-    
-      document.getElementById("updateProfileButton").addEventListener("click", () => {
-        updateProfile();
-      });
-  
-      document.getElementById("resetRejectsButton").addEventListener("click", () => {
-        resetRejectsTable();
-      });
-  
-      document.getElementById("resetLikesButton").addEventListener("click", () => {
-        resetLikesTable();
-      });
-
-
     } else {
       console.log("API error");
     }
   });
+
+
+  const savedPets = await axios.get(`/usersavedpet/${user.userID}`).then((response) => {
+    console.log(response.status);
+    if (response.status >= 200 && response.status < 300) {
+      const petIDList = response.data
+      console.log(petIDList)
+      return petIDList
+    }
+    else{
+      console.log("API error");
+    }
+  })
+
+  console.log(savedPets)
+
+  const mainList = document.getElementById("main-rows");
+  const pets = Array();
+  savedPets.forEach(async petid=>{
+    console.log("getting: " + petid.petid)
+    let newPet = await getBasePetInfo(petid)
+    let size = await getSize(newPet)
+    let type = await getType(newPet)
+    let avail = await getAvailability(newPet)
+    let pics = await getImage(newPet)
+    let shelter = await getShelter(newPet)
+    console.log(size)
+    console.log(type)
+    console.log(avail)
+    console.log(pics)
+    console.log(shelter)
+    newPet.sizeid = size[0].petsize
+    newPet.typeid =type[0].typename
+    newPet.avid = avail[0].pet_availability
+    newPet.images =pics
+    newPet.shelterid = shelter[0].sheltercode
+
+    mainList.appendChild(newPet.generateRow());
+    unfav(newPet)
+    petDetails(newPet)
+    //console.log(newPet)
+    pets.push(newPet)
+  })
+  console.log(pets)
+
+  
+  document.getElementById("loadingbar").style.display = "none";
+    
+  document.getElementById("searchButton").addEventListener("click", () => {
+    selectProperty()
+  });
+
+  document.getElementById("updatePassword").addEventListener("click", () => {
+    updatePassword();
+  });
+
+
+  document.getElementById("updateProfileButton").addEventListener("click", () => {
+    updateProfile();
+  });
+
+  document.getElementById("resetRejectsButton").addEventListener("click", () => {
+    resetRejectsTable();
+  });
+
+  document.getElementById("resetLikesButton").addEventListener("click", () => {
+    resetLikesTable();
+  });
+
+
+
 
 };
 
