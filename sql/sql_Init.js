@@ -5,9 +5,9 @@ const { table } = require("console");
 const fs = require("fs");
 const path = require("path");
 
-//for web deployment, comment this out if testing locally
-const credentials = {
 
+const credentials = {
+//for heruko deployment, comment this out if testing locally
   host: "ec2-3-224-184-9.compute-1.amazonaws.com",
   user: "wbzkszrqyydneh",
   password: "c66bc34eae0b43e4317b1c08e1b5771905c38a5e653e8dcea41ccc04a24dcae3",
@@ -17,6 +17,7 @@ const credentials = {
     rejectUnauthorized: false
   }
 
+// uncomment this for local testing
 //   host: "localhost",
 //   user: "postgres",
 //   password: "password",
