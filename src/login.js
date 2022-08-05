@@ -5,8 +5,8 @@ class LoginInfo{
         username,
         password
     ) {
-    this.username = this.username;
-    this.password = this.password
+    this.username = username;
+    this.password = password
     }
 }
 
@@ -24,9 +24,18 @@ let login = new LoginInfo;
 let loginButton = document.getElementById('loginButton');
 let password = document.getElementById('InputPassword');
 let email = document.getElementById('InputEmail');
+let loginErrorMsg = document.getElementById("login-error-msg");
 loginButton.addEventListener("click", async (e) => {
-    login.username = email.value;
-    login.password = password.value;
+    if (!email.value){
+        login.username = -1;
+    } else {
+        login.username = email.value;
+    }
+    if (!password.value){
+        login.password = -1;
+    } else {
+        login.password = password.value;
+    }
     let validate = await validateLogin(login);
 
     // query returns the number of matching users in the table, if count is 1, valid login.
@@ -35,11 +44,10 @@ loginButton.addEventListener("click", async (e) => {
         //pass id to session
     }
     else {
-        // reload page
-        // display invalid login modal?
+        loginErrorMsg.style.opacity = 1;
     }
     
-})
+});
 }
 
 

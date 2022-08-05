@@ -176,6 +176,7 @@ app.delete("/state/:stateid", shelterstate.deleteState);
 
 //Login API endpoints
 app.get("/login/:email/:userpassword", login.validate)
+app.get("/login/:email", login.checkEmail)
 
 app.get("/", (req, res) => {
   res.render("../views/pages/general/landingPage", {});

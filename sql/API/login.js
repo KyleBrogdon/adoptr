@@ -18,8 +18,22 @@ const validate = (request, response) => {
         })
 }
 
+const checkEmail = (request, response) => {
+    const email = request.params.email;
+    pool.query(
+        "SELECT COUNT(*) FROM app_user WHERE email = $1",
+        [email],
+        (error, results) => {
+          if (error) {
+            throw error;
+          }
+          response.status(200).json(results.rows);
+        })
+}
+
 
 module.exports = {
-    validate
+    validate,
+    checkEmail
 }
 
