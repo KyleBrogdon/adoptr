@@ -7,8 +7,9 @@ module.exports = {
         'scripts/siteAdmin/shelters': path.join(__dirname, "src", "siteAdmin", "shelters.js"),
         'scripts/user/user': path.join(__dirname, "src", "user", "user.js"),
         'scripts/pets/datingCards': path.join(__dirname, "src", "datingCards.js"),
-        'scripts/user/petProfile': path.join(__dirname, "src", "petProfile.js")
-
+        'scripts/user/petProfile': path.join(__dirname, "src", "petProfile.js"),
+        'scripts/shelterAdmin/petProfile': path.join(__dirname, "src", "shelterAdmin","petProfiles.js"),
+        'scripts/shelterAdmin/shelterProfile':path.join(__dirname,"src","shelterAdmin","shelterProfile.js")
       },
     mode: 'development',
     resolve: {

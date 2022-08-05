@@ -126,7 +126,7 @@ async function setupCards() {
     let table = document.getElementById("petProfile--properties");
     let idArray = Array();
     let counter = 0;
-
+    
     // const petRes = await axios.get('/pet');
     // const petResData =  petRes.data;
     // for (let i = 0; i < petRes.data.length; i++){

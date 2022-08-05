@@ -120,6 +120,81 @@ const updateShelter = (request, response) => {
   );
 };
 
+const updateShelterPassword = (request, response) => {
+  const id = parseInt(request.params.shelterid);
+  const {
+    shelterpassword,
+  } = request.body;
+  console.log(request.body);
+  pool.query(
+    "UPDATE shelter \
+    SET shelterpassword = $1\
+    WHERE shelterid = $2",
+    [
+      shelterpassword,
+      id
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`Shelter modified with ID: ${id}`);
+    }
+  );
+};
+
+const updateShelterName = (request, response) => {
+  const id = parseInt(request.params.shelterid);
+  const {
+    shelterpassword,
+    sheltercode
+  } = request.body;
+  console.log(request.body);
+  pool.query(
+    "UPDATE shelter \
+    SET shelterpassword = $1, sheltercode =$2\
+    WHERE shelterid = $3",
+    [
+      shelterpassword,
+      sheltercode,
+      id
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`Shelter modified with ID: ${id}`);
+    }
+  );
+};
+
+
+const updateShelterContact = (request, response) => {
+  const id = parseInt(request.params.shelterid);
+  const {
+    phonenumber,
+    email
+  } = request.body;
+  console.log(request.body);
+  pool.query(
+    "UPDATE shelter \
+    SET phonenumber = $1, email = $2 \
+    WHERE shelterid = $3",
+    [
+      phonenumber,
+      email,
+      id
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`Shelter modified with ID: ${id}`);
+    }
+  );
+};
+
+
 const deleteShelter = (request, response) => {
   const id = parseInt(request.params.shelterid);
   console.log("DELETE/" + id);
@@ -140,5 +215,8 @@ module.exports = {
   readShelterCredential,
   createShelter,
   updateShelter,
+  updateShelterContact,
+  updateShelterPassword,
+  updateShelterName,
   deleteShelter,
 };

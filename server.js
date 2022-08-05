@@ -67,8 +67,15 @@ app.get("/readPetsForCards", pets.readPetsForCards);
 app.get("/getPetImages/:petid", pets.getPetImages);
 app.get("/getAllImages", pets.getAllImages);
 app.post("/pet", pets.createPet);
+app.post("/addImage/:petid", pets.addImage);
 app.put("/pet/:petid", pets.updatePet);
+app.put("/petBlurb/:petid", pets.updatePetProfileBlurb);
+app.put("/petProperties/:petid", pets.updatePetProfileProperties);
+app.put("/updateImage/:imageid",pets.updateImage);
 app.delete("/pet/:petid", pets.deletePet);
+app.delete("/petImage/:imageid", pets.deleteImage);
+
+
 
 //shelter API endpoints
 app.get("/shelter/:shelterid", shelters.readShelter);
@@ -80,7 +87,13 @@ app.get("/shelter", shelters.readShelters);
 app.get("/shelter/:shelterid", shelters.readShelter);
 app.post("/shelter", shelters.createShelter);
 app.put("/shelter/:shelterid", shelters.updateShelter);
+app.put("/shelterContact/:shelterid", shelters.updateShelterContact);
+app.put("/shelterPassword/:shelterid", shelters.updateShelterPassword);
+app.put("/shelterName/:shelterid", shelters.updateShelterName);
 app.delete("/shelter/:shelterid", shelters.deleteShelter);
+
+
+
 
 //Admin-shelter API endpoints
 app.get("/adminshelter/:id", adminshelters.readAdminShelter);
@@ -116,6 +129,7 @@ app.delete("/petbreed/:id", petbreed.deletePetBreed);
 //Breed API endpoints
 app.get("/breed/:breedid", breed.readBreed);
 app.get("/breed", breed.readBreeds);
+app.get("/breedType/:typeid", breed.readBreedType);
 app.post("/breed", breed.createBreed);
 app.put("/breed/:breedid", breed.updateBreed);
 app.delete("/breed/:breedid", breed.deleteBreed);
