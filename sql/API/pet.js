@@ -14,16 +14,16 @@ const readPets = (request, response) => {
 };
 
 const readPetsForCards = (request, response) => {
-    pool.query("SELECT * FROM pet WHERE NOT EXISTS \
-    (SELECT * FROM user_rejected_pet WHERE pet.petid = user_rejected_pet.petid) \
-    AND NOT EXISTS (SELECT * FROM user_saved_pet WHERE pet.petid = user_saved_pet.petid)", 
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).json(results.rows);
-    });
-  };
+  pool.query("SELECT * FROM pet WHERE NOT EXISTS \
+  (SELECT * FROM user_rejected_pet WHERE pet.petid = user_rejected_pet.petid) \
+  AND NOT EXISTS (SELECT * FROM user_saved_pet WHERE pet.petid = user_saved_pet.petid)", 
+  (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
 
 const readPetShelter = (request, response) => {
   const id = parseInt(request.params.shelterid);
@@ -39,19 +39,6 @@ const readPetShelter = (request, response) => {
   );
 };
 
-const getPetImages = (request, response) => {
-  const id = parseInt(request.params.petid);
-  pool.query(
-    "SELECT * FROM images WHERE petid = $1",
-    [id],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).json(results.rows);
-    }
-  );
-};
 
 const readPet = (request, response) => {
   const id = parseInt(request.params.petid);
@@ -152,6 +139,69 @@ const updatePet = (request, response) => {
     }
   );
 };
+const updatePetProfileProperties = (request, response) => {
+  const id = parseInt(request.params.petid);
+  const {
+    petname,
+    age,
+    sex,
+    dateprofile,
+    sizeid,
+    snstatus,
+    ststatus,
+    avid,
+    typeid,
+  } = request.body;
+  console.log(request.body);
+  pool.query(
+    "UPDATE pet \
+    SET petname = $1, age = $2, sex = $3, dateprofile = $4, \
+    sizeid = $5, snstatus = $6, ststatus = $7, avid = $8, typeid = $9\
+    WHERE petid = $11",
+    [
+      petname,
+      age,
+      sex,
+      dateprofile,
+      sizeid,
+      snstatus,
+      ststatus,
+      avid,
+      typeid,
+      id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`Pet modified with ID: ${id}`);
+    }
+  );
+};
+
+
+const updatePetProfileBlurb = (request, response) => {
+  const id = parseInt(request.params.petid);
+  const {
+    blurb
+  } = request.body;
+  console.log(request.body);
+  pool.query(
+    "UPDATE pet \
+    SET blurb = $1 \
+    WHERE petid = $2",
+    [
+      blurb,
+      id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`Pet modified with ID: ${id}`);
+    }
+  );
+};
 
 const deletePet = (request, response) => {
   const id = parseInt(request.params.petid);
@@ -163,6 +213,82 @@ const deletePet = (request, response) => {
     response.status(200).send(`Pet deleted with ID: ${id}`);
   });
 };
+
+
+
+
+
+const getPetImages = (request, response) => {
+  const id = parseInt(request.params.petid);
+  pool.query(
+    "SELECT * FROM images WHERE petid = $1",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+const addImage = (request, response) => {
+  const id = parseInt(request.params.petid);
+  const {
+    imageurl
+  } = request.body;
+  pool.query(
+    "INSERT INTO \
+    images(petid,imageurl) \
+    VALUES\
+    ($1, $2) RETURNING *",
+    [id,imageurl,],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+
+const updateImage = (request, response) => {
+  const id = parseInt(request.params.imageid);
+  const {
+    imageurl
+  } = request.body;
+  console.log(request.body);
+  pool.query(
+    "UPDATE images \
+    SET imageurl = $1 \
+    WHERE imageid = $2",
+    [
+      imageurl,
+      id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`image modified with ID: ${id}`);
+    }
+  );
+};
+
+const deleteImage = (request, response) => {
+  const id = parseInt(request.params.imageid);
+  console.log("DELETE/" + id);
+  pool.query("DELETE FROM images WHERE imageid = $1",
+  [id],
+  (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).send(`image deleted with ID: ${id}`);
+  });
+};
+
 module.exports = {
   readPets,
   readPet,
@@ -171,5 +297,10 @@ module.exports = {
   updatePet,
   deletePet,
   getPetImages,
+  addImage,
+  updateImage,
+  deleteImage,
   readPetsForCards,
+  updatePetProfileBlurb,
+  updatePetProfileProperties
 };

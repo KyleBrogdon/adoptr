@@ -11,7 +11,7 @@
         <div class="row">
             <div  id="profileFields" class="col" style="padding-right: 10%;">
                 <h6 class="display-6" style ="text-decoration: underline;">Shelter Information</h6>
-                <data hidden id="shelterID"></data>
+                <data hidden id="hidden-shelterID"></data>
                 <div id="profileUpdateField"></div>
             </div>
         </div>
@@ -21,13 +21,17 @@
                 <div class = row>
                     <div id="nameUpdateField" class="col" style="padding-left: 10%;">
                         <div class="mb-3">
-                            <h3 class="display-6" style ="text-decoration: underline;" id="currentName">Shelter Name</h6>
-                            <!--insert Current name-->
+                            <h3 class="display-6" style ="text-decoration: underline;">Shelter Name</h6>
                         </div>
-                        <div class="mb-3">
-                            <input type="name" class="form-control" id="newName" value="'name">
+                        <div class ="row">
+                          <div class="col mb-3">
+                            <textarea type="name" class="form-control" id="newName" value="name"></textarea>
+                          </div>
+                          <div class="col-3 mb-3">
+                            <input type="name" class="form-control" id="newCode" value="Code">
+                          </div>
                         </div>
-        
+
                         <button class="btn btn-primary" id="updateName">Update</button>
                         <br><br>
                     </div>
@@ -39,18 +43,18 @@
                         <div class="mb-3">
                             <div class ='row'>
                                 <div class="col">
-                                    <input type="name" class="form-control" id="newName" value = 'zip'>
+                                    <input type="name" class="form-control" id="newZip" value = 'zip'>
                                 </div>
                                 <div class="col">
-                                    <input type="name" class="form-control" id="newName" value = 'city'>
+                                    <input type="name" class="form-control" id="newCity" value = 'city'>
                                 </div>
                                 <div class="col">
-                                    <input type="name" class="form-control" id="newName" value = 'state'>
+                                    <input type="name" class="form-control" id="newState" value = 'state'>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3"></div>
-                        <button class="btn btn-primary" id="updateName">Update</button>
+                        <button class="btn btn-primary" id="updateLocation">Update</button>
                         <br><br>
                     </div>
                 </div>
@@ -66,7 +70,7 @@
                             <input type="name" class="form-control" id="currentPhone" value = 'Phone number'>
                         </div>
                         <div class="mb-3"></div>
-                        <button class="btn btn-primary" id="updateName">Update</button>
+                        <button class="btn btn-primary" id="updateContact">Update</button>
                         <br><br>
                     </div>
                 </div>
@@ -104,7 +108,6 @@
           <div class="col-2">
             <select class="form-select " id="atribute-form"> 
               <option selected> Property </option>
-              <option value="petID">pet ID</option>
               <option value="petName">pet Name</option>
               <option value="petType">pet type</option>
               <option value="petAge">pet age</option>
@@ -114,7 +117,7 @@
         </div>
         <div class="my-3 mx-4 border-top"></div>
         <div class="container-sm">
-          <button type="button" class="btn btn-success" id="searchButton">SELECT Shelter(s)</button>
+          <button type="button" class="btn btn-success" id="searchButton">SELECT Pet(s)</button>
         </div>
       </div>
   
@@ -124,12 +127,11 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                <th scope="col">Pet ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">type</th>
-                <th scope="col">age</th>
-                <th scope="col">sex</th>
-                <th scope="col">Actions</th>           
+                  <th scope="col">Name</th>
+                  <th scope="col">type</th>
+                  <th scope="col">age</th>
+                  <th scope="col">sex</th>
+                  <th scope="col">Actions</th>           
                 </tr>
             </thead>
             <tbody id="main-rows">
@@ -147,27 +149,19 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal fade" id="petModal" tabindex="-1" aria-labelledby="petModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalTitle">Pet Details</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" id="petModalBody">
+            <img id="petIMG">
             <h6 class="display-6" style ="text-decoration: underline; padding-top: 2%;"></h6>
             <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">location</th>
-                  
-                </tr>
-              </thead>
               <tbody id="modal-table">
-
               </tbody>
-
             </table>
           </div>
         </div>
@@ -180,7 +174,7 @@
             integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
             crossorigin="anonymous">
     </script>
-    <!--<script src="../../scripts/user/customer_profile.js"></script>-->
+    <script src="../../scripts/shelterAdmin/shelterProfile.js"></script>
 
   </body>
 </html>

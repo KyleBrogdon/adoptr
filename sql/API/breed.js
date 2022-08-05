@@ -27,6 +27,22 @@ const readBreed = (request, response) => {
   );
 };
 
+
+const readBreedType = (request, response) => {
+  const id = parseInt(request.params.typeid);
+  pool.query(
+    "SELECT * FROM breed WHERE typeid = $1",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+
 const createBreed = (request, response) => {
   const { breedname, typeid } = request.body;
   // console.log(request.body);
@@ -81,4 +97,5 @@ module.exports = {
   createBreed,
   updateBreed,
   deleteBreed,
+  readBreedType
 };
