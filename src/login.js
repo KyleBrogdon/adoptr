@@ -1,4 +1,5 @@
 const { default: axios } = require("axios");
+const loggedInUser = sessionStorage.getItem('userid');
 
 class LoginInfo{
     constructor( 
@@ -37,11 +38,14 @@ loginButton.addEventListener("click", async (e) => {
         login.password = password.value;
     }
     let validate = await validateLogin(login);
+    console.log(validate[0]);
+    console.log(validate[0].userid);
 
     // query returns the number of matching users in the table, if count is 1, valid login.
-    if (validate[0].count == 1){
+    if (validate[0].userid > 0){
+        sessionStorage.setItem('userid', `${validate[0].userid}`)
         location.href = '/landing/petCards'
-        //pass id to session
+        console.log(sessionStorage.getItem('userid'));
     }
     else {
         loginErrorMsg.style.opacity = 1;
@@ -50,5 +54,7 @@ loginButton.addEventListener("click", async (e) => {
 });
 }
 
-
+if (loggedInUser == null){
+    location.href = '/landing/datingCards'
+} 
 setupLogin();

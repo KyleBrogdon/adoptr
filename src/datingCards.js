@@ -1,4 +1,5 @@
 const { default: axios } = require("axios");
+const loggedInUser = sessionStorage.getItem('userid')
 const { get } = require("lodash");
 const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
@@ -69,7 +70,10 @@ async function setupCards() {
     let counter = 0;
 
     async function getPets() {
-        const response = await axios.get('/readPetsForCards')
+        console.log('here');
+        console.log(loggedInUser);
+        const response = await axios.get(`/readPetsForCards/${loggedInUser}`)
+        console.log(response);
         return response.data
     };
     let resp = await getPets();
@@ -285,4 +289,7 @@ async function setupCards() {
 
 
     };
+if (loggedInUser == null){
+    location.href = "/landing/login";
+}
 setupCards();
