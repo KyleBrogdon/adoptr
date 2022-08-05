@@ -5,7 +5,7 @@ const router = express.Router();
 //const db = require('../sql/admin')
 
 
-//const pool = require('../sql/sql_init');
+//const pool = require('../sql/sql_Init');
 
 //Users
 router.get("/users", (req, res) => {
