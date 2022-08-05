@@ -46,6 +46,7 @@ const type = require("./sql/API/type");
 const city = require("./sql/API/city");
 const zipcode = require("./sql/API/zipcode");
 const shelterstate = require("./sql/API/shelterstate");
+const login = require("./sql/API/login");
 
 //user API endpoints
 app.get("/dbUsers/:userid", dbUsers.readUser);
@@ -91,9 +92,6 @@ app.put("/shelterContact/:shelterid", shelters.updateShelterContact);
 app.put("/shelterPassword/:shelterid", shelters.updateShelterPassword);
 app.put("/shelterName/:shelterid", shelters.updateShelterName);
 app.delete("/shelter/:shelterid", shelters.deleteShelter);
-
-
-
 
 //Admin-shelter API endpoints
 app.get("/adminshelter/:id", adminshelters.readAdminShelter);
@@ -175,6 +173,9 @@ app.get("/state", shelterstate.readStates);
 app.post("/state", shelterstate.createState);
 app.put("/state/:stateid", shelterstate.updateState);
 app.delete("/state/:stateid", shelterstate.deleteState);
+
+//Login API endpoints
+app.get("/login/:email/:userpassword", login.validate)
 
 app.get("/", (req, res) => {
   res.render("../views/pages/general/landingPage", {});

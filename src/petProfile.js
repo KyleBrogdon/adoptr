@@ -1,7 +1,6 @@
 const { default: axios } = require("axios");
 const { divide } = require("lodash");
 
-let tempArray = Array("https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56509313/1/?bust=1659201126", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56509316/1/?bust=1659200455", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56483375/1/?bust=1658971544", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56483288/2/?bust=1658970763", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56450040/4/?bust=1658970812", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56329461/1/?bust=1657869073", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56328152/1/?bust=1657847814", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56206162/1/?bust=1657072686", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/56094788/1/?bust=1656307150", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/55982038/1/?bust=1655574637", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/55981772/1/?bust=1655574035", "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/55702407/2/?bust=1655866896");
 
 class RetrievedPet {
     constructor(
@@ -34,22 +33,6 @@ class RetrievedPet {
         this.images = images; // empty array that we will store all pet imageURLs in later
     }
 
-    // generateCard() {
-    //     let div = document.createElement("div");
-    //     div.setAttribute('class', "tinder--card")
-    //     if (this.petid < 9) {
-    //         div.innerHTML = `
-    //         <img src= "${this.images[0]}">
-    //         <h3>${this.petname}</h3>
-    //         `;
-    //     } else {
-    //         div.innerHTML = `
-    //         <img src= "${tempArray[0]}">
-    //         <h3>${this.petname}</h3>
-    //         `;
-    //     }
-    //     return div;
-    // }
 
     generateImages() {
         let images = this.images;
@@ -116,7 +99,7 @@ class RetrievedPet {
 };
 let pet;
 
-let tempPet = new RetrievedPet(10, 'test', 10, 'male', 'dsfafsd', 0832022, 5, 'yes', 'no', 10, 5, 6, []);
+
 
 //generate pictures and data for dating cards
 async function setupCards() {
@@ -124,31 +107,6 @@ async function setupCards() {
     let imageDiv = document.getElementById("petRow");
     let blurbDiv = document.getElementById("mb-3");
     let table = document.getElementById("petProfile--properties");
-    let idArray = Array();
-    let counter = 0;
-    
-    // const petRes = await axios.get('/pet');
-    // const petResData =  petRes.data;
-    // for (let i = 0; i < petRes.data.length; i++){
-    //     pets.push(new RetrievedPet(petResData[i].petid, petResData[i].petname, petResData[i].age, petResData[i].sex, petResData[i].blurb,
-    //         petResData[i].dateprofile, petResData[i].sizeid, petResData[i].snstatus, petResData[i].ststatus, petResData[i].avid, petResData[i].typeid, petResData[i].shelterid));
-    // };
-    // console.log(pets[4]);
-    // for (let x = 0; x < pets.length; x++){
-    //     let imageRes = await axios.get(`/getPetImages/${pets[x].petid}`);
-    //     let imageResData = imageRes.data;
-    //     console.log(imageResData);
-    //     if (imageResData.petid == pets[x].petid) {
-    //                     console.log (imageResData.imageurl);
-    //                     pets[x].images.push(imageResData.imageurl)
-    //                 }
-    //                 if (imageResData.petid == 27) {
-    //                     console.log(pets[27])
-    //                     console.log(pets[27].images);
-    //                     console.log(pets[27].images.length);
-    //                     console.log(pets[27].images[0]);
-    //                 }
-    // }
 
     async function getPet() {
         const response = await axios.get(`/pet/${tempPet.petid}`);
