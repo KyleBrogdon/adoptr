@@ -54,7 +54,7 @@ loginButton.addEventListener("click", async (e) => {
 });
 }
 
-if (loggedInUser == null){
+if (loggedInUser != null){
     location.href = '/landing/datingCards'
 } 
 setupLogin();
