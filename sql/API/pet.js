@@ -40,6 +40,19 @@ const readPetShelter = (request, response) => {
 };
 
 
+const getAllImages = (request, response) => {
+    pool.query(
+      "SELECT * FROM images",
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        response.status(200).json(results.rows);
+      }
+    );
+  };
+  
+
 const readPet = (request, response) => {
   const id = parseInt(request.params.petid);
   console.log(request.params.petid)
@@ -302,5 +315,6 @@ module.exports = {
   deleteImage,
   readPetsForCards,
   updatePetProfileBlurb,
-  updatePetProfileProperties
+  updatePetProfileProperties,
+  getAllImages,
 };
