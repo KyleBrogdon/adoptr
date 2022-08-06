@@ -179,15 +179,7 @@ async function updateProperties(id){
     console.log(avid)
     console.log(typeid)
     console.log(breedid)
-    // petname,
-    // age,
-    // sex,
-    // dateprofile,
-    // sizeid,
-    // snstatus,
-    // ststatus,
-    // avid,
-    // typeid,
+
 }
 
 function getPetID(){

@@ -43,7 +43,9 @@ class petEntry {
   generateRow() {
     let element = document.createElement("tr");
     element.innerHTML = `
-      <th scope="row">${this.petname}</th>
+      <th scope="row">
+        <a id="link-${this.petid}" href="/users/petProfile?petid=${this.petid}" class="link-primary" target="_blank">${this.petname}</a>
+      </th>
       <td>${this.typeid}</td>
       <td>${this.age}</td>
       <td>${this.sex}</td>
