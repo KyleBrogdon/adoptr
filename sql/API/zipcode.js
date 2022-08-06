@@ -27,6 +27,22 @@ const readZipcode = (request, response) => {
   );
 };
 
+const readZipcodeValue = (request, response) => {
+  const zipcode = parseInt(request.params.zipcode);
+  pool.query(
+    "SELECT * FROM zipcode WHERE zipcode = $1",
+    [zipcode],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+
+
 const createZipcode = (request, response) => {
   const { zipcode, cityid } = request.body;
   // console.log(request.body);
@@ -85,4 +101,5 @@ module.exports = {
   createZipcode,
   updateZipcode,
   deleteZipcode,
+  readZipcodeValue
 };

@@ -90,6 +90,7 @@ app.put("/shelter/:shelterid", shelters.updateShelter);
 app.put("/shelterContact/:shelterid", shelters.updateShelterContact);
 app.put("/shelterPassword/:shelterid", shelters.updateShelterPassword);
 app.put("/shelterName/:shelterid", shelters.updateShelterName);
+app.put("/shelterLocation/:shelterid", shelters.updateShelterLocation);
 app.delete("/shelter/:shelterid", shelters.deleteShelter);
 
 
@@ -166,6 +167,7 @@ app.delete("/city/:cityid", city.deleteCity);
 
 //Zipcode API endpoints
 app.get("/zipcode/:zipcodeid", zipcode.readZipcode);
+app.get("/zipcodeValue/:zipcode", zipcode.readZipcodeValue);
 app.get("/zipcode", zipcode.readZipcodes);
 app.post("/zipcode", zipcode.createZipcode);
 app.put("/zipcode/:zipcodeid", zipcode.updateZipcode);
