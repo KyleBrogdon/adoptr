@@ -305,14 +305,7 @@ const addImage = (request, response) => {
 
 const updateImage = (request, response) => {
   const id = parseInt(request.params.imageid);
-<<<<<<< HEAD
   const { imageurl } = request.body;
-  console.log(request.body);
-=======
-  const {
-    imageurl
-  } = request.body;
->>>>>>> main
   pool.query(
     "UPDATE images \
     SET imageurl = $1 \
