@@ -41,21 +41,35 @@ class RetrievedPet {
 
 
     generateImages() {
+        let slideContainer = document.getElementById("petSlideRow")
         let images = this.images;
         if (images == null) {
             let div = document.createElement('div');
             div.innerHTML = ' <p>No Images Found</p>'
-            return div;
+            console.log(slideDiv);
+            slideContainer.appendChild(slideDiv);
+            return 
         }
-        for (let i = 0; i < images.length; i++) {
-            let div = document.createElement('div');
-            div.setAttribute("class", "column");
-            div.innerHTML = `<img src = "${images[i]}" style="width:25%" style="height: 25%" style ="max-height: 20%">`
-            // div.src = images[i]
-            // div.className = "img-thumbnail mx-auto d-block"
-            // div.style="width: 300px; height: 300px; object-fit: cover;"
-            return div;
-        }
+        images.forEach(image => {
+            let slideDiv = document.createElement('div');
+            console.log(image);
+            slideDiv.setAttribute('class', 'mySlides petFade');
+            slideDiv.innerHTML = `
+            <img class = "petSlideImg" src = ${image} width = 20% height = 20%>
+        `
+            console.log(slideDiv);
+            slideContainer.appendChild(slideDiv);
+            return 
+        })
+        // for (let i = 0; i < images.length; i++) {
+        //     let div = document.createElement('div');
+        //     div.setAttribute("class", "column");
+        //     div.innerHTML = `<img src = "${images[i]}" style="width:25%" style="height: 25%" style ="max-height: 20%">`
+        //     // div.src = images[i]
+        //     // div.className = "img-thumbnail mx-auto d-block"
+        //     // div.style="width: 300px; height: 300px; object-fit: cover;"
+        //     return div;
+        // }
     }
 
 
@@ -80,10 +94,9 @@ class RetrievedPet {
 
 };
 let pet;
-let tempPet = new RetrievedPet(10, 'test', 10, 'male', 'dsfafsd', 0832022, 5, 'yes', 'no', 10, 5, 6, []);
 
 
-async function getPetID(){
+async function getPetID() {
     let pageURL = document.URL;
     let ID = pageURL.split('=')[1];
     console.log(ID)
@@ -98,7 +111,7 @@ async function setupCards() {
     let petid = document.getElementById("hidden-petid").value
 
     console.log("Pet List setup executed")
-    let imageDiv = document.getElementById("petRow");
+    let imageDiv = document.getElementById("petSlideRow");
     let blurbDiv = document.getElementById("mb-3");
 
 
@@ -112,7 +125,6 @@ async function setupCards() {
     pet = new RetrievedPet(JSON.stringify(resp[0].petid), resp[0].petname, resp[0].age, resp[0].sex, JSON.stringify(resp[0].blurb),
         JSON.stringify(resp[0].dateprofile), JSON.stringify(resp[0].sizeid), JSON.stringify(resp[0].snstatus), JSON.stringify(resp[0].ststatus), JSON.stringify(resp[0].avid), JSON.stringify(resp[0].typeid), JSON.stringify(resp[0].shelterid), Array());
 
-    console.log(pet);
 
     async function getImage() {
         const response = await axios.get(`/getPetImages/${pet.petid}`);
@@ -121,7 +133,10 @@ async function setupCards() {
     }
 
     let respImg = await getImage();
-    pet.images.push(respImg[0].imageurl)
+    respImg.forEach(response => {
+        pet.images.push(response.imageurl)
+    })
+
 
     async function getType() {
         const response = await axios.get(`/type/${pet.typeid}`);
@@ -147,10 +162,53 @@ async function setupCards() {
     let respSize = await getSize();
     pet.sizeid = respSize[0].petsize;
 
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        console.log(slides.length);
+        let dots = document.getElementsByClassName("dot");
+        console.log(dots.length)
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+    }
+
+
     // insert petProfileData
-    imageDiv.appendChild(pet.generateImages());
+    console.log(imageDiv);
+    pet.generateImages();
     blurbDiv.appendChild(pet.generateParagraph());
     pet.fillTable();
+    document.getElementById('span1').addEventListener("click", () => {
+        currentSlide(1)
+    })
+    document.getElementById('span1').addEventListener("click", () => {
+        currentSlide(1)
+    })
+    document.getElementById('span1').addEventListener("click", () => {
+        currentSlide(1)
+    })
+
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+
 
 
     //   addEventListeners(petProfile user)....need to fix
