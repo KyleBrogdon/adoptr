@@ -10,10 +10,6 @@ if (loggedInUser) {
     logoutButton.logoutButton(loggedInUser);
 }
 
-
-
-
-
 const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
 });
