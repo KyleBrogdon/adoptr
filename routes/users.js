@@ -10,7 +10,7 @@ router.get("/userProfile", (req, res) => {
   /*   if(req.session.userID == 1){
         res.render("../views/pages/siteAdmin/shelterADmins", {});
     }
-    else{
+    else{  
         console.log("unauthorized access")
         res.render("../views/pages/general/index", {});
     } */
