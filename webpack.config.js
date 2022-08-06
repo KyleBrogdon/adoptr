@@ -10,7 +10,7 @@ module.exports = {
         'scripts/siteAdmin/size': path.join(__dirname, "src", "siteAdmin", "size.js"),
         'scripts/user/user': path.join(__dirname, "src", "user", "user.js"),
         'scripts/pets/datingCards': path.join(__dirname, "src", "datingCards.js"),
-        'scripts/user/petProfile': path.join(__dirname, "src", "petProfile.js"),
+        'scripts/user/petProfile': path.join(__dirname, "src", "user",  "petProfile.js"),
         'scripts/shelterAdmin/petProfile': path.join(__dirname, "src", "shelterAdmin","petProfiles.js"),
         'scripts/shelterAdmin/shelterProfile':path.join(__dirname,"src","shelterAdmin","shelterProfile.js"),
         'scripts/shelterAdmin/adminProfile':path.join(__dirname,"src","shelterAdmin","shelterAdminProfile.js"),

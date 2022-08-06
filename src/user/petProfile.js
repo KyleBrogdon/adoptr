@@ -1,6 +1,6 @@
 const { default: axios } = require("axios");
 const loggedInUser = sessionStorage.getItem('userid')
-const logoutButton = require("./logoutButtonFunction");
+const logoutButton = require("../logoutButtonFunction");
 const { divide } = require("lodash");
 
 if (loggedInUser) {
@@ -45,14 +45,15 @@ class RetrievedPet {
         if (images == null) {
             let div = document.createElement('div');
             div.innerHTML = ' <p>No Images Found</p>'
+            return div;
         }
         for (let i = 0; i < images.length; i++) {
             let div = document.createElement('div');
             div.setAttribute("class", "column");
-            // div.innerHTML = `<img src = "${images[i]}" style="width:40%" style="height: 40%">`
-            div.src = images[i]
-            div.className = "img-thumbnail mx-auto d-block"
-            div.style="width: 300px; height: 300px; object-fit: cover;"
+            div.innerHTML = `<img src = "${images[i]}" style="width:25%" style="height: 25%" style ="max-height: 20%">`
+            // div.src = images[i]
+            // div.className = "img-thumbnail mx-auto d-block"
+            // div.style="width: 300px; height: 300px; object-fit: cover;"
             return div;
         }
     }
@@ -65,51 +66,24 @@ class RetrievedPet {
         return para;
     }
 
-    generateTable() {
-        let tbody = document.createElement('tbody');
-        tbody.setAttribute("id", "main-rows");
-        tbody.innerHTML = `
-        <tr>
-            <th scope="col">name</th>
-            <th scope="col">${this.petname}</th>     
-        </tr>
-        <tr>
-            <th scope="col">age</th>
-            <th scope="col">${this.age}</th>   
-        </tr>
-        <tr>
-            <th scope="col">sex</th>
-            <th scope="col">${this.sex}</th>   
-        </tr>
-        <tr>
-            <th scope="col">type</th>
-            <th scope="col">${this.typeid}</th>      
-        </tr>
-        <tr>
-            <th scope="col">availability</th>
-            <th scope="col">${this.avid}</th>     
-
-        </tr>
-        <tr>
-            <th scope="col">size</th>
-            <th scope="col">${this.sizeid}</th>    
-        </tr>
-        <tr>
-            <th scope="col">spayed/neutered</th>
-            <th scope="col">${this.snstatus}</th>   
-        </tr>
-        <tr>
-            <th scope="col">Shots Current</th>
-            <th scope="col">${this.ststatus}</th>   
-        </tr>`
-        return tbody;
+    fillTable() {
+        document.getElementById('petname').innerText = this.petname;
+        document.getElementById('age').innerText = this.age;
+        document.getElementById('sex').innerText = this.sex;
+        document.getElementById('typeid').innerText = this.typeid;
+        document.getElementById('avid').innerText = this.avid;
+        document.getElementById('sizeid').innerText = this.sizeid;
+        document.getElementById('snstatus').innerText = this.snstatus;
+        document.getElementById('ststatus').innerText = this.ststatus;
+        return;
     }
 
 };
 let pet;
+let tempPet = new RetrievedPet(10, 'test', 10, 'male', 'dsfafsd', 0832022, 5, 'yes', 'no', 10, 5, 6, []);
 
 
-function getPetID(){
+async function getPetID(){
     let pageURL = document.URL;
     let ID = pageURL.split('=')[1];
     console.log(ID)
@@ -121,19 +95,19 @@ function getPetID(){
 //generate pictures and data for dating cards
 async function setupCards() {
     document.getElementById("hidden-petid").value = getPetID()
-    petid = document.getElementById("hidden-petid").value
+    let petid = document.getElementById("hidden-petid").value
 
     console.log("Pet List setup executed")
     let imageDiv = document.getElementById("petRow");
     let blurbDiv = document.getElementById("mb-3");
-    let table = document.getElementById("petProfile--properties");
 
-    async function getPet() {
+
+    async function getPet(petid) {
         const response = await axios.get(`/pet/${petid}`);
         return response.data;
     }
-
-    let resp = await getPet();
+    let idFromLink = await getPetID();
+    let resp = await getPet(idFromLink);
     console.log(JSON.stringify(resp[0].petid));
     pet = new RetrievedPet(JSON.stringify(resp[0].petid), resp[0].petname, resp[0].age, resp[0].sex, JSON.stringify(resp[0].blurb),
         JSON.stringify(resp[0].dateprofile), JSON.stringify(resp[0].sizeid), JSON.stringify(resp[0].snstatus), JSON.stringify(resp[0].ststatus), JSON.stringify(resp[0].avid), JSON.stringify(resp[0].typeid), JSON.stringify(resp[0].shelterid), Array());
@@ -142,6 +116,7 @@ async function setupCards() {
 
     async function getImage() {
         const response = await axios.get(`/getPetImages/${pet.petid}`);
+        console.log(response.data[0].imageurl);
         return response.data;
     }
 
@@ -175,7 +150,7 @@ async function setupCards() {
     // insert petProfileData
     imageDiv.appendChild(pet.generateImages());
     blurbDiv.appendChild(pet.generateParagraph());
-    table.appendChild(pet.generateTable());
+    pet.fillTable();
 
 
     //   addEventListeners(petProfile user)....need to fix
