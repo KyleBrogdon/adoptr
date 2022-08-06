@@ -10,6 +10,7 @@ router.get("/landingPage", (req,res) => {
 })
 
 router.get("/petCards", (req,res) => {
+    console.log(req.session);
     console.log(req.session.userid)
     if (req.session.userid != null){
         if (req.session.userid == 1){
