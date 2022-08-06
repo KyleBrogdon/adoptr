@@ -115,7 +115,7 @@ const updateUserNameEmail = (request, response) => {
   pool.query(
     "UPDATE app_user \
     SET firstname = $1, lastname = $2, email = $3 \
-    WHERE userid = $6",
+    WHERE userid = $4",
     [firstname, lastname, email, id],
     (error, results) => {
       if (error) {
