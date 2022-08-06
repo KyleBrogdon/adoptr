@@ -2,7 +2,7 @@
 const { query } = require("express");
 const express = require("express");
 const router = express.Router();
-const pool = require("../sql_init");
+const pool = require("../sql_Init");
 
 const readPets = (request, response) => {
   pool.query("SELECT * FROM pet", (error, results) => {
@@ -14,9 +14,11 @@ const readPets = (request, response) => {
 };
 
 const readPetsForCards = (request, response) => {
+    const id = parseInt(request.params.userid)
   pool.query("SELECT * FROM pet WHERE NOT EXISTS \
-  (SELECT * FROM user_rejected_pet WHERE pet.petid = user_rejected_pet.petid) \
-  AND NOT EXISTS (SELECT * FROM user_saved_pet WHERE pet.petid = user_saved_pet.petid)", 
+  (SELECT * FROM user_rejected_pet WHERE pet.petid = (SELECT user_rejected_pet.petid WHERE user_rejected_pet.userid = $1) \
+   AND NOT EXISTS (SELECT * FROM user_saved_pet WHERE pet.petid = (SELECT user_saved_pet.petid WHERE user_saved_pet.userid = $1)))",
+  [id], 
   (error, results) => {
     if (error) {
       throw error;

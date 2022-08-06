@@ -2,7 +2,7 @@
 const { query } = require("express");
 const express = require("express");
 const router = express.Router();
-const pool = require("../sql_init");
+const pool = require("../sql_Init");
 
 const readUsers = (request, response) => {
   pool.query("SELECT * FROM app_user", (error, results) => {

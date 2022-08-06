@@ -1,7 +1,7 @@
 // Contains routes for views concerning customers
 const express = require('express');
 const router = express.Router();
-const pool = require("../sql/sql_init");
+const pool = require("../sql/sql_Init");
 
 router.get("/landingPage", (req,res) => {
     res.render("../views/pages/general/landingPage", {

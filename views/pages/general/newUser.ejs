@@ -11,18 +11,30 @@
       <div class="row justify-content-md-center" >
         <div class="col-md-4" style="padding-top: 5%;" id="newUserBox">
           <h6 class="display-6" style ="text-decoration: underline;">User Information</h6>
-          <div id="UserInfoForm" style="padding-bottom:2.5%;">
+          <div id = "missing-error-msg-holder">
+            <p id = "missing-error-msg" >Please fill in all fields</p>
+        </div>
+          <div id="UserInfoForm" style="padding-bottom:15.0%;">
             <label for="InputFirstName" class="form-label">First Name</label>
             <input type="text" class="form-control" id="InputFirstName">
             <label for="InputLastName" class="form-label">Last Name</label>
             <input type="text" class="form-control" id="InputLastName">
            <!-- <label for="InputZipCode" class="form-label">Zip Code</label>
             <input type="text" class="form-control" id="InputZipCode"> -->
+            <div id = "email-error-msg-holder">
+                <p id = "email-error-msg" >Email already registered to an existing account</p>
+            </div>
+            <div id = "invalidEmail-error-msg-holder">
+                <p id = "invalidEmail-error-msg" >Invalid email address</p>
+            </div>
             <label for="InputEmail" class="form-label">Email Address</label>
             <input type="text" class="form-control" id="InputEmail">
             </br>
             <h6 class="display-6" style ="text-decoration: underline;">Password</h6>
             <div class="mb-3">
+                <div id = "password-error-msg-holder">
+                    <p id = "password-error-msg" >Invalid Password. Confirm 8-20 characters and that passwords match</p>
+                </div>
               <label for="NewPassword" class="form-label">Password</label>
               <input type="password" class="form-control" id="NewPassword">
             </div>
@@ -38,7 +50,7 @@
             <input type="checkbox" id="shelterAdmin" name="shelterAdmin" value="shelterAdmin">
             <label for="shelterAdmin"> Are you a Shelter Administrator</label><br> <!--need to add form entries for shelter: need to login to shelter to prove you are approved or create a new shelter-->
             </br>
-            <button type="submit" class="btn btn-primary" id="createProfileButton">Create Profile</button>
+            <button type="submit" class="btn btn-primary" value = "user" id="createProfileButton">Create Profile</button>
           </div>
         </div>
       </div>  
@@ -49,7 +61,7 @@
             crossorigin="anonymous">
     </script>
 
-    <!--<script src="../../scripts/admin/newUser.js"></script>-->
+    <script src="../../scripts/user/newUser.js"></script>
 
   </body>
 </html>
