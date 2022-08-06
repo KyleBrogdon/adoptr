@@ -47,6 +47,7 @@ const city = require("./sql/API/city");
 const zipcode = require("./sql/API/zipcode");
 const shelterstate = require("./sql/API/shelterstate");
 const login = require("./sql/API/login");
+const router = require("./routes/users");
 
 //user API endpoints
 app.get("/dbUsers/:userid", dbUsers.readUser);
@@ -181,6 +182,8 @@ app.delete("/state/:stateid", shelterstate.deleteState);
 //Login API endpoints
 app.get("/login/:email/:userpassword", login.validate)
 app.get("/login/:email", login.checkEmail)
+// is this needed?
+// app.get("/users/storeSession/:userid/:adminstaus")
 
 app.get("/", (req, res) => {
   res.render("../views/pages/general/landingPage", {});

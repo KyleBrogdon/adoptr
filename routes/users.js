@@ -41,6 +41,13 @@ router.get("/petSearch", (req, res) => {
       } */
 });
 
+router.get("/storeSession", async (req, res) => {
+    req.session.userid = req.query.userid;
+    req.session.adminstatus = req.query.adminstatus;
+    console.log(req.session);
+    req.session.save(() => {console.log('saved')});
+})
+
 router.get("/logout", (req, res) => {
     req.session.destroy(function (err) {
         if (err) {

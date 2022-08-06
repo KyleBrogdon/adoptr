@@ -10,9 +10,20 @@ router.get("/landingPage", (req,res) => {
 })
 
 router.get("/petCards", (req,res) => {
-    res.render("../views/pages/general/datingCards", {
-  
-    });
+    console.log(req.session.userid)
+    if (req.session.userid != null){
+        if (req.session.userid == 1){
+            res.render("../views/pages/siteAdmin/siteAdminIndex", {});
+        } else {
+            if (req.session.adminstatus == 1){
+                res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+            } else {
+                res.render("../views/pages/general/datingCards", {})
+            }
+        }
+    } else {
+        res.render("../views/pages/general/login")
+    }
 })
 
 router.get('/login', (req, res) => {

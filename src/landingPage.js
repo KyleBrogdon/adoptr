@@ -80,7 +80,7 @@ async function setupCards() {
         let slideDiv = document.createElement('div');
         slideDiv.setAttribute('class', 'mySlides fade');
         slideDiv.innerHTML = `
-        <img class = "slideImg" src = ${pet.images[0]} width = 70% height = 70%>
+        <img class = "slideImg" src = ${pet.images[0]} width = 60% height = 60%>
         `
         return slideDiv
     }

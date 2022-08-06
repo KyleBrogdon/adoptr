@@ -1,14 +1,9 @@
 const { default: axios } = require("axios");
-const loggedInUser = sessionStorage.getItem('userid')
 const { get, set } = require("lodash");
 const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
 });
 
-console.log(loggedInUser);
-if (loggedInUser){
-    document.getElementById('logout').style.opacity = 1
-}
 
 // work in progress
 console.log('running dating cards script');

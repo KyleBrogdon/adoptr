@@ -19,7 +19,7 @@ console.log('here');
 async function validateLogin(login) {
     console.log('validating');
     let response = await axios.get(`/login/${login.username}/${login.password}`);
-    console.log(response);
+    console.log(response.data[0].userid);
     return response.data;
 }
 
@@ -48,12 +48,23 @@ async function setupLogin() {
 
             // query returns the number of matching users in the table, if count is 1, valid login.
             if (validate[0]) {
-                if (validate[0].userid){
-                sessionStorage.setItem('userid', `${validate[0].userid}`)
-                location.href = '/landing/petCards'
-                console.log(sessionStorage.getItem('userid'));
+                if (validate[0].userid) {
+                    let userid = validate[0].userid;
+                    let adminstatus = validate[0].adminstatus;
+                    console.log(userid);
+                    console.log(adminstatus);
+                    if (adminstatus){
+                        adminstatus = 1;
+                    } else{
+                        adminstatus = 0
+                    }
+                    axios.get(`/users/storeSession/`, {
+                        params: {
+                            userid: `${userid}`,
+                            adminstatus: `${adminstatus}`}})
+                    location.replace('/landing/petCards')
                 }
-                else{
+                else {
                     loginErrorMsg.style.opacity = 1;
                     setupLogin()
                 }
