@@ -2,7 +2,7 @@ const express = require("express");
 const ejs = require("ejs");
 const session = require("express-session");
 
-const PORT = process.argv[2] || 3000; //sets port for site, default to 3000
+const PORT = process.env.PORT || 3000; //dynamically acquire ports, default to 3000 if not assigned
 
 let app = express();
 app.set("view engine", "ejs");
@@ -46,6 +46,7 @@ const type = require("./sql/API/type");
 const city = require("./sql/API/city");
 const zipcode = require("./sql/API/zipcode");
 const shelterstate = require("./sql/API/shelterstate");
+const login = require("./sql/API/login");
 
 //user API endpoints
 app.get("/dbUsers/:userid", dbUsers.readUser);
@@ -63,7 +64,7 @@ app.delete("/dbUsers/:userid", dbUsers.deleteUser);
 app.get("/pet/:petid", pets.readPet);
 app.get("/petshelter/:shelterid", pets.readPetShelter);
 app.get("/pet", pets.readPets);
-app.get("/readPetsForCards", pets.readPetsForCards);
+app.get("/readPetsForCards/:userid", pets.readPetsForCards);
 app.get("/getPetImages/:petid", pets.getPetImages);
 app.get("/getAllImages", pets.getAllImages);
 app.post("/pet", pets.createPet);
@@ -92,9 +93,6 @@ app.put("/shelterPassword/:shelterid", shelters.updateShelterPassword);
 app.put("/shelterName/:shelterid", shelters.updateShelterName);
 app.put("/shelterLocation/:shelterid", shelters.updateShelterLocation);
 app.delete("/shelter/:shelterid", shelters.deleteShelter);
-
-
-
 
 //Admin-shelter API endpoints
 app.get("/adminshelter/:id", adminshelters.readAdminShelter);
@@ -179,6 +177,10 @@ app.get("/state", shelterstate.readStates);
 app.post("/state", shelterstate.createState);
 app.put("/state/:stateid", shelterstate.updateState);
 app.delete("/state/:stateid", shelterstate.deleteState);
+
+//Login API endpoints
+app.get("/login/:email/:userpassword", login.validate)
+app.get("/login/:email", login.checkEmail)
 
 app.get("/", (req, res) => {
   res.render("../views/pages/general/landingPage", {});

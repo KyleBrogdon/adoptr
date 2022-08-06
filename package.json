@@ -9,6 +9,7 @@
     "build": "webpack",
     "genDB": "node ./sql/sql_init.js",
     "seedDB": "node ./sql/sql_init.js seed",
+    "heroku-prebuild": "npm install --dev",
     "start:dev": "nodemon server.js"
   },
   "repository": {
