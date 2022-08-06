@@ -34,8 +34,8 @@ router.get("/shelters", (req, res) => {
 
 
 //atributesindex
-router.get("/atributes", (req, res) => {
-  res.render("../views/pages/siteAdmin/atributeOptions", {});
+router.get("/attributes", (req, res) => {
+  res.render("../views/pages/siteAdmin/attributeOptions", {});
   /*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/atributeOptions", {});
   }
@@ -47,8 +47,8 @@ router.get("/atributes", (req, res) => {
 
 //Atributes
 //Availability
-router.get("/atributes/availability", (req, res) => {
-  res.render("../views/pages/siteAdmin/atributes/availability", {});
+router.get("/attributes/availability", (req, res) => {
+  res.render("../views/pages/siteAdmin/attributes/availability", {});
   /*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/availability", {});
   }
@@ -59,8 +59,8 @@ router.get("/atributes/availability", (req, res) => {
 });
 
 //Breed
-router.get("/atributes/breed", (req, res) => {
-  res.render("../views/pages/siteAdmin/atributes/breed", {});
+router.get("/attributes/breed", (req, res) => {
+  res.render("../views/pages/siteAdmin/attributes/breed", {});
   /*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/breed", {});
   }
@@ -72,8 +72,8 @@ router.get("/atributes/breed", (req, res) => {
 
 
 //Disposition
-router.get("/atributes/disposition", (req, res) => {
-  res.render("../views/pages/siteAdmin/atributes/disposition", {});
+router.get("/attributes/disposition", (req, res) => {
+  res.render("../views/pages/siteAdmin/attributes/disposition", {});
   /*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/disposition", {});
   }
@@ -83,8 +83,8 @@ router.get("/atributes/disposition", (req, res) => {
   } */
 });
 
-router.get("/atributes/size", (req, res) => {
-  res.render("../views/pages/siteAdmin/atributes/size", {});
+router.get("/attributes/size", (req, res) => {
+  res.render("../views/pages/siteAdmin/attributes/size", {});
   /*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/size", {});
   }
@@ -95,8 +95,8 @@ router.get("/atributes/size", (req, res) => {
 });
 
 //Type
-router.get("/atributes/type", (req, res) => {
-  res.render("../views/pages/siteAdmin/atributes/type", {});
+router.get("/attributes/type", (req, res) => {
+  res.render("../views/pages/siteAdmin/attributes/type", {});
   /*   if(req.session.userID == 1){
       res.render("../views/pages/siteAdmin/type", {});
   }

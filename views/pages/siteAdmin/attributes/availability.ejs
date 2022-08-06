@@ -9,40 +9,40 @@
     <%- include('../../../partials/header_siteAdmin'); %>
 
     <div class="container">
-      <h6 class="display-6" style ="text-decoration: underline; padding-top: 2%;">Size Info</h6>
+      <h6 class="display-6" style ="text-decoration: underline; padding-top: 2%;">Availability Options</h6>
       <div class="card card-body">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="inputGroup-sizing-sm">Search</span>
           <input type="text" id="searchBar" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
           <div class="col-2">
             <select class="form-select " id="atribute-form"> 
-              <option selected> Type </option>
-              <option value="typeID">typeID</option>
-              <option value="typeName">typeName</option>
+              <option selected> Attribute </option>
+              <option value="avID">avID</option>
+              <option value="availability">availability</option>
             </select>
           </div>
 
         </div>
         <div class="my-3 mx-4 border-top"></div>
         <div class="container-sm">
-          <button type="button" class="btn btn-success" id="searchButton">Search Type option(s)</button>
+          <button type="button" class="btn btn-success" id="searchButton">Search availability option(s)</button>
         </div>
       </div>
       <div class="mt-3"></div>
       <p>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNewSize" aria-expanded="false" aria-controls="collapseExample">
-          INSERT new Type option
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNewAvailability" aria-expanded="false" aria-controls="collapseExample">
+          INSERT new availability option
         </button>
       </p>
-      <div class="collapse" id="collapseNewSize">
+      <div class="collapse" id="collapseNewAvailability">
         <div class="card card-body" id="insert-card">
           <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">typeName</span>
-            <input type="text" id="new-type-name" class="form-control" aria-label="typeName" aria-describedby="inputGroup-sizing-sm">
+            <span class="input-group-text" id="inputGroup-sizing-sm">availability</span>
+            <input type="text" id="new-availability-name" class="form-control" aria-label="availability" aria-describedby="inputGroup-sizing-sm">
           </div>
           <div class="my-3 mx-4 border-top"></div>
           <div class="container-sm">
-            <button type="button" class="btn btn-success" id="addTypeButton">INSERT Type option</button>
+            <button type="button" class="btn btn-success" id="addAvailabilityButton">INSERT availability option</button>
           </div>
         </div>
       </div>
@@ -50,25 +50,25 @@
       <div class="mt-3"></div>
       <p>
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#update-modal" aria-expanded="false" aria-controls="collapseExample">
-          UPDATE Type option
+          UPDATE availability option
         </button>
       </p>
       <div class="collapse" id="update-modal">
         <div class="card card-body" id="insert-card">
 
           <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">typeID (PK)</span>
-            <select class="form-select " id="update-type-pk-menu"> 
+            <span class="input-group-text" id="inputGroup-sizing-sm">avID (PK)</span>
+            <select class="form-select " id="update-availability-pk-menu"> 
               <option selected> number </option>
             </select>
           </div>
           <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">typeName</span>
-            <input type="text" id="update-type-name" class="form-control" aria-label="typeName" aria-describedby="inputGroup-sizing-sm">
+            <span class="input-group-text" id="inputGroup-sizing-sm">availability</span>
+            <input type="text" id="update-availability-name" class="form-control" aria-label="availability" aria-describedby="inputGroup-sizing-sm">
           </div>
           <div class="my-3 mx-4 border-top"></div>
           <div class="container-sm">
-            <button type="button" class="btn btn-success" id="updateTypeButton">UPDATE Type option</button>
+            <button type="button" class="btn btn-success" id="updateAvailabilityButton">UPDATE availability option</button>
           </div>
         </div>
       </div>
@@ -76,8 +76,8 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">typeID</th>
-            <th scope="col">typeName</th>
+            <th scope="col">avID</th>
+            <th scope="col">availability</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -95,21 +95,21 @@
     </div>
 
     <!-- Modal for updating a shelter admin -->
-    <div class="modal fade" id="updateTypeModal" tabindex="-1" aria-labelledby="TypeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateAvailabilityModal" tabindex="-1" aria-labelledby="AvailabilityModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="updateTypeModalTitle">Type Details</h5>
+            <h5 class="modal-title" id="updateAvailabilityModalTitle">Availability Details</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="card card-body" id="insert-card">
               <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm">typeName</span>
-                <input type="text" id="edit-type-name" class="form-control" aria-label="typeName" aria-describedby="inputGroup-sizing-sm">
+                <span class="input-group-text" id="inputGroup-sizing-sm">availability</span>
+                <input type="text" id="update-Availability-name" class="form-control" aria-label="Availability" aria-describedby="inputGroup-sizing-sm">
               </div>
               <div class="container-sm">
-                <button type="button" class="btn btn-success">UPDATE Type option</button>
+                <button type="button" class="btn btn-success">UPDATE availability option</button>
               </div>
             </div>
           </div>
@@ -125,6 +125,6 @@
             integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
             crossorigin="anonymous">
     </script>
-   <!-- <script src="../../scripts/siteAdmin/type.js"></script> --> 
+    <script src="../../../scripts/siteAdmin/availability.js"></script> 
   </body>
 </html>
