@@ -57,7 +57,6 @@ const getAllImages = (request, response) => {
 
 const readPet = (request, response) => {
   const id = parseInt(request.params.petid);
-  console.log(request.params.petid)
   pool.query(
     "SELECT * FROM pet WHERE petid = $1", 
     [id],
@@ -273,7 +272,6 @@ const updateImage = (request, response) => {
   const {
     imageurl
   } = request.body;
-  console.log(request.body);
   pool.query(
     "UPDATE images \
     SET imageurl = $1 \
