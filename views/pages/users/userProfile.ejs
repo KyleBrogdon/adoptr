@@ -9,87 +9,84 @@
 <body>
 
     <%- include('../../partials/header_user'); %>
-        <div class="container overflow-hidden">
+
+    <div class="container overflow-hidden">
+        <div  id="profileFields" class="col" style="padding-right: 10%;">
+          <data hidden id="hidden-userID"></data>
+        </div>
+            <!-- <div id="profileUpdateField"></div> -->
+    </div>
+    <br><br><br>
             <div class="row">
-                <div id="profileFields" class="col" style="padding-right: 10%;">
-
-                    <data hidden id="hidden-userID"></data>
-                    <!-- <div id="profileUpdateField"></div> -->
+                <div class="col" id=profileUpdateField>
+                    <h6 class="display-6" style="text-decoration: underline;">User Profile</h6>
                 </div>
-            </div>
-            <br>
-            <br.<br>
-                <div class="row">
-                    <div class="col" id=profileUpdateField>
-                        <h6 class="display-6" style="text-decoration: underline;">User Profile</h6>
-                    </div>
-                    <div class="col">
-                        <div id="passwordUpdateField" class="col" style="padding-left: 10%;">
-                            <h6 class="display-6" style="text-decoration: underline;">Password</h6>
-                            <div class="mb-3">
-                                <label for="currentPassword" class="form-label">Current Password</label>
-                                <input type="password" class="form-control" id="currentPassword">
-                            </div>
-                            <div class="mb-3">
-                                <label for="newPassword" class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="newPassword">
-                            </div>
-                            <div class="mb-3">
-                                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" id="confirmPassword">
-                            </div>
-                            <button class="btn btn-primary" id="updatePassword">Update</button>
-                            <br><br>
+                <div class="col">
+                    <div id="passwordUpdateField" class="col" style="padding-left: 10%;">
+                        <h6 class="display-6" style="text-decoration: underline;">Password</h6>
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" id="currentPassword">
                         </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword">
+                        </div>
+                        <button class="btn btn-primary" id="updatePassword">Update</button>
+                        <br><br>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="card card-body">
-                        <div class="input-group input-group-sm mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-sm">Search</span>
-                            <input type="text" id="searchBar" class="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm">
-                            <div class="col-2">
-                                <select class="form-select " id="atribute-form">
-                                    <option selected> Property </option>
-                                    <option value="petID">petID</option>
-                                    <option value="petName">petName</option>
-                                    <option value="petType">petType</option>
-                                    <option value="petAge">petAge</option>
-                                    <option value="petSex">petSex</option>
-                                </select>
-                            </div>
+              </div>
+              <div class="row">
+                  <!-- <div class="card card-body">
+                      <div class="input-group input-group-sm mb-3">
+                          <span class="input-group-text" id="inputGroup-sizing-sm">Search</span>
+                          <input type="text" id="searchBar" class="form-control" aria-label="Sizing example input"
+                              aria-describedby="inputGroup-sizing-sm">
+                          <div class="col-2">
+                              <select class="form-select " id="atribute-form">
+                                  <option selected> Property </option>
+                                  <option value="petID">petID</option>
+                                  <option value="petName">petName</option>
+                                  <option value="petType">petType</option>
+                                  <option value="petAge">petAge</option>
+                                  <option value="petSex">petSex</option>
+                              </select>
+                          </div>
 
-                        </div>
-                        <div class="my-3 mx-4 border-top"></div>
-                        <div class="container-sm">
-                            <button type="button" class="btn btn-success" id="searchButton">Search option(s)</button>
-                        </div>
-                    </div>
-                    <div class="mt-3"></div>
-                    <div class="my-3 mx-4 border-top"></div>
-                    <div class="container-sm">
-                        <button type="button" class="btn btn-success" id="resetLikesButton">reset likes</button>
-                        <button type="button" class="btn btn-success" id="resetRejectsButton">reset reject</button>
-                    </div>
-                </div>
+                      </div>
+                      <div class="my-3 mx-4 border-top"></div>
+                      <div class="container-sm">
+                          <button type="button" class="btn btn-success" id="searchButton">Search option(s)</button>
+                      </div>
+                  </div> -->
+                  <div class="mt-3"></div>
+                  <div class="my-3 mx-4 border-top"></div>
+                  <div class="container-sm">
+                      <button type="button" class="btn btn-success" id="resetLikesButton">reset likes</button>
+                      <button type="button" class="btn btn-success" id="resetRejectsButton">reset reject</button>
+                  </div>
+              </div>
 
 
-                <h6 class="display-6" style="text-decoration: underline; padding-top: 2%;">Pet List</h6>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">type</th>
-                            <th scope="col">age</th>
-                            <th scope="col">sex</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="main-rows">
-                    </tbody>
-                </table>
-
+              <h6 class="display-6" style="text-decoration: underline; padding-top: 2%;">Pet List</h6>
+              <table class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th scope="col">Name</th>
+                          <th scope="col">type</th>
+                          <th scope="col">age</th>
+                          <th scope="col">sex</th>
+                          <th scope="col">Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody id="main-rows">
+                  </tbody>
+              </table>
         </div>
 
 

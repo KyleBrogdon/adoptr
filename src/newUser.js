@@ -16,7 +16,7 @@ class newUserInfo{
     }
 }
 
-async function validateUser(user){
+async function validateEmail(user){
     let response = await axios.get(`/login/${user.username}`);
     console.log(response);
     return response.data;
@@ -41,7 +41,7 @@ async function createUser(user){
         email: user.username,
         userpassword : user.password,
         adminstatus : user.adminstatus})
-    return
+    return response.data
 }
 
 async function setupNewUser (){
@@ -66,7 +66,7 @@ createButton.addEventListener("click", async (e) => {
     } else {
         if (email.value.includes("@") == false){
             invalidErrorMsg.style.opacity = 1;
-            return
+            setupNewUser();
         }
         user.username = email.value;
     }
@@ -80,28 +80,36 @@ createButton.addEventListener("click", async (e) => {
         }
         else{
             passwordErrorMsg.style.opacity = 1;
-            return
+            setupNewUser();
         }
     }
     if (!firstname.value || !lastname.value){
         formsFilled == false;
     }
     if (formsFilled == true){
-        let validate = await validateUser(user);
+        let validate = await validateEmail(user);
         if (validate[0].count == 0){
-            await createUser(user);
-            location.href = '/landing/petCards';
-            //pass id to session
-            return
+            let response = await createUser(user);
+            console.log(response);
+            // strip non-numeric characters to get the id from the response
+            response = response.replace(/\D/g,'');
+            console.log(response);
+            sessionStorage.setItem('userid', response);
+            if (document.getElementById("shelterAdmin").checked){
+                location.href = '/shelterAdmin/shelterAdminProfile';
+            } else{
+                location.href = '/landing/petCards';
+            }
         }
+        // email already registered in database
         else {
             emailErrorMsg.style.opacity = 1;
-            return
+            setupNewUser();
         }
     // form is missing required data
     } else {
         missingErrorMsg.style.opacity = 1;
-        return
+        setupNewUser();
     }
     
 

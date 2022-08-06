@@ -55,7 +55,7 @@ const createUser = (request, response) => {
     "INSERT INTO \
       app_user(firstname, lastname, email, userpassword, adminstatus) \
       VALUES\
-      ($1, $2, $3, $4, $5) RETURNING *",
+      ($1, $2, $3, $4, $5) RETURNING userid",
     queryVals,
     (error, results) => {
       if (error) {
@@ -115,7 +115,7 @@ const updateUserNameEmail = (request, response) => {
   pool.query(
     "UPDATE app_user \
     SET firstname = $1, lastname = $2, email = $3 \
-    WHERE userid = $6",
+    WHERE userid = $4",
     [firstname, lastname, email, id],
     (error, results) => {
       if (error) {
@@ -145,12 +145,12 @@ const deleteUser = (request, response) => {
 
 const searchUser = (request, response) => { //not working for some reason
   console.log(request.params)
-  
-  const value = request.params.value;
-  const property = request.params.property
+  const value = String(request.params.value);
+  const property = String(request.params.property)
+  const payload = "SELECT * FROM app_user WHERE '" + property + "' = '" + value + "'"
+  console.log("payload: " + payload)
   pool.query(
-    "SELECT * FROM app_user WHERE $1=$2",
-    [property, value],
+    payload,
     (error, results) => {
       if (error) {
         throw error;

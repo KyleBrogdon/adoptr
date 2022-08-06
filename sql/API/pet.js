@@ -220,7 +220,7 @@ const updatePetProfileProperties = (request, response) => {
     "UPDATE pet \
     SET petname = $1, age = $2, sex = $3, dateprofile = $4, \
     sizeid = $5, snstatus = $6, ststatus = $7, avid = $8, typeid = $9\
-    WHERE petid = $11",
+    WHERE petid = $10",
     [
       petname,
       age,
@@ -305,8 +305,14 @@ const addImage = (request, response) => {
 
 const updateImage = (request, response) => {
   const id = parseInt(request.params.imageid);
+<<<<<<< HEAD
   const { imageurl } = request.body;
   console.log(request.body);
+=======
+  const {
+    imageurl
+  } = request.body;
+>>>>>>> main
   pool.query(
     "UPDATE images \
     SET imageurl = $1 \

@@ -1,9 +1,14 @@
 const { default: axios } = require("axios");
+const logoutButton = require('./logoutButtonFunction')
 const loggedInUser = sessionStorage.getItem('userid')
-const { get } = require("lodash");
+const { get, set } = require("lodash");
 const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
 });
+
+if (loggedInUser) { 
+logoutButton.logoutButton(loggedInUser);
+}
 
 // work in progress
 console.log('running dating cards script');
@@ -70,8 +75,6 @@ async function setupCards() {
     let counter = 0;
 
     async function getPets() {
-        console.log('here');
-        console.log(loggedInUser);
         const response = await axios.get(`/readPetsForCards/${loggedInUser}`)
         console.log(response);
         return response.data

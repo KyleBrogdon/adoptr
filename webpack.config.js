@@ -14,9 +14,32 @@ module.exports = {
       "siteAdmin",
       "shelters.js"
     ),
+    "scripts/siteAdmin/availability": path.join(
+      __dirname,
+      "src",
+      "siteAdmin",
+      "availability.js"
+    ),
+    "scripts/siteAdmin/type": path.join(
+      __dirname,
+      "src",
+      "siteAdmin",
+      "type.js"
+    ),
+    "scripts/siteAdmin/size": path.join(
+      __dirname,
+      "src",
+      "siteAdmin",
+      "size.js"
+    ),
     "scripts/user/user": path.join(__dirname, "src", "user", "user.js"),
     "scripts/pets/datingCards": path.join(__dirname, "src", "datingCards.js"),
-    "scripts/user/petProfile": path.join(__dirname, "src", "petProfile.js"),
+    "scripts/user/petProfile": path.join(
+      __dirname,
+      "src",
+      "user",
+      "petProfile.js"
+    ),
     "scripts/shelterAdmin/petProfile": path.join(
       __dirname,
       "src",
@@ -29,8 +52,21 @@ module.exports = {
       "shelterAdmin",
       "shelterProfile.js"
     ),
+    "scripts/shelterAdmin/adminProfile": path.join(
+      __dirname,
+      "src",
+      "shelterAdmin",
+      "shelterAdminProfile.js"
+    ),
+    "scripts/shelterAdmin/shelterList": path.join(
+      __dirname,
+      "src",
+      "shelterAdmin",
+      "shelterList.js"
+    ),
     "scripts/user/login": path.join(__dirname, "src", "login.js"),
     "scripts/user/newUser": path.join(__dirname, "src", "newUser.js"),
+    "scripts/landing/landing": path.join(__dirname, "src", "landingPage.js"),
     "scripts/user/petSearch": path.join(__dirname, "src", "petSearch.js"),
   },
   mode: "development",

@@ -31,7 +31,10 @@ const readAdminShelter = (request, response) => {
 const readAdminShelterUser = (request, response) => {
   const id = parseInt(request.params.userid);
   pool.query(
-    "SELECT * FROM admin_shelter WHERE userid = $1",
+    "SELECT * \
+    FROM admin_shelter\
+    WHERE userid = $1\
+    ORDER BY shelterid ASC",
     [id],
     (error, results) => {
       if (error) {
@@ -93,11 +96,15 @@ const deleteAdminShelter = (request, response) => {
     }
   );
 };
+
+
+
+
 module.exports = {
   readAdminShelters,
   readAdminShelter,
   readAdminShelterUser,
   createAdminShelter,
   updateAdminShelter,
-  deleteAdminShelter,
+  deleteAdminShelter
 };

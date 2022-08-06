@@ -3,6 +3,8 @@
 // CREATE/READ/UPDATE to the user table
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
+const loggedInUser = sessionStorage.getItem('userid');
+const logoutButton = require('../logoutButtonFunction');
 
 
 
@@ -10,6 +12,9 @@ const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
 });
 
+if (loggedInUser) { 
+    logoutButton.logoutButton(loggedInUser);
+    };
 
 class petEntry {
   constructor(
@@ -43,7 +48,9 @@ class petEntry {
   generateRow() {
     let element = document.createElement("tr");
     element.innerHTML = `
-      <th scope="row">${this.petname}</th>
+      <th scope="row">
+        <a id="link-${this.petid}" href="/users/petProfile?petid=${this.petid}" class="link-primary" target="_blank">${this.petname}</a>
+      </th>
       <td>${this.typeid}</td>
       <td>${this.age}</td>
       <td>${this.sex}</td>

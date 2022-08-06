@@ -38,7 +38,7 @@
                 </div>
 
                 <div class = row>
-                    <div id="nameUpdateField" class="col" style="padding-left: 10%;">
+                    <div id="locationUpdateField" class="col" style="padding-left: 10%;">
                         <h6 class="display-6" style ="text-decoration: underline;">location</h6>
                         <div class="mb-3">
                             <div class ='row'>
@@ -46,10 +46,10 @@
                                     <input type="name" class="form-control" id="newZip" value = 'zip'>
                                 </div>
                                 <div class="col">
-                                    <input type="name" class="form-control" id="newCity" value = 'city'>
+                                    <input type="name" class="form-control" id="newCity" value = 'city' readonly>
                                 </div>
                                 <div class="col">
-                                    <input type="name" class="form-control" id="newState" value = 'state'>
+                                    <input type="name" class="form-control" id="newState" value = 'state' readonly>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                 </div>
 
                 <div class = "row">
-                    <div id="nameUpdateField" class="col" style="padding-left: 10%;">
+                    <div id="contactUpdateField" class="col" style="padding-left: 10%;">
                         <h6 class="display-6" style ="text-decoration: underline;">contact info</h6>
                         <div class="mb-3">
                             <input type="name" class="form-control" id="currentEmail" value = 'email'>
@@ -101,7 +101,7 @@
 
 
 
-      <div class="card card-body">
+      <!-- <div class="card card-body">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="inputGroup-sizing-sm">Search</span>
           <input type="text" id="searchBar" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
@@ -119,7 +119,7 @@
         <div class="container-sm">
           <button type="button" class="btn btn-success" id="searchButton">SELECT Pet(s)</button>
         </div>
-      </div>
+      </div> -->
   
 
 
@@ -131,13 +131,59 @@
                   <th scope="col">type</th>
                   <th scope="col">age</th>
                   <th scope="col">sex</th>
-                  <th scope="col">Actions</th>           
+                  <th scope="col">Actions</th>     
                 </tr>
             </thead>
             <tbody id="main-rows">
             </tbody>
         </table>
+
+
+        <p>
+          <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNewPet" aria-expanded="false" aria-controls="collapseExample">
+            INSERT new Pet
+          </button>
+        </p>
+        <div class="collapse" id="collapseNewPet">
+          <div class="card card-body" id="insert-card">
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
+              <input type="text" id="new-pet-name" class="form-control" aria-label="petName" aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <div class="input-group input-group-sm mb-3" id="new-pet-type">
+              <span class="input-group-text" id="inputGroup-sizing-sm">type</span>
+              <select class="form-select " id="atribute-form-type"> 
+                <option selected> Undefined </option>
+              </select>
+            </div>
+            <div class="input-group input-group-sm mb-3" id="new-pet-age">
+              <span class="input-group-text" id="inputGroup-sizing-sm">age</span>
+              <select class="form-select " id="atribute-form"> 
+                <option selected> Undefined </option>
+                <option value="Baby">Baby</option>
+                <option value="Young">Young</option>
+                <option value="Adult">Adult</option>
+                <option value="Senior">Senior</option>
+              </select>
+            </div>
+            <div class="input-group input-group-sm mb-3" id="new-pet-sex">
+              <span class="input-group-text" id="inputGroup-sizing-sm">sex</span>
+              <select class="form-select " id="atribute-form"> 
+                <option selected> Undefined </option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+
+            <div class="my-3 mx-4 border-top"></div>
+            <div class="container-sm">
+              <button type="button" class="btn btn-primary" id="addPetButton">INSERT Pet</button>
+            </div>
+          </div>
+        </div>
+
     </div>
+
 
 
 

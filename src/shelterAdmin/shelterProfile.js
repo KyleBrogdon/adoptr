@@ -3,12 +3,12 @@
 // CREATE/READ/UPDATE to the shelter table
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
+const loggedInUser = sessionStorage.getItem('userid')
+const logoutButton = require('../logoutButtonFunction')
 
-
-
-
-
-
+if (loggedInUser) { 
+    logoutButton.logoutButton(loggedInUser);
+}
 
 const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
@@ -47,20 +47,42 @@ class petEntry {
   generateRow() {
     let element = document.createElement("tr");
     element.innerHTML = `
-      <th scope="row">${this.petname}</th>
+      <th scope="row">
+        <a id="link-${this.petid}" href="/shelterAdmin/petProfiles?petid=${this.petid}" class="link-primary" >${this.petname}</a>
+      </th>
       <td>${this.typeid}</td>
       <td>${this.age}</td>
       <td>${this.sex}</td>
       <td>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petid}" value = "${this.petid}">Expand</button>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="delete-button-${this.petid}" value = "${this.petid}">delete</button>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="profile-button-${this.petid}" value = "${this.petid}"><a class="nav-link" href="/shelterAdmin/petProfiles?petid=${this.petid}">Profile</a></button>
+        <button type="button" class="btn btn-primary btn-sm" id="expand-button-${this.petid}" value = "${this.petid}">Expand</button>
+        <button type="button" class="btn btn-danger btn-sm" id="delete-button-${this.petid}" value = "${this.petid}">delete</button>
       </td>
     `;
     return element;
   }
 
 };
+
+function getShelterID(){
+  let pageURL = document.URL;
+  let ID = pageURL.split('=')[1];
+  //console.log(ID)
+  // console.log(location.search)
+  // // const urlParams = new URLSearchParams(location.search);
+
+  // // for (const [key, value] of urlParams) {
+  // //     console.log(`${key}:${value}`);
+  // // }
+
+  return ID
+}
+
+
+
+async function checkCreds(){
+
+}
+
 
 
 
@@ -69,7 +91,6 @@ const getBasePetInfo = async (pet) =>{
     const resp = await axios.get(`/pet/${pet.petid}`).then((response) => {
       if (response.status == 200 && response.status < 300) {
         const petResponse = response.data
-        console.log(petResponse)
         return new petEntry(
             JSON.stringify(petResponse[0].petid), petResponse[0].petname,
             petResponse[0].age, petResponse[0].sex,
@@ -82,7 +103,6 @@ const getBasePetInfo = async (pet) =>{
         console.log('failed pet pull')
       }
     })
-    console.log(resp)
     return resp
   }catch(err){
 
@@ -105,10 +125,6 @@ function deletePet(pet){
     console.log("delete button enabled")
   })
 }
-
-
-
-
 
 function petDetails(pet){
   document.getElementById(`expand-button-${pet.petid}`).addEventListener("click", () => {
@@ -163,64 +179,6 @@ function petDetails(pet){
   });
 }
 
-
-function selectProperty(){
-  if(document.getElementById('searchBar').value.length  > 0 && 
-    document.getElementById('atribute-form').value.length > 0 && 
-    document.getElementById('atribute-form').value != 'Attribute'){
-  
-      console.log("search bar: " + document.getElementById('searchBar').value)
-      document.getElementById("loadingbar").style.display = "inline";
-  
-      var search = {property: null, value: null};      
-      search.property = document.getElementById('atribute-form').value;
-      search.value = document.getElementById('searchBar').value;
-
-      axios.get(`/pets/${search.property}/${search.value}`).then((response) => {
-        console.log(response.status)
-        if (response.status == 200) {
-          console.log(response.data)
-          const parsedJson = response.data
-          console.log(parsedJson);
-          
-          if (parsedJson.length > 0){
-            console.log("results exist")
-
-          } else{
-            console.log("no results returned")
-          }
-  
-          document.getElementById("loadingbar").style.display = "none";
-    
-          document.getElementById("searchButton").addEventListener("click", () => {
-            selectProperty()
-          });
-        
-          document.getElementById("updatePassword").addEventListener("click", () => {
-            updatePassword();
-          });
-        
-        
-          document.getElementById("updateProfileButton").addEventListener("click", () => {
-            updateProfile();
-          });
-      
-          document.getElementById("resetRejectsButton").addEventListener("click", () => {
-            resetRejectTable();
-          });
-      
-          document.getElementById("resetLikesButton").addEventListener("click", () => {
-            resetLikeTable();
-          });
-
-        }else{
-          console.log("API error");        
-        }
-      })  
-
-      console.log('search Enabled')
-  }
-}
 
 const updatePassword = async () => {
 //function updatePassword(){
@@ -313,103 +271,182 @@ const updatePassword = async () => {
 }
 
 
-function updateProfile(){
-  console.log("updating profile")
+async function updateNaming(){
+  let updatefield = document.getElementById("nameUpdateField");
 
-  let updatefield = document.getElementById("profileFields");
-
-  if(document.body.contains(document.getElementById("profileMessage"))){
-    updatefield.removeChild(document.getElementById("profileMessage")); 
+  if(document.body.contains(document.getElementById("name message"))){
+    updatefield.removeChild(document.getElementById("name message")); 
   }
 
-  if(document.getElementById('InputFirstName').value.length > 0
-  && document.getElementById('InputLastName').value.length > 0
-  && document.getElementById('InputEmail').value.length > 0){
-    
-    var shelter ={shelterid:null, firstname: null, lastname: null, email:null};
-    shelter.shelterid = document.getElementById("hidden-shelterID").value;
-    shelter.firstname = document.getElementById("InputFirstName").value;
-    shelter.lastname = document.getElementById("InputLastName").value;
-    shelter.email = document.getElementById("InputEmail").value;
+  let sheltername = document.getElementById("newName").value
+  let sheltercode = document.getElementById("newCode").value   
+  let shelterid = document.getElementById("hidden-shelterID").value;
+  axios.put(`/shelterName/${shelterid}`,{
+    sheltername: sheltername,
+    sheltercode: sheltercode,
+  }).then((response) => {
+    console.log(response.status)
+    if (response.status >= 200 && response.status<300) {
+      let element = document.createElement('div');
+      element.innerHTML = `Name Updated`;
+      element.setAttribute("class","alert alert-primary");
+      element.setAttribute("id","name message");
+      updatefield.appendChild(element);
+      
+    }else{
+      let element = document.createElement('div');
+      element.innerHTML = `Update Failed`;
+      element.setAttribute("class","alert alert-danger");
+      element.setAttribute("id","name message");
+      updatefield.appendChild(element);
+            
+    }
+  }) 
+};
 
-    axios.put(`/dbshelterNameEmail/${shelter.shelterid}`,{
-      firstname: shelter.firstname,
-      lastname: shelter.lastname,
-      email : shelter.email
-    }).then((response) => {
-      console.log(response.status)
-      if (response.status >= 200 && response.status<300) {
-        let element = document.createElement('div');
-        element.innerHTML = `Profile Updated`;
-        element.setAttribute("class","alert alert-primary");
-        element.setAttribute("id","profileMessage");
-        updatefield.appendChild(element);
-        
-      }else{
-        let element = document.createElement('div');
-        element.innerHTML = `Update Failed`;
-        element.setAttribute("class","alert alert-danger");
-        element.setAttribute("id","profileMessage");
-        updatefield.appendChild(element);
-              
-      }
-    })  
+async function updateLocation(){
+  let updatefield = document.getElementById("locationUpdateField");
 
+  if(document.body.contains(document.getElementById("location message"))){
+    updatefield.removeChild(document.getElementById("location message")); 
   }
-  else{ 
-    console.log("invalid update");
-    let element = document.createElement('div');
-    element.innerHTML = `Provide a complete profile`;
-    element.setAttribute("class","alert alert-danger");
-    element.setAttribute("id","profileMessage");
-    updatefield.appendChild(element);
+
+  let zipcode = document.getElementById("newZip").value
+  let shelterid = document.getElementById("hidden-shelterID").value;
+
+  let zipid = await getZipID(zipcode)
+  let cityid = await getCity(zipid[0].cityid)
+  let stateid = await getState(cityid[0].stateid)
+
+  console.log(zipid)
+  console.log(cityid)
+  console.log(stateid)
+  let zipcodeid = zipid[0].zipcodeid
+  cityid = cityid[0].cityid
+  stateid =stateid[0].stateid
+
+  axios.put(`/shelterLocation/${shelterid}`,{
+    zipcodeid :zipcodeid,
+    cityid : cityid,
+    stateid : stateid
+  }).then((response) => {
+    console.log(response.status)
+    if (response.status >= 200 && response.status<300) {
+      let element = document.createElement('div');
+      element.innerHTML = `Location Updated`;
+      element.setAttribute("class","alert alert-primary");
+      element.setAttribute("id","location message");
+      updatefield.appendChild(element);
+      
+    }else{
+      let element = document.createElement('div');
+      element.innerHTML = `Update Failed`;
+      element.setAttribute("class","alert alert-danger");
+      element.setAttribute("id","location message");
+      updatefield.appendChild(element);
+            
+    }
+  }) 
+};
+
+async function updateContact(){
+  let updatefield = document.getElementById("contactUpdateField");
+
+  if(document.body.contains(document.getElementById("contact message"))){
+    updatefield.removeChild(document.getElementById("contact message")); 
   }
+  let email = document.getElementById("currentEmail").value
+  let phone = document.getElementById("currentPhone").value   
+  let shelterid = document.getElementById("hidden-shelterID").value;
+  axios.put(`/shelterContact/${shelterid}`,{
+    phonenumber: phone,
+    email: email,
+  }).then((response) => {
+    console.log(response.status)
+    if (response.status >= 200 && response.status<300) {
+      let element = document.createElement('div');
+      element.innerHTML = `Contact Info Updated`;
+      element.setAttribute("class","alert alert-primary");
+      element.setAttribute("id","contact message");
+      updatefield.appendChild(element);
+      
+    }else{
+      let element = document.createElement('div');
+      element.innerHTML = `Update Failed`;
+      element.setAttribute("class","alert alert-danger");
+      element.setAttribute("id","contact message");
+      updatefield.appendChild(element);
+            
+    }
+  }) 
+};
+
+
+async function popInsertType(){
+  let main = document.getElementById("atribute-form-type")
+  const response = await axios.get(`/type`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  response.forEach(type=>{
+    let element = document.createElement("option");
+    element.value = type.typeid
+    element.textContent = type.typename
+    main.appendChild(element)
+  })
+
 }
 
-
-function getShelterID(){
-    let pageURL = document.URL;
-    let ID = pageURL.split('=')[1];
-    console.log(ID)
-    return ID
-}
-
-
-
-async function getZip(shelter){
-    const response = await axios.get(`/zipcode/${shelter.zipcodeid}`).then((response) => {
-      if(response.status >= 200 && response.status < 300){
-        return response.data
-      }
-      else{
-        console.log('API error')
-      }
-    })
-    return response
+async function getZipID(zipcode){
+  const response = await axios.get(`/zipcodeValue/${zipcode}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
 } 
 
-async function getCity(shelter){
-    const response = await axios.get(`/city/${shelter.cityid}`).then((response) => {
-      if(response.status >= 200 && response.status < 300){
-        return response.data
-      }
-      else{
-        console.log('API error')
-      }
-    })
-    return response
+async function getZip(zipcodeid){
+  const response = await axios.get(`/zipcode/${zipcodeid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
 } 
 
-async function getState(shelter){
-    const response = await axios.get(`/state/${shelter.stateid}`).then((response) => {
-      if(response.status >= 200 && response.status < 300){
-        return response.data
-      }
-      else{
-        console.log('API error')
-      }
-    })
-    return response
+async function getCity(cityid){
+  const response = await axios.get(`/city/${cityid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
+} 
+
+async function getState(stateid){
+  const response = await axios.get(`/state/${stateid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
 } 
 
 async function getSize(pet){
@@ -423,7 +460,6 @@ async function getSize(pet){
     })
     return response
 } 
-
 
 async function getShelter(pet){
   const response = await axios.get(`/shelter/${pet.shelterid}`).then((response) => {
@@ -489,24 +525,13 @@ async function getImage(pet){
 const setupList = async () => {
   let shelter ={shelterID: null}
   shelter.shelterID = getShelterID() //test
-  console.log('setting up list')
+
   document.getElementById('hidden-shelterID').value = shelter.shelterID
 
-  // const shelterCallTest = await fetch(`/dbshelters/${shelter.shelterID}`)
-  // const profileResponse = await shelterCallTest.json();
-
-  // console.log(profileResponse[0])
-
-
   const shelterCall = await axios.get(`/shelter/${shelter.shelterID}`).then((response) => {
-    console.log(response);
     if (response.status >= 200 && response.status < 300) {
-
       const profileResponse = response.data
-      console.log(profileResponse);
-
-      //document.getElementById("shelterID").value = profileResponse.shelterID
-        return profileResponse
+      return profileResponse
     
     } else {
       console.log("API error");
@@ -517,23 +542,17 @@ const setupList = async () => {
   document.getElementById('currentEmail').value = shelterCall[0].email
   document.getElementById('currentPhone').value = shelterCall[0].phonenumber
 
-  let zip = await getZip(shelterCall[0])
-  let city = await getCity(shelterCall[0])
-  let state = await getState(shelterCall[0])
-
-  console.log(shelterCall[0])
+  let zip = await getZip(shelterCall[0].zipcodeid)
+  let city = await getCity(shelterCall[0].cityid)
+  let state = await getState(shelterCall[0].stateid)
 
   document.getElementById('newZip').value = zip[0].zipcode
   document.getElementById('newCity').value = city[0].cityname
   document.getElementById('newState').value = state[0].statecode
 
-
-
   const savedPets = await axios.get(`/petshelter/${shelter.shelterID}`).then((response) => {
-    console.log(response.status);
     if (response.status >= 200 && response.status < 300) {
       const petIDList = response.data
-      console.log(petIDList)
       return petIDList
     }
     else{
@@ -541,12 +560,9 @@ const setupList = async () => {
     }
   })
 
-  console.log(savedPets)
-
   const mainList = document.getElementById("main-rows");
   const pets = Array();
   savedPets.forEach(async petid=>{
-    console.log("getting: " + petid.petid)
     let newPet = await getBasePetInfo(petid)
     let size = await getSize(newPet)
     let type = await getType(newPet)
@@ -566,37 +582,34 @@ const setupList = async () => {
 
     pets.push(newPet)
   })
-  console.log(pets)
 
-  
+
+  await popInsertType()
+
   document.getElementById("loadingbar").style.display = "none";
     
-  document.getElementById("searchButton").addEventListener("click", () => {
-    selectProperty()
-  });
-
   document.getElementById("updatePassword").addEventListener("click", () => {
     updatePassword();
   });
 
-
   document.getElementById("updateName").addEventListener("click", () => {
-    updateProfile();
+    updateNaming();
   });
 
   document.getElementById("updateLocation").addEventListener("click", () => {
-    updateProfile();
+    updateLocation();
   });
 
   document.getElementById("updateContact").addEventListener("click", () => {
-    updateProfile();
+    updateContact();
+  });
+
+  document.getElementById("addPetButton").addEventListener("click", () => {
+    console.log("adding pet")
   });
 
 
 };
 
-
-console.log(document.URL)
-console.log("Running successfully!");
 getShelterID()
 setupList();

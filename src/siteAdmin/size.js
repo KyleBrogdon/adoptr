@@ -1,7 +1,7 @@
 // Site Admin size page
 // Database access:
 // CREATE/READ/UPDATE/DESTROY to the size table
-
+const { default: axios, Axios } = require("axios");
   
 const updatesizeModal = new bootstrap.Modal(document.getElementById('updateSizeModal'), {
     keyboard: false
@@ -10,24 +10,24 @@ const updatesizeModal = new bootstrap.Modal(document.getElementById('updateSizeM
   
 class sizeEntry {
     constructor(
-      sizeID,
-      petSize
+      sizeid,
+      petsize
     ) {
-      this.sizeID = sizeID;
-      this.petSize = petSize;
+      this.sizeid = sizeid;
+      this.petsize = petsize;
     }
   
     generateRow() {
       let element = document.createElement("tr");
       element.innerHTML = `
-        <th scope="row">${this.sizeID}</th>
+        <th scope="row">${this.sizeid}</th>
         <td>
-          <span>${this.petSize}</span>
-          <data hidden id="petSize-${this.sizeID}" value = ${this.petSize}></data>
+          <span>${this.petsize}</span>
+          <data hidden id="petsize-${this.sizeid}" value = ${this.petsize}></data>
         </td>
   
         <td>
-        <button type="button" class="btn btn-outline-danger btn-sm" id="delete-button-${this.sizeID}" >Delete</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" id="delete-button-${this.sizeid}" >Delete</button>
         </td>
       `;
       return element;
@@ -35,7 +35,7 @@ class sizeEntry {
   
     generateOption() {
       let element = document.createElement("option");
-      element.innerHTML = `<option value="${this.sizeID}">${this.sizeID}</option>`;
+      element.innerHTML = `<option value="${this.sizeid}">${this.sizeid}</option>`;
       return element;
     }
   
@@ -43,7 +43,7 @@ class sizeEntry {
     
 function addEventListeners(size){
     document.getElementById(`delete-button-${size.sizeid}`).addEventListener("click", () => { //add delete
-      axios.delete(`/dbsizes/${size.sizeid}`).then((response) => {
+      axios.delete(`/size/${size.sizeid}`).then((response) => {
         console.log(response.status)
         if (response.status == 200) {
           console.log(size.sizeid + " deleted")
@@ -60,29 +60,25 @@ function addEventListeners(size){
   
 }
   
-async function addsize(){
+async function addSize(){
     console.log("adding");
     if(document.getElementById('new-size-name').value.length > 0){
 
-        //var req = new XMLHttpRequest();
-        var size = {sizename: null};
-        size.sizename = document.getElementById('new-size-name').value;
+      var size = {petsize: null};
+      size.petsize = document.getElementById('new-size-name').value;
 
+      axios.post(`/size`,{
+        petsize : size.petsize,
+      }).then((response) => {
+        console.log(response.status)
+        if (response.status >= 200 && response.status<300) {
+          console.log("size added")
+          location.reload();
 
-        axios.post(`/dbsizes`,{
-          sizename : size.sizename,
-        }).then((response) => {
-          console.log(response.status)
-          if (response.status >= 200 && response.status<300) {
-            console.log("size added")
-            location.reload();
-  
-          }else{
-            console.log("API error");        
-          }
-        })  
-
-        console.log("add size button enabled")
+        }else{
+          console.log("API error");        
+        }
+      })  
     }
     else{
         console.log("invlaid input");
@@ -91,36 +87,35 @@ async function addsize(){
   
 function populateUpdate(){
   var id = document.getElementById('update-size-pk-menu').value;
-  var sizename = document.getElementById('size-name-' + id).value;
-
-  document.getElementById('update-size-name').value = sizename;
+  var petsize = document.getElementById('petsize-' + id).value;
+  document.getElementById('update-size-name').value = petsize;
 }
   
-function updatesize(){
+function updateSize(){
     if(document.getElementById('update-size-pk-menu').value != 'number' &&
      document.getElementById('update-size-name').value.length > 0){
   
-      //var req = new XMLHttpRequest();
-      var size = {sizeid: null, sizename: null}
+      var size = {sizeid: null, petsize: null}
       
       size.sizeid = document.getElementById('update-size-pk-menu').value;
-      size.sizename = document.getElementById('update-size-name').value;
-
+      size.petsize = document.getElementById('update-size-name').value;
 
       console.log(size)
-      axios.put(`/dbsizes/${size.sizeid}`,{
-        sizename : size.sizename,
 
+      axios.put(`/size/${size.sizeid}`,{
+        petsize : size.petsize,
+  
       }).then((response) => {
         console.log(response.status)
         if (response.status >= 200 && response.status<300) {
           console.log("size updated")
           location.reload();
-
+  
         }else{
           console.log("API error");        
         }
       })  
+
 
     }
     else{
@@ -203,64 +198,54 @@ function selectProperty(){
     }
 }
   
+async function getSize(){
+  const response = await axios.get(`/size`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
+} 
   
 const setupList = async () => {
     console.log("setupList executed")
     let mainList = document.getElementById("main-rows");
     let sizePK = document.getElementById("update-size-pk-menu");
-    let sizes = Array();
+    let sizeArray = Array();
   
-    axios.get('/dbsizes').then((response) => {
-      console.log(response.status);
-      if (response.status == 200) {
-        console.log(response.data);
-
-        const parsedJson = response.data
-        console.log(parsedJson);
-
-
-        parsedJson.forEach(size => {
-          console.log(size)
-          sizes.push(new sizeEntry(size.sizeid, size.sizename));
-        });
+    const szResp = await getSize()
+    console.log(szResp)
+    szResp.forEach(size => {
+      console.log(size)
+      let newEntry = new sizeEntry(size.sizeid, size.petsize)
       
-      
-        // Activate buttons for detailed item views
-        sizes.forEach((size) => { 
-          mainList.appendChild(size.generateRow());
-          sizePK.append(size.generateOption());
-          addEventListeners(size);
-        })
-
-
-        document.getElementById("addSizeButton").addEventListener("click", () => {
-          addsize();
-        });
-      
-        document.getElementById("updateSizeButton").addEventListener("click", () => {
-          updatesize();
-        });
-      
-        document.getElementById("searchButton").addEventListener("click", () => {
-          selectProperty()
-        });
-      
-      
-        document.getElementById('update-size-pk-menu').addEventListener("change", () => {
-          populateUpdate();
-        });
-      
-        document.getElementById("loadingbar").style.display = "none";
-
-
-
-
-      } else {
-        console.log("API error");
-      }
+      mainList.appendChild(newEntry.generateRow());
+      sizePK.append(newEntry.generateOption())
+      addEventListeners(newEntry)
+      sizeArray.push(newEntry);
+  
     });
-
-    // Get item list from server
+  
+    document.getElementById("addSizeButton").addEventListener("click", () => {
+      addSize();
+    });
+  
+    document.getElementById("updateSizeButton").addEventListener("click", () => {
+      updateSize();
+    });
+  
+    // document.getElementById("searchButton").addEventListener("click", () => {
+    //   selectProperty()
+    // });
+  
+    document.getElementById('update-size-pk-menu').addEventListener("change", () => {
+      populateUpdate();
+    });
+  
+    document.getElementById("loadingbar").style.display = "none";
 };
   
   

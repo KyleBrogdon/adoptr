@@ -146,16 +146,16 @@ const updateShelterPassword = (request, response) => {
 const updateShelterName = (request, response) => {
   const id = parseInt(request.params.shelterid);
   const {
-    shelterpassword,
+    sheltername,
     sheltercode
   } = request.body;
   console.log(request.body);
   pool.query(
     "UPDATE shelter \
-    SET shelterpassword = $1, sheltercode =$2\
+    SET sheltername = $1, sheltercode =$2\
     WHERE shelterid = $3",
     [
-      shelterpassword,
+      sheltername,
       sheltercode,
       id
     ],
@@ -195,6 +195,35 @@ const updateShelterContact = (request, response) => {
 };
 
 
+const updateShelterLocation = (request, response) => {
+  const id = parseInt(request.params.shelterid);
+  const {
+    zipcodeid,
+    cityid,
+    stateid
+  } = request.body;
+  console.log(request.body);
+  pool.query(
+    "UPDATE shelter \
+    SET zipcodeid = $1, cityid = $2, stateid = $3 \
+    WHERE shelterid = $4",
+    [
+      zipcodeid,
+      cityid,
+      stateid,
+      id
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`Shelter modified with ID: ${id}`);
+    }
+  );
+};
+
+
+
 const deleteShelter = (request, response) => {
   const id = parseInt(request.params.shelterid);
   console.log("DELETE/" + id);
@@ -218,5 +247,6 @@ module.exports = {
   updateShelterContact,
   updateShelterPassword,
   updateShelterName,
+  updateShelterLocation,
   deleteShelter,
 };

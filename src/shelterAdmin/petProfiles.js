@@ -1,11 +1,16 @@
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
-
+const loggedInUser = sessionStorage.getItem('userid')
+const logoutButton = require('../logoutButtonFunction')
 
 const imageModal = new bootstrap.Modal(document.getElementById('imageModal'), {
     keyboard: false
     
 });
+
+if (loggedInUser) { 
+    logoutButton.logoutButton(loggedInUser);
+    }
 
 
 class petEntry {
@@ -152,6 +157,26 @@ function deleteImage(pic){
 }
 
 
+async function updatePetBreed(petid,breedid){
+
+  let id = await getBreedID(petid)
+  await axios.put(`/petbreed/${id[0].id}`,{
+    petid: petid,
+    breedid: breedid,
+    }).then((response) => {
+    console.log(response.status)
+    if (response.status >= 200 && response.status<300) {
+        console.log("breed updated");
+
+    }else{
+        console.log("API error");  
+        console.log("breed failed");
+    }
+  })  
+}
+
+
+
 async function updateProperties(id){
     const date = new Date();
     let day = date.getDate();
@@ -160,34 +185,66 @@ async function updateProperties(id){
     dateprofile = year + "-" + month + "-" + day
     console.log(dateprofile)
 
+    let shelterid = document.getElementById("hidden-shelterid").value
+
     let petname = document.getElementById("petName").value
     let age = document.getElementById("petAge").value
-    let sex = document.getElementById("defaultSex").value
-    let sizeid = document.getElementById("defaultSize").value
-    let snstatus = document.getElementById("defaultSN").value
-    let ststatus = document.getElementById("defaultST").value
-    let avid = document.getElementById("defaultAv").value
-    let typeid = document.getElementById("defaultType").value
-    let breedid = document.getElementById("defaultBreed").value
+    let sex = document.getElementById("atribute-form-sex").value
+    let sizeid = document.getElementById("atribute-form-size").value
+    let snstatus = document.getElementById("atribute-form-spayedOrNeutered").value
+    let ststatus = document.getElementById("atribute-form-shots").value
+    let avid = document.getElementById("atribute-form-availability").value
+    let typeid = document.getElementById("atribute-form-type").value
+    let breedid = document.getElementById("atribute-form-breed").value
 
     console.log(petname)
     console.log(age)
     console.log(sex)
-    console.log(sizeid)
+    console.log("sz " + sizeid)
     console.log(snstatus)
     console.log(ststatus)
-    console.log(avid)
-    console.log(typeid)
-    console.log(breedid)
-    // petname,
-    // age,
-    // sex,
-    // dateprofile,
-    // sizeid,
-    // snstatus,
-    // ststatus,
-    // avid,
-    // typeid,
+    console.log("av " + avid)
+    console.log("type " + typeid)
+    console.log("breed " + breedid)
+    console.log("id:" + id)
+    console.log(dateprofile)
+    await updatePetBreed(id,breedid)
+    console.log("pet Breed updated")
+
+    await axios.put(`/petProperties/${id}`,{
+      petname: petname,
+      age:age,
+      sex:sex,
+      dateprofile: dateprofile,
+      sizeid:sizeid,
+      snstatus:snstatus,
+      ststatus:ststatus,
+      avid:avid,
+      typeid: typeid,
+      shelterid:shelterid
+
+      }).then((response) => {
+      console.log(response.status)
+      if (response.status >= 200 && response.status<300) {
+          console.log("pet updated");
+          let element = document.createElement('div');
+          element.innerHTML = `pet Updated`;
+          element.setAttribute("class","alert alert-primary col");
+          element.setAttribute("id","blurb-message");
+          document.getElementById("propertiesUpdateField").appendChild(element);
+
+      }else{
+          console.log("API error");  
+          console.log("pet failed");
+          let element = document.createElement('div');
+          element.innerHTML = `pet Failed to update`;
+          element.setAttribute("class","alert alert-danger col");
+          element.setAttribute("id","blurb-message");
+          document.getElementById("propertiesUpdateField").appendChild(element);
+              
+      }
+    })
+    
 }
 
 function getPetID(){
@@ -233,8 +290,8 @@ async function getType(pet){
   return response
 } 
 
-async function getBreedID(pet){
-    const response = await axios.get(`/petbreedPID/${pet.petid}`).then((response) => {
+async function getBreedID(petid){
+    const response = await axios.get(`/petbreedPID/${petid}`).then((response) => {
       if(response.status >= 200 && response.status < 300){
         return response.data
       }
@@ -355,6 +412,7 @@ async function setSizeStatus(status){
             let opt = document.createElement('option')
             opt.id = "size-" + element.sizeid
             opt.textContent = element.petsize
+            opt.value = element.sizeid
             body.appendChild(opt)
         }
     });
@@ -379,6 +437,7 @@ async function setAVStatus(status){
             let opt = document.createElement('option')
             opt.id = "av-" + element.avid
             opt.textContent = element.pet_availability
+            opt.value = element.avid
             body.appendChild(opt)
         }
     });
@@ -403,6 +462,7 @@ async function setTypeStatus(status){
             let opt = document.createElement('option')
             opt.id = "type-" + element.typeid
             opt.textContent = element.typename
+            opt.value = element.typeid
             body.appendChild(opt)
         }
     });
@@ -427,6 +487,7 @@ async function setBreedStatus(pet){
             let opt = document.createElement('option')
             opt.id = "breed-" + element.breedid
             opt.textContent = element.breedname
+            opt.value = element.breedid
             body.appendChild(opt)
         }
     });
@@ -497,17 +558,18 @@ const setupPage = async () => {
     let avail = await getAvailability(pet)
     let pics = await getImage(pet)
     let shelter = await getShelter(pet)
-    let breedid =await getBreedID(pet)
-    //console.log(breedid)
+    let breedid =await getBreedID(pet.petid)
+    console.log(breedid)
     pet.breedid = breedid[0].breedid
-    //console.log(pet)
+    console.log(pet)
     let breed = await getBreed(pet)
     pet.breed = breed[0].breedname
     // pet.sizeid = size[0].petsize
     // pet.typeid =type[0].typename
     // pet.avid = avail[0].pet_availability
     pet.images =pics
-    // pet.shelterid = shelter[0].sheltercode
+    pet.shelterid = shelter[0].shelterid
+    document.getElementById("hidden-shelterid").value =pet.shelterid
     console.log(pics)
     setPetPic(pet)
     setSNStatus(pet.snstatus)

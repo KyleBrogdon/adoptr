@@ -4,6 +4,13 @@
 
 const { default: axios, Axios } = require("axios");
 
+const loggedInUser = sessionStorage.getItem('userid');
+const logoutButton = require('../logoutButtonFunction');
+if (loggedInUser) { 
+    logoutButton.logoutButton(loggedInUser);
+}
+
+
 // const userModal = new bootstrap.Modal(document.getElementById('userModal'), {
 //     keyboard: false
 // });
@@ -182,7 +189,7 @@ function updateUser(){
 }
   
   
-function selectProperty(){
+async function selectProperty(){
     if(document.getElementById('searchBar').value.length  > 0 && 
       document.getElementById('atribute-form').value.length > 0 && 
       document.getElementById('atribute-form').value != 'Attribute'){
@@ -193,8 +200,10 @@ function selectProperty(){
         var search = {property: null, value: null};      
         search.property = document.getElementById('atribute-form').value;
         search.value = document.getElementById('searchBar').value;
+        console.log("attribute: " + document.getElementById('atribute-form').value)
 
-        axios.get(`/dbUsers/${search.property}/${search.value}`).then((response) => {
+        
+        await axios.get(`/dbUserSearch/${search.property}/${search.value}`).then((response) => {
           console.log(response.status)
           if (response.status == 200) {
             console.log(response.data)

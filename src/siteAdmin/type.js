@@ -18,7 +18,7 @@ class typeEntry {
         <th scope="row">${this.typeid}</th>
         <td>
           <span>${this.typename}</span>
-          <data hidden id="type-name-${this.typeid}" value = ${this.typename}></data>
+          <data hidden id="type-${this.typeid}" value = ${this.typename}></data>
         </td>
   
         <td>
@@ -39,7 +39,7 @@ class typeEntry {
   
 function addEventListeners(type){
     document.getElementById(`delete-button-${type.typeid}`).addEventListener("click", () => { //add delete
-      axios.delete(`/dbtypes/${type.typeid}`).then((response) => {
+      axios.delete(`/type/${type.typeid}`).then((response) => {
         console.log(response.status)
         if (response.status == 200) {
           console.log(type.typeid + " deleted")
@@ -56,43 +56,40 @@ function addEventListeners(type){
   
 }
   
-async function addtype(){
-    console.log("adding");
-    if(document.getElementById('new-type-name').value.length > 0){
 
-        //var req = new XMLHttpRequest();
-        var type = {typename: null};
-        type.typename = document.getElementById('new-type-name').value;
+async function addType(){
+  console.log("adding");
+  if(document.getElementById('new-type-name').value.length > 0){
 
+    var type = {typename: null};
+    type.typename = document.getElementById('new-type-name').value;
 
-        axios.post(`/dbtypes`,{
-          typename : type.typename,
-        }).then((response) => {
-          console.log(response.status)
-          if (response.status >= 200 && response.status<300) {
-            console.log("type added")
-            location.reload();
-  
-          }else{
-            console.log("API error");        
-          }
-        })  
+    axios.post(`/type`,{
+      typename : type.typename,
+    }).then((response) => {
+      console.log(response.status)
+      if (response.status >= 200 && response.status<300) {
+        console.log("size added")
+        location.reload();
 
-        console.log("add type button enabled")
-    }
-    else{
-        console.log("invlaid input");
-    }
+      }else{
+        console.log("API error");        
+      }
+    })  
+  }
+  else{
+      console.log("invlaid input");
+  }
 }
-  
+
 function populateUpdate(){
   var id = document.getElementById('update-type-pk-menu').value;
-  var typename = document.getElementById('type-name-' + id).value;
+  var typename = document.getElementById('type-' + id).value;
 
   document.getElementById('update-type-name').value = typename;
 }
   
-function updatetype(){
+function updateType(){
     if(document.getElementById('update-type-pk-menu').value != 'number' &&
      document.getElementById('update-type-name').value.length > 0){
   
@@ -104,7 +101,7 @@ function updatetype(){
 
 
       console.log(type)
-      axios.put(`/dbTypes/${type.typeid}`,{
+      axios.put(`/type/${type.typeid}`,{
         typename : type.typename,
 
       }).then((response) => {
@@ -198,65 +195,57 @@ function selectProperty(){
         console.log('search Enabled')
     }
 }
-  
+
+async function getType(){
+  const response = await axios.get(`/type`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
+} 
   
 const setupList = async () => {
     console.log("setupList executed")
     let mainList = document.getElementById("main-rows");
     let typePK = document.getElementById("update-type-pk-menu");
-    let types = Array();
+    let typeArray = Array();
   
-    axios.get('/dbtypes').then((response) => {
-      console.log(response.status);
-      if (response.status == 200) {
-        console.log(response.data);
 
-        const parsedJson = response.data
-        console.log(parsedJson);
-
-
-        parsedJson.forEach(type => {
-          console.log(type)
-          types.push(new typeEntry(type.typeid, type.typename));
-        });
+    const typeResp = await getType()
+    console.log(typeResp)
+    typeResp.forEach(type => {
+      console.log(type)
+      let newEntry = new typeEntry(type.typeid, type.typename)
       
-      
-        // Activate buttons for detailed item views
-        types.forEach((type) => { 
-          mainList.appendChild(type.generateRow());
-          typePK.append(type.generateOption());
-          addEventListeners(type);
-        })
-
-
-        document.getElementById("addtypeButton").addEventListener("click", () => {
-          addtype();
-        });
-      
-        document.getElementById("updatetypeButton").addEventListener("click", () => {
-          updatetype();
-        });
-      
-        document.getElementById("searchButton").addEventListener("click", () => {
-          selectProperty()
-        });
-      
-      
-        document.getElementById('update-type-pk-menu').addEventListener("change", () => {
-          populateUpdate();
-        });
-      
-        document.getElementById("loadingbar").style.display = "none";
-
-
-
-
-      } else {
-        console.log("API error");
-      }
+      mainList.appendChild(newEntry.generateRow());
+      typePK.append(newEntry.generateOption())
+      addEventListeners(newEntry)
+      typeArray.push(newEntry);
+  
     });
+  
+    document.getElementById("addTypeButton").addEventListener("click", () => {
+      addType();
+    });
+  
+    document.getElementById("updateTypeButton").addEventListener("click", () => {
+      updateType();
+    });
+  
+    // document.getElementById("searchButton").addEventListener("click", () => {
+    //   selectProperty()
+    // });
+  
+    document.getElementById('update-type-pk-menu').addEventListener("change", () => {
+      populateUpdate();
+    });
+  
+    document.getElementById("loadingbar").style.display = "none";
 
-    // Get item list from server
 };
   
   
