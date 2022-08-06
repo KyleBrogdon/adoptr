@@ -55,7 +55,7 @@ const createUser = (request, response) => {
     "INSERT INTO \
       app_user(firstname, lastname, email, userpassword, adminstatus) \
       VALUES\
-      ($1, $2, $3, $4, $5) RETURNING *",
+      ($1, $2, $3, $4, $5) RETURNING userid",
     queryVals,
     (error, results) => {
       if (error) {
