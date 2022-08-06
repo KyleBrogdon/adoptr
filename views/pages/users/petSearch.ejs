@@ -22,7 +22,7 @@
           <span class="input-group-text" id="inputGroup-sizing-sm">Search</span>
           <input type="text" id="searchBar" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
           <div class="col-2">
-            <select class="form-select " id="atribute-form"> 
+            <select class="form-select" id="attribute-form" onChange="selectValue(this.selectedIndex);"> 
               <option selected> Property </option>
               <option value="petID">pet ID</option>
               <option value="petName">pet Name</option>
@@ -52,18 +52,7 @@
                 <th scope="col">Actions</th>           
                 </tr>
             </thead>
-            <tbody id="main-rows">
-              <tr>
-                <th scope="col">-1</th>
-                <th scope="col">bob</th>
-                <th scope="col">Dog</th>
-                <th scope="col">puppy</th>
-                <th scope="col">Male</th>
-                <th scope="col">
-                  <button class="btn btn-primary" id="updateName">Profile</button>
-                </th>       
-              </tr>
-            </tbody>
+            <tbody id="main-rows"></tbody>
         </table>
 
     </div>
@@ -110,7 +99,7 @@
             integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
             crossorigin="anonymous">
     </script>
-    <!--<script src="../../scripts/user/customer_profile.js"></script>-->
+    <script src="../../../scripts/user/petSearch.js"></script>
 
   </body>
 </html>
