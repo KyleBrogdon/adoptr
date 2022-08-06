@@ -41,35 +41,22 @@ class RetrievedPet {
 
 
     generateImages() {
-        let slideContainer = document.getElementById("petSlideRow")
+        let containerDiv = document.getElementById('petRow')
         let images = this.images;
         if (images == null) {
             let div = document.createElement('div');
             div.innerHTML = ' <p>No Images Found</p>'
-            console.log(slideDiv);
-            slideContainer.appendChild(slideDiv);
-            return 
+            containerDiv.appendChild(div);
         }
         images.forEach(image => {
-            let slideDiv = document.createElement('div');
-            console.log(image);
-            slideDiv.setAttribute('class', 'mySlides petFade');
-            slideDiv.innerHTML = `
-            <img class = "petSlideImg" src = ${image} width = 20% height = 20%>
-        `
-            console.log(slideDiv);
-            slideContainer.appendChild(slideDiv);
-            return 
+            let div = document.createElement('div');
+            div.setAttribute("class", "petColumn");
+            div.innerHTML = `<img src = "${image}" style="width:50%" style="height: 25%" style ="max-height: 20%">`
+            // div.src = images[i]
+            // div.className = "img-thumbnail mx-auto d-block"
+            // div.style="width: 300px; height: 300px; object-fit: cover;"
+            containerDiv.appendChild(div);
         })
-        // for (let i = 0; i < images.length; i++) {
-        //     let div = document.createElement('div');
-        //     div.setAttribute("class", "column");
-        //     div.innerHTML = `<img src = "${images[i]}" style="width:25%" style="height: 25%" style ="max-height: 20%">`
-        //     // div.src = images[i]
-        //     // div.className = "img-thumbnail mx-auto d-block"
-        //     // div.style="width: 300px; height: 300px; object-fit: cover;"
-        //     return div;
-        // }
     }
 
 
@@ -96,7 +83,7 @@ class RetrievedPet {
 let pet;
 
 
-async function getPetID() {
+async function getPetID(){
     let pageURL = document.URL;
     let ID = pageURL.split('=')[1];
     console.log(ID)
@@ -111,7 +98,7 @@ async function setupCards() {
     let petid = document.getElementById("hidden-petid").value
 
     console.log("Pet List setup executed")
-    let imageDiv = document.getElementById("petSlideRow");
+    let imageDiv = document.getElementById("petRow");
     let blurbDiv = document.getElementById("mb-3");
 
 
@@ -163,52 +150,19 @@ async function setupCards() {
     pet.sizeid = respSize[0].petsize;
 
 
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
+    function generateSlides(pet){
+        let slideDiv = document.createElement('div');
+        slideDiv.setAttribute('class', 'mySlides fade');
+        slideDiv.innerHTML = `
+        <img class = "slideImg" src = ${pet.images[0]} width = 70% height = 70%>
+        `
+        return slideDiv
     }
-
-    function currentSlide(n) {
-        showSlides(slideIndex = n);
-    }
-
-    function showSlides(n) {
-        let i;
-        let slides = document.getElementsByClassName("mySlides");
-        console.log(slides.length);
-        let dots = document.getElementsByClassName("dot");
-        console.log(dots.length)
-        if (n > slides.length) { slideIndex = 1 }
-        if (n < 1) { slideIndex = slides.length }
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        slides[slideIndex - 1].style.display = "block";
-        dots[slideIndex - 1].className += " active";
-    }
-
 
     // insert petProfileData
-    console.log(imageDiv);
     pet.generateImages();
     blurbDiv.appendChild(pet.generateParagraph());
     pet.fillTable();
-    document.getElementById('span1').addEventListener("click", () => {
-        currentSlide(1)
-    })
-    document.getElementById('span1').addEventListener("click", () => {
-        currentSlide(1)
-    })
-    document.getElementById('span1').addEventListener("click", () => {
-        currentSlide(1)
-    })
-
-    let slideIndex = 1;
-    showSlides(slideIndex);
-
-
 
 
     //   addEventListeners(petProfile user)....need to fix
