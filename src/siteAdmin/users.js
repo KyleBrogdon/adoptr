@@ -3,11 +3,10 @@
 // CREATE/READ/UPDATE/DESTROY to the usser table
 
 const { default: axios, Axios } = require("axios");
-
 const loggedInUser = sessionStorage.getItem('userid');
-const logoutButton = require('../logoutButtonFunction');
-if (loggedInUser) { 
-    logoutButton.logoutButton(loggedInUser);
+
+if (loggedInUser){
+    document.getElementById('logout').style.opacity = 1
 }
 
 

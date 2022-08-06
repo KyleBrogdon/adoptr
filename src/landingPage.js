@@ -1,6 +1,11 @@
 const { default: axios } = require("axios");
-console.log('start');
+const loggedInUser = sessionStorage.getItem('userid')
 let pets = Array();
+
+console.log(loggedInUser);
+if (loggedInUser){
+    document.getElementById('logout').style.opacity = 1
+}
 
 class RetrievedPet {
     constructor(

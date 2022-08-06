@@ -1,11 +1,10 @@
 const { default: axios } = require("axios");
 const loggedInUser = sessionStorage.getItem('userid')
-const logoutButton = require("../logoutButtonFunction");
 const { divide } = require("lodash");
 
-if (loggedInUser) {
-    logoutButton.logoutButton(loggedInUser);
-};
+if (loggedInUser){
+    document.getElementById('logout').style.opacity = 1
+}
 
 
 class RetrievedPet {

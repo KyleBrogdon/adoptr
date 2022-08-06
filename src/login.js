@@ -2,7 +2,7 @@ const { default: axios } = require("axios");
 const loggedInUser = sessionStorage.getItem('userid');
 
 console.log(loggedInUser);
-if (loggedInUser != null) {
+if (loggedInUser) {
     location.href = '/landing/petCards'
 }
 

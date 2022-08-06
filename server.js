@@ -186,6 +186,7 @@ app.get("/", (req, res) => {
   res.render("../views/pages/general/landingPage", {});
 });
 
+
 app.listen(PORT, () => {
   console.log("Listening on port " + PORT);
 });
