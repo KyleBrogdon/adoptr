@@ -95,6 +95,9 @@ async function search() {
     console.log("Value from search bar is " + paramVal);
 
     if (prop == "sex") {
+      if (paramVal !== "Male" || paramVal !== "Female") {
+        return;
+      }
       axios.get(`/readPetsBySex/${paramVal}`).then((res) => {
         console.log("response from axios request ->");
 
