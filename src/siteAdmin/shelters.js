@@ -2,14 +2,25 @@
 // Database access:
 // CREATE/READ/UPDATE/DESTROY to the usser table
 const { default: axios, Axios } = require("axios");
+const loggedInUser = sessionStorage.getItem('userid');
+const logoutButton = require('../logoutButtonFunction');
+
+
 
 const shelterModal = new bootstrap.Modal(document.getElementById('shelterModal'), {
     keyboard: false
 });
+if (loggedInUser) { 
+    logoutButton.logoutButton(loggedInUser);
+}
   
 // const updateshelterModal = new bootstrap.Modal(document.getElementById('updateshelterModal'), {
 //     keyboard: false
 // });
+
+if (loggedInUser) { 
+    logoutButton.logoutButton(loggedInUser);
+    }
   
 class ShelterEntry {
     constructor(

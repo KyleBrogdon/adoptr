@@ -1,6 +1,10 @@
 const { default: axios } = require("axios");
 const loggedInUser = sessionStorage.getItem('userid');
 
+if (loggedInUser != null){
+    location.href = '/landing/petCards'
+} 
+
 class LoginInfo{
     constructor( 
         username,
@@ -54,7 +58,4 @@ loginButton.addEventListener("click", async (e) => {
 });
 }
 
-if (loggedInUser != null){
-    location.href = '/landing/petCards'
-} 
 setupLogin();
