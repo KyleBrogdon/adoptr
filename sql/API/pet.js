@@ -171,7 +171,7 @@ const updatePetProfileProperties = (request, response) => {
     "UPDATE pet \
     SET petname = $1, age = $2, sex = $3, dateprofile = $4, \
     sizeid = $5, snstatus = $6, ststatus = $7, avid = $8, typeid = $9\
-    WHERE petid = $11",
+    WHERE petid = $10",
     [
       petname,
       age,
