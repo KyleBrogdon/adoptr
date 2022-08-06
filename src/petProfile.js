@@ -49,7 +49,10 @@ class RetrievedPet {
         for (let i = 0; i < images.length; i++) {
             let div = document.createElement('div');
             div.setAttribute("class", "column");
-            div.innerHTML = `<img src = "${images[i]}" style="width:40%" style="height: 40%">`
+            // div.innerHTML = `<img src = "${images[i]}" style="width:40%" style="height: 40%">`
+            div.src = images[i]
+            div.className = "img-thumbnail mx-auto d-block"
+            div.style="width: 300px; height: 300px; object-fit: cover;"
             return div;
         }
     }
@@ -106,16 +109,27 @@ class RetrievedPet {
 let pet;
 
 
+function getPetID(){
+    let pageURL = document.URL;
+    let ID = pageURL.split('=')[1];
+    console.log(ID)
+    return ID
+}
+
+
 
 //generate pictures and data for dating cards
 async function setupCards() {
+    document.getElementById("hidden-petid").value = getPetID()
+    petid = document.getElementById("hidden-petid").value
+
     console.log("Pet List setup executed")
     let imageDiv = document.getElementById("petRow");
     let blurbDiv = document.getElementById("mb-3");
     let table = document.getElementById("petProfile--properties");
 
     async function getPet() {
-        const response = await axios.get(`/pet/${tempPet.petid}`);
+        const response = await axios.get(`/pet/${petid}`);
         return response.data;
     }
 

@@ -145,12 +145,12 @@ const deleteUser = (request, response) => {
 
 const searchUser = (request, response) => { //not working for some reason
   console.log(request.params)
-  
-  const value = request.params.value;
-  const property = request.params.property
+  const value = String(request.params.value);
+  const property = String(request.params.property)
+  const payload = "SELECT * FROM app_user WHERE '" + property + "' = '" + value + "'"
+  console.log("payload: " + payload)
   pool.query(
-    "SELECT * FROM app_user WHERE $1=$2",
-    [property, value],
+    payload,
     (error, results) => {
       if (error) {
         throw error;
