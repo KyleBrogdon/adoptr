@@ -4,19 +4,30 @@
     <%- include('../../partials/head'); %>
     <title>adoptr</title>
   </head>
-  <body>
+  <body class = "landingBody">
 
     <%- include('../../partials/headerLandingPage'); %>
     <div class="container">
       
-      <h1 class="display-2">Landing Page</h1>
+      <h1 class="display-2">Find Your Perfect Companion on Adoptr!</h1>
     </div>
-    
+    <div class = landingLoginDiv>
+        <button class = "landingLogin" id = "landingLogin" href = "/landing/login" >Login</button>
+    </div>
+    <div>
     <button><a class="nav-link" href="/landing/siteAdminIndex">siteAdminIndex</a></button>
     <button><a class="nav-link" href="/landing/login">login</a></button>
     <button><a class="nav-link" href="/landing/shelterAdminTest">shelterAdmin</a></button>
     <button><a class="nav-link" href="/landing/userTest">user</a></button>
     <button><a class="nav-link" href="/landing/petCards">petCards</a></button>
+    </div>
+
+    <div class="slideshow-container" id = "slideshow-container">
+
+    </div>
+
+    <br>
+                
         
     
     <%- include('../../partials/footer'); %>
@@ -24,5 +35,6 @@
             integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
             crossorigin="anonymous">
     </script>
+    <script src = "../../scripts/landing/landing.js"></script>
   </body>
 </html>

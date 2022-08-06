@@ -75,8 +75,6 @@ async function setupCards() {
     let counter = 0;
 
     async function getPets() {
-        console.log('here');
-        console.log(loggedInUser);
         const response = await axios.get(`/readPetsForCards/${loggedInUser}`)
         console.log(response);
         return response.data
