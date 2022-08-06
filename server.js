@@ -64,7 +64,7 @@ app.delete("/dbUsers/:userid", dbUsers.deleteUser);
 app.get("/pet/:petid", pets.readPet);
 app.get("/petshelter/:shelterid", pets.readPetShelter);
 app.get("/pet", pets.readPets);
-app.get("/readPetsForCards", pets.readPetsForCards);
+app.get("/readPetsForCards/:userid", pets.readPetsForCards);
 app.get("/getPetImages/:petid", pets.getPetImages);
 app.get("/getAllImages", pets.getAllImages);
 app.post("/pet", pets.createPet);
@@ -176,6 +176,7 @@ app.delete("/state/:stateid", shelterstate.deleteState);
 
 //Login API endpoints
 app.get("/login/:email/:userpassword", login.validate)
+app.get("/login/:email", login.checkEmail)
 
 app.get("/", (req, res) => {
   res.render("../views/pages/general/landingPage", {});
