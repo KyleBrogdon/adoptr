@@ -66,7 +66,7 @@ createButton.addEventListener("click", async (e) => {
     } else {
         if (email.value.includes("@") == false){
             invalidErrorMsg.style.opacity = 1;
-            return
+            setupNewUser();
         }
         user.username = email.value;
     }
@@ -80,7 +80,7 @@ createButton.addEventListener("click", async (e) => {
         }
         else{
             passwordErrorMsg.style.opacity = 1;
-            return
+            setupNewUser();
         }
     }
     if (!firstname.value || !lastname.value){
@@ -104,12 +104,12 @@ createButton.addEventListener("click", async (e) => {
         // email already registered in database
         else {
             emailErrorMsg.style.opacity = 1;
-            return
+            setupNewUser();
         }
     // form is missing required data
     } else {
         missingErrorMsg.style.opacity = 1;
-        return
+        setupNewUser();
     }
     
 
