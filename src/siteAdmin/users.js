@@ -4,6 +4,13 @@
 
 const { default: axios, Axios } = require("axios");
 
+const loggedInUser = sessionStorage.getItem('userid');
+const logoutButton = require('../logoutButtonFunction');
+if (loggedInUser) { 
+    logoutButton.logoutButton(loggedInUser);
+}
+
+
 // const userModal = new bootstrap.Modal(document.getElementById('userModal'), {
 //     keyboard: false
 // });

@@ -3,12 +3,12 @@
 // CREATE/READ/UPDATE to the shelter table
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
+const loggedInUser = sessionStorage.getItem('userid')
+const logoutButton = require('../logoutButtonFunction')
 
-
-
-
-
-
+if (loggedInUser) { 
+    logoutButton.logoutButton(loggedInUser);
+}
 
 const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false

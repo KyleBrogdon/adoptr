@@ -1,5 +1,11 @@
 const { default: axios } = require("axios");
+const loggedInUser = sessionStorage.getItem('userid')
+const logoutButton = require("./logoutButtonFunction");
 const { divide } = require("lodash");
+
+if (loggedInUser) {
+    logoutButton.logoutButton(loggedInUser);
+};
 
 
 class RetrievedPet {
@@ -170,31 +176,10 @@ async function setupCards() {
     imageDiv.appendChild(pet.generateImages());
     blurbDiv.appendChild(pet.generateParagraph());
     table.appendChild(pet.generateTable());
-    
-    
+
+
     //   addEventListeners(petProfile user)....need to fix
 
-    function createButtonListener(love) {
-        return function (event) {
-            var cards = document.querySelectorAll('.tinder--card:not(.removed)');
-            var moveOutWidth = document.body.clientWidth * 1.5;
-
-            if (!cards.length) return false;
-            var card = cards[0];
-            card.classList.add('removed');
-
-            if (love) {
-                card.style.transform = 'translate(' + moveOutWidth + 'px, -100px) rotate(-30deg)';
-                // add to user saved pet
-            } else {
-                card.style.transform = 'translate(-' + moveOutWidth + 'px, -100px) rotate(30deg)';
-                // add to user rejected pet
-            }
-
-            initCards();
-            event.preventDefault();
-        };
-    }
 
     // var nopeListener = createButtonListener(false);
     // var loveListener = createButtonListener(true);

@@ -358,6 +358,16 @@ eval("\n\nvar bind = __webpack_require__(/*! ./helpers/bind */ \"./node_modules/
 
 /***/ }),
 
+/***/ "./src/logoutButtonFunction.js":
+/*!*************************************!*\
+  !*** ./src/logoutButtonFunction.js ***!
+  \*************************************/
+/***/ ((module) => {
+
+eval("function logoutButton (loggedInUser) {\r\n    if (loggedInUser) {\r\n        let logout = document.getElementById('logout');\r\n        logout.style.opacity = 1;\r\n        logout.addEventListener(\"click\", () => {\r\n            sessionStorage.clear();\r\n        })\r\n    }\r\n}\r\n\r\nmodule.exports = {\r\n    logoutButton\r\n}\n\n//# sourceURL=webpack://capstone/./src/logoutButtonFunction.js?");
+
+/***/ }),
+
 /***/ "./src/siteAdmin/users.js":
 /*!********************************!*\
   !*** ./src/siteAdmin/users.js ***!

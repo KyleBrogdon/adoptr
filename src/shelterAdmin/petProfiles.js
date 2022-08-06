@@ -1,11 +1,16 @@
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
-
+const loggedInUser = sessionStorage.getItem('userid')
+const logoutButton = require('../logoutButtonFunction')
 
 const imageModal = new bootstrap.Modal(document.getElementById('imageModal'), {
     keyboard: false
     
 });
+
+if (loggedInUser) { 
+    logoutButton.logoutButton(loggedInUser);
+    }
 
 
 class petEntry {
