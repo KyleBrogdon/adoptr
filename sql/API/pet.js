@@ -109,12 +109,16 @@ const getAllImages = (request, response) => {
 const readPet = (request, response) => {
   const id = parseInt(request.params.petid);
   console.log(request.params.petid);
-  pool.query("SELECT * FROM pet WHERE petid = $1", [id], (error, results) => {
-    if (error) {
-      throw error;
+  pool.query(
+    "SELECT * FROM pet LEFT JOIN pet_type ON pet.typeid = pet_type.typeid WHERE petid = $1",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
     }
-    response.status(200).json(results.rows);
-  });
+  );
 };
 
 const createPet = (request, response) => {
