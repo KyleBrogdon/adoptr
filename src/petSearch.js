@@ -31,7 +31,7 @@ class PetEntry {
       </td>
 
       <td>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petId}" value = ${this.petId}><a id="link-${this.petId}" href="user/petProfile?petid=${this.petid}" class="link-primary" >Profile</a></button>
+        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petId}" value = ${this.petId}><a id="link-${this.petId}" href="/petProfile?petid=${this.petid}" class="link-primary" >Profile</a></button>
       </td>
     `;
     return element;
@@ -94,34 +94,37 @@ async function search() {
 
     console.log("Value from search bar is " + paramVal);
 
-    if (prop == "sex") {
-      if (paramVal !== "Male" || paramVal !== "Female") {
-        return;
-      }
+    if (prop === "sex") {
+      console.log(`paramVal->${paramVal}`);
+      // if (paramVal !== "Male" || paramVal !== "Female") {
+      //   return;
+      // }
       axios.get(`/readPetsBySex/${paramVal}`).then((res) => {
         console.log("response from axios request ->");
 
         loadTable(res);
       });
-    } else if (prop == "age") {
+    } else if (prop === "age") {
       axios.get(`/readPetsByAge/${paramVal}`).then((res) => {
         console.log("received age result");
         console.log(res.data);
         loadTable(res);
       });
-    } else if (prop == "petid") {
-      axios.get(`/pet/${paramVal}`).then((res) => {
-        console.log("received id result");
-        console.log(res.data);
-        loadTable(res);
-      });
-    } else if (prop == "petname") {
+    } else if (prop === "petid") {
+      if (parseInt(paramVal)) {
+        axios.get(`/pet/${paramVal}`).then((res) => {
+          console.log("received id result");
+          console.log(res.data);
+          loadTable(res);
+        });
+      }
+    } else if (prop === "petname") {
       axios.get(`/readPetsByName/${paramVal}`).then((res) => {
         console.log("received pet name result");
         console.log(res.data);
         loadTable(res);
       });
-    } else if (prop == "type") {
+    } else if (prop === "type") {
       axios.get(`/readPetsByType/${paramVal}`).then((res) => {
         console.log("received pet type result");
         console.log(res.data);
