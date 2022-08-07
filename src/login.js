@@ -58,12 +58,12 @@ async function setupLogin() {
                     } else{
                         adminstatus = 0
                     }
-                    await axios.post(`/users/login/`, {
+                    axios.post(`/users/login/`, {
                         params: {
                             userid: `${userid}`,
                             adminstatus: `${adminstatus}`}})
                     console.log("made it past post");
-                    // location.replace('/landing/petCards')
+                    location.href = '/landing/petCards';
                 }
                 else {
                     loginErrorMsg.style.opacity = 1;

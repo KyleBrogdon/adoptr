@@ -1,11 +1,13 @@
 const express = require("express");
 const ejs = require("ejs");
 const session = require("express-session");
-const redis = require('redis');
-const connectRedis = require('connect-redis');
-var bodyParser = require('body-parser')
+// const redis = require('redis');
+// const connectRedis = require('connect-redis');
+const bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 3000; //dynamically acquire ports, default to 3000 if not assigned
+
+var thisSession;
 
 let app = express();
 app.set("view engine", "ejs");
@@ -16,36 +18,31 @@ app.use(express.json());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-const RedisStore = connectRedis(session);
+// const RedisStore = connectRedis(session);
 
-let redisClient = redis.createClient({
-    host: 'localhost',
-    port: 6379,
-});
+// let redisClient = redis.createClient({
+//     host: 'localhost',
+//     port: 6379,
+// });
 
-function connect (){
-    redisClient.connect();
-    redisClient.on('error', function (err) {
-        console.log('Could not establish a connection with redis.' + err);
-    });
-    redisClient.on('connect', function (err){
-        console.log('Connected to redis successfully');
-    })
-}
-connect();
+
+// async function connect (){
+//     redisClient.on('error', function (err) {
+//         console.log('Could not establish a connection with redis.' + err);
+//     });
+//     redisClient.on('connect', function (err){
+//         console.log('Connected to redis successfully');
+//     })
+
+//     await redisClient.connect();
+// }
 
 
 app.use(
   session({
-    store: new RedisStore({client: redisClient}),
     secret: 'secret$%^134',
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false,
-        httpOnly: false,
-        maxAge: 1000 * 60 * 10
-    }
+    saveUninitialized: true,
   })
 );
 
@@ -225,3 +222,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log("Listening on port " + PORT);
 });
+
+module.exports = thisSession;

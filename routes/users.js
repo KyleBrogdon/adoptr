@@ -1,9 +1,9 @@
 const express = require("express");
-const session = require("express-session");
 //const pool = require("../sql/sql_Init");
 const router = express.Router();
 //const db = require('../sql/admin')
 //const pool = require('../sql/sql_Init');
+var thisGlobal  = require('../server');
 
 
 //shelter Admin profile
@@ -42,13 +42,17 @@ router.get("/petSearch", (req, res) => {
       } */
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", (req, res) => {
+    thisGlobal.thisSession = req.session;
     console.log(req.body.params);
-    req.session.userid = req.body.params.userid;
-    req.session.adminstatus = req.body.params.adminstatus;
-    console.log("the id is" + req.session.userid);
-    await req.session.save();
-    // res.redirect("/landing/petCards");
+    thisGlobal.thisSession.userid = req.body.params.userid;
+    thisGlobal.thisSession.adminstatus = req.body.params.adminstatus;
+    req.session.save();
+})
+
+router.get('/getSessionId',(req, res) => {
+    let id = thisGlobal.thisSession.userid
+    res.json(id);
 })
 
 

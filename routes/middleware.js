@@ -1,6 +1,7 @@
 // Controls access to sensitive pages. 
 const express = require('express');
 const router = express.Router();
+var thisSession  = require('../server');
 
 
 module.exports = {

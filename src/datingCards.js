@@ -4,6 +4,12 @@ const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
 });
 
+async function getLoggedInUser(){
+    let response = await axios.get('/users/getSessionId');
+    console.log(response);
+    return response
+}
+let loggedInUser = getLoggedInUser();
 
 // work in progress
 console.log('running dating cards script');
@@ -64,6 +70,9 @@ class RetrievedPet {
 
 //generate pictures and data for dating cards
 async function setupCards() {
+    
+
+console.log ('get user')
     console.log("Pet List setup executed")
     let mainList = document.getElementById("tinder--container");
     let idArray = Array();
@@ -284,7 +293,4 @@ async function setupCards() {
 
 
     };
-if (loggedInUser == null){
-    location.href = "/landing/login";
-}
 setupCards();
