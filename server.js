@@ -1,8 +1,13 @@
 const express = require("express");
 const ejs = require("ejs");
 const session = require("express-session");
+// const redis = require('redis');
+// const connectRedis = require('connect-redis');
+const bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 3000; //dynamically acquire ports, default to 3000 if not assigned
+
+var thisSession;
 
 let app = express();
 app.set("view engine", "ejs");
@@ -10,14 +15,39 @@ app.disable("etag");
 
 app.use(express.static("public"));
 app.use(express.json());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+// const RedisStore = connectRedis(session);
+
+// let redisClient = redis.createClient({
+//     host: 'localhost',
+//     port: 6379,
+// });
+
+
+// async function connect (){
+//     redisClient.on('error', function (err) {
+//         console.log('Could not establish a connection with redis.' + err);
+//     });
+//     redisClient.on('connect', function (err){
+//         console.log('Connected to redis successfully');
+//     })
+
+//     await redisClient.connect();
+// }
+
+
 app.use(
   session({
-    secret: "secret-key",
+    secret: 'secret$%^134',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
   })
 );
-app.use("/images", express.static("images"));
+
+
+app.use('/images', express.static('images'))
 
 ///////////////main routes//////////////////////
 const adminRoutes = require("./routes/siteAdmin");
@@ -47,6 +77,7 @@ const city = require("./sql/API/city");
 const zipcode = require("./sql/API/zipcode");
 const shelterstate = require("./sql/API/shelterstate");
 const login = require("./sql/API/login");
+const router = require("./routes/users");
 
 //user API endpoints
 app.get("/dbUsers/:userid", dbUsers.readUser);
@@ -181,13 +212,19 @@ app.put("/state/:stateid", shelterstate.updateState);
 app.delete("/state/:stateid", shelterstate.deleteState);
 
 //Login API endpoints
-app.get("/login/:email/:userpassword", login.validate);
-app.get("/login/:email", login.checkEmail);
+app.get("/login/:email/:userpassword", login.validate)
+app.get("/login/:email", login.checkEmail)
+// is this needed?
+// app.get("/users/storeSession/:userid/:adminstaus")
+
 
 app.get("/", (req, res) => {
   res.render("../views/pages/general/landingPage", {});
 });
 
+
 app.listen(PORT, () => {
   console.log("Listening on port " + PORT);
 });
+
+module.exports = thisSession;

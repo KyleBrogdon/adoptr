@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 //const db = require('../sql/admin')
 //const pool = require('../sql/sql_Init');
+var thisSession  = require('../server');
 
 //Users
 router.get('/adminShelters', (req, res) => {

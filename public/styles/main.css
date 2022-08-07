@@ -346,13 +346,15 @@
   }
 
   .mySlides{
-    display:none
+    display:none,
   }
+
+  
 
   .slideImg{
     vertical-align: middle;
     height: 10%;
-    margin-left: 15%;
+    margin-left: 20%;
   }
   
   @keyframes fade {
@@ -364,7 +366,7 @@
     text-align: center;
   }
   
-  #landingLogin{
+  .landingLogin{
     display: block;
     text-align: center;
     align-items: center;

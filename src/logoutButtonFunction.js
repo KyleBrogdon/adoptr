@@ -11,3 +11,4 @@ function logoutButton (loggedInUser) {
 module.exports = {
     logoutButton
 }
+

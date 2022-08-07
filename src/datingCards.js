@@ -1,14 +1,15 @@
 const { default: axios } = require("axios");
-const logoutButton = require('./logoutButtonFunction')
-const loggedInUser = sessionStorage.getItem('userid')
 const { get, set } = require("lodash");
 const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
 });
 
-if (loggedInUser) { 
-logoutButton.logoutButton(loggedInUser);
+async function getLoggedInUser(){
+    let response = await axios.get('/users/getSessionId');
+    console.log(response);
+    return response
 }
+let loggedInUser = getLoggedInUser();
 
 // work in progress
 console.log('running dating cards script');
@@ -69,6 +70,9 @@ class RetrievedPet {
 
 //generate pictures and data for dating cards
 async function setupCards() {
+    
+
+console.log ('get user')
     console.log("Pet List setup executed")
     let mainList = document.getElementById("tinder--container");
     let idArray = Array();
@@ -76,7 +80,6 @@ async function setupCards() {
 
     async function getPets() {
         const response = await axios.get(`/readPetsForCards/${loggedInUser}`)
-        console.log(response);
         return response.data
     };
     let resp = await getPets();
@@ -208,9 +211,7 @@ async function setupCards() {
 
         async function petDetails(pet) {
             let respType = await getType(pet);
-            console.log(respType[0].typename);
             pet.typeid = respType[0].typename;
-            console.log(pet.typeid);
             let respAvid = await getAvid(pet);
             pet.avid = respAvid[0].pet_availability;
             let respSize = await getSize(pet);
@@ -292,7 +293,4 @@ async function setupCards() {
 
 
     };
-if (loggedInUser == null){
-    location.href = "/landing/login";
-}
 setupCards();

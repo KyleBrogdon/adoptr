@@ -1,10 +1,14 @@
 
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
-
+const loggedInUser = sessionStorage.getItem('userid');
 const shelterModal = new bootstrap.Modal(document.getElementById('shelterModal'), {
     keyboard: false
 });
+
+if (loggedInUser){
+    document.getElementById('logout').style.opacity = 1
+}
 
 
 class shelterEntry{

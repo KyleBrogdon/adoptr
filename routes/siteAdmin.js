@@ -3,6 +3,7 @@ const { default: axios } = require("axios");
 const express = require("express");
 const router = express.Router();
 //const db = require('../sql/admin')
+var thisSession  = require('../server');
 
 
 //const pool = require('../sql/sql_Init');
