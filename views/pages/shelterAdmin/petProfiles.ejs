@@ -11,7 +11,7 @@
         <div class="row">
             <div  id="profileFields" class="col" style="padding-right: 10%;">
                 <h6 class="display-6" style ="text-decoration: underline;">Pet Profile</h6>
-                <data hidden id="shelterID"></data>
+                <data hidden id="hidden-shelterid"></data>
                 <data hidden id="hidden-petid"></data>
                 <div id="profileUpdateField"></div>
             </div>
@@ -86,7 +86,7 @@
                     <th scope="col">
                         <select class="form-select " id="atribute-form-spayedOrNeutered"> 
                             <option selected id="defaultSN"></option>
-                            <option selected id="secondSN"></option>
+                            <option  id="secondSN"></option>
                         </select>
                     </th>   
                 </tr>
@@ -95,13 +95,17 @@
                     <th scope="col">
                         <select class="form-select " id="atribute-form-shots"> 
                             <option selected id="defaultST"></option>
-                            <option selected id="secondST"></option>
+                            <option  id="secondST"></option>
                         </select>
                     </th>    
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary" id="updateProperties">Update</button>
+        <div class="row" id="propertiesUpdateField">
+            <div class = "col">
+                <button class="btn btn-primary" id="updateProperties">Update</button>
+            </div>          
+        </div>
         <br></br><br>
 
         <h8 class="display-6" style ="text-decoration: underline; padding-top: 2%;">Blurb</h8>
@@ -113,8 +117,7 @@
             <div class="row" id="blurbUpdateField">
                 <div class = "col">
                     <button class="btn btn-primary" id="updateBlurb">Update</button>
-                </div>
-                
+                </div>          
             </div>
         </div>
         <br>

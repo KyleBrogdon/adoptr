@@ -47,7 +47,7 @@ class petEntry {
     let element = document.createElement("tr");
     element.innerHTML = `
       <th scope="row">
-        <a id="link-${this.petid}" href="/shelterAdmin/petProfiles?petid=${this.petid}" class="link-primary" target="_blank">${this.petname}</a>
+        <a id="link-${this.petid}" href="/shelterAdmin/petProfiles?petid=${this.petid}" class="link-primary" >${this.petname}</a>
       </th>
       <td>${this.typeid}</td>
       <td>${this.age}</td>
