@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 //const pool = require("../sql/sql_Init");
 const router = express.Router();
 //const db = require('../sql/admin')
@@ -41,17 +42,20 @@ router.get("/petSearch", (req, res) => {
       } */
 });
 
-router.get("/storeSession", async (req, res) => {
-    req.session.userid = req.query.userid;
-    req.session.adminstatus = req.query.adminstatus;
-    console.log(req.session);
-    req.session.save(() => {console.log('saved')});
+router.post("/login", (req, res) => {
+    let sess = req.session
+    console.log(req.body.params);
+    sess.userid = req.body.params.userid;
+    sess.adminstatus = req.body.params.adminstatus;
+    console.log("the id is" + sess.userid);
+    // res.redirect("/landing/petCards")
 })
+
 
 router.get("/logout", (req, res) => {
     req.session.destroy(function (err) {
         if (err) {
-            console.log(err)
+            return console.log(err)
         } else {
             res.redirect('/')
         }

@@ -58,11 +58,12 @@ async function setupLogin() {
                     } else{
                         adminstatus = 0
                     }
-                    axios.get(`/users/storeSession/`, {
+                    await axios.post(`/users/login/`, {
                         params: {
                             userid: `${userid}`,
                             adminstatus: `${adminstatus}`}})
-                    location.replace('/landing/petCards')
+                    console.log("made it past post");
+                    // location.replace('/landing/petCards')
                 }
                 else {
                     loginErrorMsg.style.opacity = 1;

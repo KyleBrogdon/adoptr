@@ -1,6 +1,9 @@
 const express = require("express");
 const ejs = require("ejs");
 const session = require("express-session");
+const redis = require('redis');
+const connectRedis = require('connect-redis');
+var bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 3000; //dynamically acquire ports, default to 3000 if not assigned
 
@@ -10,13 +13,37 @@ app.disable("etag");
 
 app.use(express.static("public"));
 app.use(express.json());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+const RedisStore = connectRedis(session);
+const redisClient = redis.createClient({
+    host: 'localhost',
+    port: 6379,
+})
+
+redisClient.connect();
+redisClient.on('error', function (err) {
+    console.log('Could not establish a connection with redis.' + err);
+});
+redisClient.on('connect', function (err){
+    console.log('Connected to redis successfully');
+})
+
 app.use(
   session({
-    secret: "secret-key",
+    store: new RedisStore({client: redisClient}),
+    secret: 'secret$%^134',
     resave: false,
     saveUninitialized: false,
+    cookie: {
+        secure: false,
+        httpOnly: false,
+        maxAge: 1000 * 60 * 10
+    }
   })
 );
+
 app.use('/images', express.static('images'))
 
 ///////////////main routes//////////////////////
