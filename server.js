@@ -49,6 +49,7 @@ app.use(
   })
 );
 
+
 app.use('/images', express.static('images'))
 
 ///////////////main routes//////////////////////
@@ -88,16 +89,19 @@ app.get("/dbUserSearch/:property/:value", dbUsers.searchUser);
 app.get("/dbUsers/:userid/:password", dbUsers.readUserCredential);
 app.post("/dbUsers", dbUsers.createUser);
 app.put("/dbUsers/:userid", dbUsers.updateUser);
-app.put("/dbUserPassword/:userid", dbUsers.updateUserPassword)
-app.put("/dbUserNameEmail/:userid", dbUsers.updateUserNameEmail)
+app.put("/dbUserPassword/:userid", dbUsers.updateUserPassword);
+app.put("/dbUserNameEmail/:userid", dbUsers.updateUserNameEmail);
 app.delete("/dbUsers/:userid", dbUsers.deleteUser);
-
 
 //pet API endpoints
 app.get("/pet/:petid", pets.readPet);
 app.get("/petshelter/:shelterid", pets.readPetShelter);
 app.get("/pet", pets.readPets);
 app.get("/readPetsForCards/:userid", pets.readPetsForCards);
+app.get("/readPetsByName/:name", pets.readPetsByName);
+app.get("/readPetsByAge/:age", pets.readPetsByAge);
+app.get("/readPetsBySex/:sex", pets.readPetsBySex);
+app.get("/readPetsByType/:type", pets.readPetsByType);
 app.get("/getPetImages/:petid", pets.getPetImages);
 app.get("/getAllImages", pets.getAllImages);
 app.post("/pet", pets.createPet);
@@ -105,11 +109,9 @@ app.post("/addImage/:petid", pets.addImage);
 app.put("/pet/:petid", pets.updatePet);
 app.put("/petBlurb/:petid", pets.updatePetProfileBlurb);
 app.put("/petProperties/:petid", pets.updatePetProfileProperties);
-app.put("/updateImage/:imageid",pets.updateImage);
+app.put("/updateImage/:imageid", pets.updateImage);
 app.delete("/pet/:petid", pets.deletePet);
 app.delete("/petImage/:imageid", pets.deleteImage);
-
-
 
 //shelter API endpoints
 app.get("/shelter/:shelterid", shelters.readShelter);
@@ -139,7 +141,7 @@ app.delete("/adminshelter/:id", adminshelters.deleteAdminShelter);
 
 //usersavedpets API endpoints
 app.post("/usersavedpet", usersavedpet.createUserSavedPets);
-app.get("/usersavedpet/:userid", usersavedpet.readUserSavedPet)
+app.get("/usersavedpet/:userid", usersavedpet.readUserSavedPet);
 app.delete("/usersavedpet/:userid/:petid", usersavedpet.deleteUserSavedPet);
 
 //userrejectpets API endpoints
@@ -155,7 +157,7 @@ app.delete("/availability/:avid", availability.deleteAvailability);
 //petbreed API endpoints
 app.get("/petbreed/:id", petbreed.readPetBreed);
 app.get("/petbreed", petbreed.readPetBreeds);
-app.get("/petbreedPID/:petid", petbreed.readPetBreedPetID)
+app.get("/petbreedPID/:petid", petbreed.readPetBreedPetID);
 app.post("/petbreed", petbreed.createPetBreed);
 app.put("/petbreed/:id", petbreed.updatePetBreed);
 app.delete("/petbreed/:id", petbreed.deletePetBreed);
@@ -216,6 +218,7 @@ app.get("/login/:email/:userpassword", login.validate)
 app.get("/login/:email", login.checkEmail)
 // is this needed?
 // app.get("/users/storeSession/:userid/:adminstaus")
+
 
 app.get("/", (req, res) => {
   res.render("../views/pages/general/landingPage", {});

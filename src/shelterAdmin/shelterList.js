@@ -1,14 +1,8 @@
-
-const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
-const loggedInUser = sessionStorage.getItem('userid');
+
 const shelterModal = new bootstrap.Modal(document.getElementById('shelterModal'), {
     keyboard: false
 });
-
-if (loggedInUser){
-    document.getElementById('logout').style.opacity = 1
-}
 
 
 class shelterEntry{
@@ -62,8 +56,6 @@ class shelterEntry{
         return element;
       }
 }
-
-
 
 
 function delistShelter(shelter){
@@ -220,115 +212,6 @@ const getBaseShelterInfo = async (shelter) =>{
   
     }
 }
-
-
-
-
-
-function updatePassword(){
-    let updatefield = document.getElementById("passwordUpdateField");
-  
-    if(document.body.contains(document.getElementById("password message"))){
-      updatefield.removeChild(document.getElementById("password message")); 
-    }
-  
-    if(document.getElementById('currentPassword').value.length > 0
-      && document.getElementById('newPassword').value.length > 0
-      && document.getElementById('confirmPassword').value.length > 0 
-      && document.getElementById('newPassword').value == document.getElementById('confirmPassword').value){
-        var user ={userid:null, newPassword: null, oldPassword: null};
-        user.userid = document.getElementById("hidden-userID").value;
-        user.newPassword = document.getElementById("newPassword").value;
-        user.oldPassword = document.getElementById("currentPassword").value;
-      
-        axios.put(`/dbUserPassword/${user.userid}`,{
-          userpassword: user.newPassword
-        }).then((response) => {
-          console.log(response.status)
-          if (response.status >= 200 && response.status<300) {
-            console.log("password updated");
-            let element = document.createElement('div');
-            element.innerHTML = `Password Updated`;
-            element.setAttribute("class","alert alert-primary");
-            element.setAttribute("id","password message");
-            updatefield.appendChild(element);
-            
-          }else{
-            console.log("API error");  
-            console.log("password failed");
-            let element = document.createElement('div');
-            element.innerHTML = `Password Failed`;
-            element.setAttribute("class","alert alert-danger");
-            element.setAttribute("id","password message");
-            updatefield.appendChild(element);
-                  
-          }
-        })  
-    }
-    else{ 
-      console.log("new password does not match");
-      let element = document.createElement('div');
-      element.innerHTML = `new Password does not match`;
-      element.setAttribute("class","alert alert-danger");
-      element.setAttribute("id","password message");
-      updatefield.appendChild(element);
-    }
-}
-  
-  
-function updateProfile(){
-    console.log("updating profile")
-
-    let updatefield = document.getElementById("profileUpdateField");
-
-    if(document.body.contains(document.getElementById("profileMessage"))){
-        updatefield.removeChild(document.getElementById("profileMessage")); 
-    }
-
-    if(document.getElementById('InputFirstName').value.length > 0
-    && document.getElementById('InputLastName').value.length > 0
-    && document.getElementById('InputEmail').value.length > 0){
-        
-        var user ={userid:null, firstname: null, lastname: null, email:null};
-        user.userid = document.getElementById("hidden-userID").value;
-        user.firstname = document.getElementById("InputFirstName").value;
-        user.lastname = document.getElementById("InputLastName").value;
-        user.email = document.getElementById("InputEmail").value;
-
-        axios.put(`/dbUserNameEmail/${user.userid}`,{
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email : user.email
-        }).then((response) => {
-        console.log(response.status)
-        if (response.status >= 200 && response.status<300) {
-            let element = document.createElement('div');
-            element.innerHTML = `Profile Updated`;
-            element.setAttribute("class","alert alert-primary");
-            element.setAttribute("id","profileMessage");
-            updatefield.appendChild(element);
-            
-        }else{
-            let element = document.createElement('div');
-            element.innerHTML = `Update Failed`;
-            element.setAttribute("class","alert alert-danger");
-            element.setAttribute("id","profileMessage");
-            updatefield.appendChild(element);
-                
-        }
-        })  
-
-    }
-    else{ 
-        console.log("invalid update");
-        let element = document.createElement('div');
-        element.innerHTML = `Provide a complete profile`;
-        element.setAttribute("class","alert alert-danger");
-        element.setAttribute("id","profileMessage");
-        updatefield.appendChild(element);
-    }
-}
-
 
 
 async function addNewShelterForm(){
@@ -543,15 +426,6 @@ async function addAdminShelter(userid,shelterid){
 
 
 
-
-
-
-
-
-
-
-
-
 const setupList = async () => {
     userid = 9;
     document.getElementById('hidden-userID').value = userid
@@ -578,26 +452,10 @@ const setupList = async () => {
         sheltersArray.push(newShelter)
     });
 
-    let user = await getUserNoPassword(userid)
-    
-    console.log(user)
-    document.getElementById("InputFirstName").value =user[0].firstname
-    document.getElementById("InputLastName").value = user[0].lastname
-    document.getElementById("InputEmail").value = user[0].email
-  
+
     document.getElementById("loadingbar").style.display = "none";
 
 
-
-
-    document.getElementById("updatePassword").addEventListener("click", () => {
-        updatePassword();
-    });
-    
-    
-    document.getElementById("updateProfileButton").addEventListener("click", () => {
-        updateProfile();
-    });
 
     document.getElementById("newShelter").addEventListener("click", () => {
         addNewShelterForm();
@@ -606,7 +464,6 @@ const setupList = async () => {
     document.getElementById("existingShelter").addEventListener("click", () => {
         addExistingShelterForm();
     });
-
 
 }
 
