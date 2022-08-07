@@ -47,10 +47,16 @@ async function setupLogin() {
             let validate = await validateLogin(login);
 
             // query returns the number of matching users in the table, if count is 1, valid login.
-            if (validate[0].userid > 0) {
+            if (validate[0]) {
+                if (validate[0].userid){
                 sessionStorage.setItem('userid', `${validate[0].userid}`)
                 location.href = '/landing/petCards'
                 console.log(sessionStorage.getItem('userid'));
+                }
+                else{
+                    loginErrorMsg.style.opacity = 1;
+                    setupLogin()
+                }
             } else {
                 loginErrorMsg.style.opacity = 1;
                 setupLogin()
