@@ -23,17 +23,16 @@ let redisClient = redis.createClient({
     port: 6379,
 });
 
-(async () => {
+function connect (){
+    redisClient.connect();
     redisClient.on('error', function (err) {
         console.log('Could not establish a connection with redis.' + err);
     });
     redisClient.on('connect', function (err){
         console.log('Connected to redis successfully');
     })
-
-    await redisClient.connect();
-})
-
+}
+connect();
 
 
 app.use(
