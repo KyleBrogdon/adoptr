@@ -151,6 +151,7 @@ app.delete("/size/:sizeid", size.deleteSize);
 
 //Type API endpoints
 app.get("/type/:typeid", type.readType);
+app.get("/typeName/:typename", type.readTypeName);
 app.get("/type", type.readTypes);
 app.post("/type", type.createType);
 app.put("/type/:typeid", type.updateType);

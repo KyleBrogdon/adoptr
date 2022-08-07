@@ -1,7 +1,8 @@
 // Site Admin Users page
 // Database access:
 // CREATE/READ/UPDATE/DESTROY to the usser table
-
+const { default: axios, Axios } = require("axios");
+  
   
 const updateDispositionModal = new bootstrap.Modal(document.getElementById('updateDispositionModal'), { ///????
     keyboard: false
@@ -23,7 +24,7 @@ class dispositionEntry {
         <th scope="row">${this.dispid}</th>
         <td>
           <span>${this.dispstatus}</span>
-          <data hidden id="dispositionStatus-${this.dispid}" value = ${this.dispstatus}></data>
+          <data hidden id="dispstatus-${this.dispid}" value = ${this.dispstatus}></data>
         </td>
   
         <td>
@@ -89,8 +90,7 @@ async function addDisposition(){
 
 function populateUpdate(){
   var id = document.getElementById('update-disposition-pk-menu').value;
-  var dispstatus = document.getElementById('disposition-' + id).value;
-
+  var dispstatus = document.getElementById('dispstatus-' + id).value;
   document.getElementById('update-disposition-name').value = dispstatus;
 }
 
@@ -220,18 +220,18 @@ const setupList = async () => {
   console.log("setupList executed")
   let mainList = document.getElementById("main-rows");
   let dispositionPK = document.getElementById("update-disposition-pk-menu");
-  let avArray = Array();
+  let dispArray = Array();
 
-  const avResp = await getDisposition()
+  const dispResp = await getDisposition()
   
-  avResp.forEach(disposition => {
+  dispResp.forEach(disposition => {
     console.log(disposition)
-    let newEntry = new dispositionEntry(disposition.dispositionid, disposition.dispositionStatus)
-    
+    let newEntry = new dispositionEntry(disposition.dispid, disposition.dispstatus)
+    console.log(newEntry)
     mainList.appendChild(newEntry.generateRow());
     dispositionPK.append(newEntry.generateOption())
     addEventListeners(newEntry)
-    avArray.push(newEntry);
+    dispArray.push(newEntry);
 
   });
 
