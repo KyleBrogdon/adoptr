@@ -5,7 +5,11 @@ const router = express.Router();
 const pool = require("../sql_Init");
 
 const readBreeds = (request, response) => {
-  pool.query("SELECT * FROM breed", (error, results) => {
+  pool.query(
+    "SELECT * \
+    FROM breed\
+    ORDER BY breedid ASC", 
+    (error, results) => {
     if (error) {
       throw error;
     }
@@ -97,5 +101,5 @@ module.exports = {
   createBreed,
   updateBreed,
   deleteBreed,
-  readBreedType
+  readBreedType,
 };

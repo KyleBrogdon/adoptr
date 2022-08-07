@@ -27,6 +27,23 @@ const readType = (request, response) => {
   );
 };
 
+
+const readTypeName = (request, response) => {
+  const name = request.params.typename;
+  console.log(name)
+  pool.query(
+    "SELECT * FROM pet_type WHERE typename = $1",
+    [name],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+
 const createType = (request, response) => {
   const { typename } = request.body;
   // console.log(request.body);
@@ -85,4 +102,5 @@ module.exports = {
   createType,
   updateType,
   deleteType,
+  readTypeName
 };

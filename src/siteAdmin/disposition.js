@@ -1,33 +1,34 @@
 // Site Admin Users page
 // Database access:
 // CREATE/READ/UPDATE/DESTROY to the usser table
-
+const { default: axios, Axios } = require("axios");
   
-const updatedispositionModal = new bootstrap.Modal(document.getElementById('updatedispositionModal'), { ///????
+  
+const updateDispositionModal = new bootstrap.Modal(document.getElementById('updateDispositionModal'), { ///????
     keyboard: false
 });
   
   
 class dispositionEntry {
     constructor(
-      dispositionID,
-      dispositionStatus  
+      dispid,
+      dispstatus  
     ) {
-      this.dispositionID = dispositionID;
-      this.dispositionStatus = dispositionStatus;
+      this.dispid = dispid;
+      this.dispstatus = dispstatus;
     }
   
     generateRow() {
       let element = document.createElement("tr");
       element.innerHTML = `
-        <th scope="row">${this.dispositionID}</th>
+        <th scope="row">${this.dispid}</th>
         <td>
-          <span>${this.dispositionStatus}</span>
-          <data hidden id="dispositionStatus-${this.dispositionID}" value = ${this.dispositionStatus}></data>
+          <span>${this.dispstatus}</span>
+          <data hidden id="dispstatus-${this.dispid}" value = ${this.dispstatus}></data>
         </td>
   
         <td>
-        <button type="button" class="btn btn-outline-danger btn-sm" id="delete-button-${this.dispositionID}" >Delete</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" id="delete-button-${this.dispid}" >Delete</button>
         </td>`;
 
       return element;
@@ -35,18 +36,20 @@ class dispositionEntry {
   
     generateOption() {
       let element = document.createElement("option");
-      element.innerHTML = `<option value="${this.dispositionID}">${this.dispositionID}</option>`;
+      element.innerHTML = `<option value="${this.dispid}">${this.dispid}</option>`;
       return element;
     }
   
 };
+
+
    
 function addEventListeners(disposition){
-  document.getElementById(`delete-button-${disposition.dispositionid}`).addEventListener("click", () => { //add delete
-    axios.delete(`/dbDispositions/${disposition.dispositionid}`).then((response) => {
+  document.getElementById(`delete-button-${disposition.dispid}`).addEventListener("click", () => { //add delete
+    axios.delete(`/disposition/${disposition.dispid}`).then((response) => {
       console.log(response.status)
       if (response.status == 200) {
-        console.log(disposition.dispositionid + " deleted")
+        console.log(disposition.dispid + " deleted")
         location.reload();
 
       }else{
@@ -57,32 +60,28 @@ function addEventListeners(disposition){
       console.log("delete button enabled")
   });
 
-
 }
 
 async function addDisposition(){
   console.log("adding");
   if(document.getElementById('new-disposition-name').value.length > 0){
 
-      //var req = new XMLHttpRequest();
-      var disposition = {dispositionStatus: null};
-      disposition.dispositionStatus = document.getElementById('new-disposition-name').value;
+    var disposition = {dispid: null, dispstatus: null}
+    disposition.dispstatus = document.getElementById('new-disposition-name').value;
 
+    axios.post(`/disposition`,{
+      dispstatus : disposition.dispstatus,
+    }).then((response) => {
+      console.log(response.status)
+      if (response.status >= 200 && response.status<300) {
+        console.log("disposition added")
+        location.reload();
 
-      axios.post(`/dbDispositions`,{
-        dispositionStatus : disposition.dispositionStatus,
-      }).then((response) => {
-        console.log(response.status)
-        if (response.status >= 200 && response.status<300) {
-          console.log("disposition added")
-          location.reload();
+      }else{
+        console.log("API error");        
+      }
+    })  
 
-        }else{
-          console.log("API error");        
-        }
-      })  
-
-      console.log("add disposition button enabled")
   }
   else{
       console.log("invlaid input");
@@ -90,10 +89,9 @@ async function addDisposition(){
 }
 
 function populateUpdate(){
-var id = document.getElementById('update-disposition-pk-menu').value;
-var dispositionStatus = document.getElementById('disposition-name-' + id).value;
-
-document.getElementById('update-disposition-name').value = dispositionStatus;
+  var id = document.getElementById('update-disposition-pk-menu').value;
+  var dispstatus = document.getElementById('dispstatus-' + id).value;
+  document.getElementById('update-disposition-name').value = dispstatus;
 }
 
 function updateDisposition(){
@@ -101,20 +99,21 @@ function updateDisposition(){
    document.getElementById('update-disposition-name').value.length > 0){
 
     //var req = new XMLHttpRequest();
-    var disposition = {dispositionid: null, dispositionStatus: null}
+    var disposition = {dispid: null, dispstatus: null}
     
-    disposition.dispositionid = document.getElementById('update-disposition-pk-menu').value;
-    disposition.dispositionStatus = document.getElementById('update-disposition-name').value;
+    disposition.dispid = document.getElementById('update-disposition-pk-menu').value;
+    disposition.dispstatus = document.getElementById('update-disposition-name').value;
 
 
-    console.log(disposition)
-    axios.put(`/dbDispositions/${disposition.dispositionid}`,{
-      dispositionStatus : disposition.dispositionStatus,
+    console.log(availability)
+
+    axios.put(`/disposition/${disposition.dispid}`,{
+      dispstatus : disposition.dispstatus,
 
     }).then((response) => {
       console.log(response.status)
       if (response.status >= 200 && response.status<300) {
-        console.log("disposition updated")
+        console.log("Disposition updated")
         location.reload();
 
       }else{
@@ -129,141 +128,138 @@ function updateDisposition(){
 }
 
 
-function selectProperty(){
-  if(document.getElementById('searchBar').value.length  > 0 && 
-    document.getElementById('atribute-form').value.length > 0 && 
-    document.getElementById('atribute-form').value != 'Attribute'){
+// function selectProperty(){
+//   if(document.getElementById('searchBar').value.length  > 0 && 
+//     document.getElementById('atribute-form').value.length > 0 && 
+//     document.getElementById('atribute-form').value != 'Attribute'){
   
-      console.log("search bar: " + document.getElementById('searchBar').value)
-      document.getElementById("loadingbar").style.display = "inline";
+//       console.log("search bar: " + document.getElementById('searchBar').value)
+//       document.getElementById("loadingbar").style.display = "inline";
   
-      var search = {property: null, value: null};      
-      search.property = document.getElementById('atribute-form').value;
-      search.value = document.getElementById('searchBar').value;
+//       var search = {property: null, value: null};      
+//       search.property = document.getElementById('atribute-form').value;
+//       search.value = document.getElementById('searchBar').value;
 
-      axios.get(`/dbDispositions/${search.property}/${search.value}`).then((response) => {
-        console.log(response.status)
-        if (response.status == 200) {
-          console.log(response.data)
-          const parsedJson = response.data
-          console.log(parsedJson);
+//       axios.get(`/dbAvailability/${search.property}/${search.value}`).then((response) => {
+//         console.log(response.status)
+//         if (response.status == 200) {
+//           console.log(response.data)
+//           const parsedJson = response.data
+//           console.log(parsedJson);
           
-          if (parsedJson.length > 0){
-            console.log("results exist")
+//           if (parsedJson.length > 0){
+//             console.log("results exist")
 
-          // parsedJson.forEach(disposition => {
-          //   if(disposition.dispositionid != 1){
-          //     if (disposition.adminstatus){
-          //       disposition.adminstatus = "true"
-          //     }
-          //     else{
-          //       disposition.adminstatus = "false"
-          //     }
-          //     console.log(disposition)
-          //     dispositions.push(new dispositionEntry(disposition.dispositionid, disposition.firstname, disposition.lastname, disposition.email, disposition.password, disposition.adminstatus));
-          //   }
-          // });
+//           // parsedJson.forEach(availability => {
+//           //   if(availability.availabilityid != 1){
+//           //     if (availability.adminstatus){
+//           //       availability.adminstatus = "true"
+//           //     }
+//           //     else{
+//           //       availability.adminstatus = "false"
+//           //     }
+//           //     console.log(availability)
+//           //     availabilitys.push(new availabilityEntry(availability.availabilityid, availability.firstname, availability.lastname, availability.email, availability.password, availability.adminstatus));
+//           //   }
+//           // });
         
         
-          // // Activate buttons for detailed item views
-          // dispositions.forEach((disposition) => { 
-          //   mainList.appendChild(disposition.generateRow());
-          //   dispositionPK.append(disposition.generateOption());
-          //   addEventListeners(disposition);
-          // })
+//           // // Activate buttons for detailed item views
+//           // availabilitys.forEach((availability) => { 
+//           //   mainList.appendChild(availability.generateRow());
+//           //   availabilityPK.append(availability.generateOption());
+//           //   addEventListeners(availability);
+//           // })
 
-          } else{
-            console.log("no results returned")
-          }
+//           } else{
+//             console.log("no results returned")
+//           }
   
-          document.getElementById("adddispositionButton").addEventListener("click", () => {
-            addDisposition();
-          });
+//           document.getElementById("addAvailabilityButton").addEventListener("click", () => {
+//             addAvailability();
+//           });
         
-          document.getElementById("updatedispositionButton").addEventListener("click", () => {
-            updateDisposition();
-          });
+//           document.getElementById("updateAvailabilityButton").addEventListener("click", () => {
+//             updateAvailability();
+//           });
         
-          document.getElementById("searchButton").addEventListener("click", () => {
-            selectProperty()
-          });
+//           document.getElementById("searchButton").addEventListener("click", () => {
+//             selectProperty()
+//           });
         
         
-          document.getElementById('update-disposition-pk-menu').addEventListener("change", () => {
-            populateUpdate();
-          });
+//           document.getElementById('update-availability-pk-menu').addEventListener("change", () => {
+//             populateUpdate();
+//           });
         
-          document.getElementById("loadingbar").style.display = "none";
-        }else{
-          console.log("API error");        
-        }
-      })  
+//           document.getElementById("loadingbar").style.display = "none";
+//         }else{
+//           console.log("API error");        
+//         }
+//       })  
 
-      console.log('search Enabled')
-  }
-}
+//       console.log('search Enabled')
+//   }
+// }
+
+
+async function getDisposition(){
+  const response = await axios.get(`/disposition`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+      return response.data
+    }
+    else{
+      console.log('API error')
+    }
+  })
+  return response
+} 
 
 
 const setupList = async () => {
   console.log("setupList executed")
   let mainList = document.getElementById("main-rows");
   let dispositionPK = document.getElementById("update-disposition-pk-menu");
-  let dispositions = Array();
+  let dispArray = Array();
 
-  axios.get('/dbDispositions').then((response) => {
-    console.log(response.status);
-    if (response.status == 200) {
-      console.log(response.data);
+  const dispResp = await getDisposition()
+  
+  dispResp.forEach(disposition => {
+    console.log(disposition)
+    let newEntry = new dispositionEntry(disposition.dispid, disposition.dispstatus)
+    console.log(newEntry)
+    mainList.appendChild(newEntry.generateRow());
+    dispositionPK.append(newEntry.generateOption())
+    addEventListeners(newEntry)
+    dispArray.push(newEntry);
 
-      const parsedJson = response.data
-      console.log(parsedJson);
-
-
-      parsedJson.forEach(disposition => {
-        console.log(disposition)
-        dispositions.push(new dispositionEntry(disposition.dispositionid, disposition.dispositionStatus));
-      });
-    
-    
-      // Activate buttons for detailed item views
-      dispositions.forEach((disposition) => { 
-        mainList.appendChild(disposition.generateRow());
-        dispositionPK.append(disposition.generateOption());
-        addEventListeners(disposition);
-      })
-
-
-      document.getElementById("addFispositionButton").addEventListener("click", () => {
-        addDisposition();
-      });
-    
-      document.getElementById("updateDispositionButton").addEventListener("click", () => {
-        updateDisposition();
-      });
-    
-      document.getElementById("searchButton").addEventListener("click", () => {
-        selectProperty()
-      });
-    
-    
-      document.getElementById('update-disposition-pk-menu').addEventListener("change", () => {
-        populateUpdate();
-      });
-    
-      document.getElementById("loadingbar").style.display = "none";
-
-
-
-
-    } else {
-      console.log("API error");
-    }
   });
 
-  // Get item list from server
+  document.getElementById("addDispositionButton").addEventListener("click", () => {
+    addDisposition();
+  });
+
+  document.getElementById("updateDispositionButton").addEventListener("click", () => {
+    updateDisposition();
+  });
+
+  // document.getElementById("searchButton").addEventListener("click", () => {
+  //   selectProperty()
+  // });
+
+  document.getElementById('update-disposition-pk-menu').addEventListener("change", () => {
+    populateUpdate();
+  });
+
+  document.getElementById("loadingbar").style.display = "none";
+
+
 };
 
 
 
 console.log("Running successfully!");
 setupList();
+
+
+
