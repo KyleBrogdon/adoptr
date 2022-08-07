@@ -42,13 +42,13 @@ router.get("/petSearch", (req, res) => {
       } */
 });
 
-router.post("/login", (req, res) => {
-    let sess = req.session
+router.post("/login", async (req, res) => {
     console.log(req.body.params);
-    sess.userid = req.body.params.userid;
-    sess.adminstatus = req.body.params.adminstatus;
-    console.log("the id is" + sess.userid);
-    // res.redirect("/landing/petCards")
+    req.session.userid = req.body.params.userid;
+    req.session.adminstatus = req.body.params.adminstatus;
+    console.log("the id is" + req.session.userid);
+    await req.session.save();
+    // res.redirect("/landing/petCards");
 })
 
 

@@ -17,18 +17,24 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 const RedisStore = connectRedis(session);
-const redisClient = redis.createClient({
+
+let redisClient = redis.createClient({
     host: 'localhost',
     port: 6379,
+});
+
+(async () => {
+    redisClient.on('error', function (err) {
+        console.log('Could not establish a connection with redis.' + err);
+    });
+    redisClient.on('connect', function (err){
+        console.log('Connected to redis successfully');
+    })
+
+    await redisClient.connect();
 })
 
-redisClient.connect();
-redisClient.on('error', function (err) {
-    console.log('Could not establish a connection with redis.' + err);
-});
-redisClient.on('connect', function (err){
-    console.log('Connected to redis successfully');
-})
+
 
 app.use(
   session({
