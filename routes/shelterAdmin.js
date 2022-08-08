@@ -7,52 +7,56 @@ var thisSession  = require('../server');
 
 //Users
 router.get('/adminShelters', (req, res) => {
-  res.render("../views/pages/shelterAdmin/adminShelters", {});
-/*   if(req.session.customerID == 1){
-      res.render("../views/pages/siteAdmin/users", {});
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+    res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+    res.render("../views/pages/shelterAdmin/adminShelters", {});
+  }else{
+    res.render("../views/pages/siteAdmin/siteAdminIndex", {})
   }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/index", {});
-  } */
 });
 
 
 //shelter Admin profile
 router.get('/shelterAdminProfile', (req, res) => {
-  res.render("../views/pages/shelterAdmin/shelterAdminProfile", {});
-/*   if(req.session.userID == 1){
-      res.render("../views/pages/siteAdmin/shelterADmins", {});
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+    res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+    res.render("../views/pages/shelterAdmin/shelterAdminProfile", {});
+  }else{
+    res.render("../views/pages/siteAdmin/siteAdminIndex", {})
   }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/index", {});
-  } */
 });
 
 //petprofile
 router.get('/petProfiles', (req, res) => {
-    res.render("../views/pages/shelterAdmin/petProfiles", {});
-  /*   if(req.session.userID == 1){
-        res.render("../views/pages/siteAdmin/shelterADmins", {});
+    console.log(req.session.userid)
+    console.log(req.session.adminstatus)
+    if(req.session.userid > 1 && req.session.adminstatus != true){
+      res.render("../views/pages/general/datingCards", {})
+    }else if (req.session.userid > 1 && req.session.adminstatus == true){
+      res.render("../views/pages/shelterAdmin/petProfiles", {});
+    }else{
+      res.render("../views/pages/siteAdmin/siteAdminIndex", {})
     }
-    else{
-        console.log("unauthorized access")
-        res.render("../views/pages/general/index", {});
-    } */
   });
 
 
 //shelter profile
 router.get('/shelterProfile', (req, res) => {
-    res.render("../views/pages/shelterAdmin/shelterProfile", {});
-  /*   if(req.session.userID == 1){
-        res.render("../views/pages/siteAdmin/shelterADmins", {});
+    console.log(req.session.userid)
+    console.log(req.session.adminstatus)
+    if(req.session.userid > 1 && req.session.adminstatus != true){
+      res.render("../views/pages/general/datingCards", {})
+    }else if (req.session.userid > 1 && req.session.adminstatus == true){
+      res.render("../views/pages/shelterAdmin/shelterProfile", {});
+    }else{
+      res.render("../views/pages/siteAdmin/siteAdminIndex", {})
     }
-    else{
-        console.log("unauthorized access")
-        res.render("../views/pages/general/index", {});
-    } */
   });
 
 

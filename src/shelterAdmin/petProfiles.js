@@ -1,10 +1,7 @@
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
-const loggedInUser = sessionStorage.getItem('userid')
 
-if (loggedInUser){
-    document.getElementById('logout').style.opacity = 1
-}
+
 
 const imageModal = new bootstrap.Modal(document.getElementById('imageModal'), {
     keyboard: false

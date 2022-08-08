@@ -1,15 +1,14 @@
 const { default: axios } = require("axios");
+
 const { get, set } = require("lodash");
 const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
 });
+var counter = 0;
 
-async function getLoggedInUser(){
-    let response = await axios.get('/users/getSessionId');
-    console.log(response);
-    return response
-}
-let loggedInUser = getLoggedInUser();
+
+
+
 
 // work in progress
 console.log('running dating cards script');
@@ -51,14 +50,20 @@ class RetrievedPet {
         div.setAttribute('class', "tinder--card");
         div.setAttribute('id', `petBio-${this.petid}`);
         // check if images were uploaded
-        if (this.images === undefined || this.images.length == 0) {
+        console.log(this.images)
+        if (this.images.length == 0) {
+            // div.innerHTML = `
+            // <img src= "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930">
+            // <h3>${this.petname}</h3>
+            // `;
             div.innerHTML = `
-            <img src= "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930">
+            <img src= "/images/image-not-found.png">
             <h3>${this.petname}</h3>
             `;
         } else {
+            console.log(this.images[0])
             div.innerHTML = `
-            <img src= "${this.images[0]}">
+            <img src= "${this.images[0].imageurl}">
             <h3>${this.petname}</h3>
             `;
         }
@@ -68,97 +73,239 @@ class RetrievedPet {
 };
 
 
-//generate pictures and data for dating cards
-async function setupCards() {
+
+async function getPets(loggedInUser) {
+    const response = await axios.get(`/readPetsForCards/${loggedInUser}`)
+    return response.data
+};
+
+async function getAllImages() {
+    const response = await axios.get(`/getAllImages`);
+    return response.data;
+}
+
+async function getPetImages(petid) {
+    const response = await axios.get(`/getPetImages/${petid}`);
+    return response.data;
+}
+
+
+async function getType(pet) {
+    const response = await axios.get(`/type/${pet.typeid}`);
+    return response.data;
+}
+
+
+async function getAvid(pet) {
+    const response = await axios.get(`/availability/${pet.avid}`);
+    return response.data;
+}
+
+async function getSize(pet) {
+    const response = await axios.get(`/size/${pet.sizeid}`)
+    return response.data;
+}
+
+async function getShelter(pet) {
+    const response = await axios.get(`/shelter/${pet.shelterid}`)
+    return response.data;
+}
+
+async function getLoggedInUser(){
+    let response = await axios.get('/users/getSessionId');
+    console.log(response.data);
+    return response.data
+}
+
+
+//let loggedInUser = getLoggedInUser();
+
+
+
+
+function initCards() {
+    var tinderContainer = document.querySelector('.tinder');
+    var allCards = document.querySelectorAll('.tinder--card');
+    var newCards = document.querySelectorAll('.tinder--card:not(.removed)');
     
+    newCards.forEach(function (card, index) {
+        card.style.zIndex = allCards.length - index;
+        card.style.transform = 'scale(' + (20 - index) / 20 + ') translateY(-' + 30 * index + 'px)';
+        card.style.opacity = (10 - index) / 10;
+    });
+    tinderContainer.classList.add('loaded');
+}
 
-console.log ('get user')
-    console.log("Pet List setup executed")
-    let mainList = document.getElementById("tinder--container");
-    let idArray = Array();
-    let counter = 0;
 
-    async function getPets() {
-        const response = await axios.get(`/readPetsForCards/${loggedInUser}`)
-        return response.data
-    };
-    let resp = await getPets();
-    for (let i = 0; i < resp.length; i++) {
-        pets.push(new RetrievedPet(resp[i].petid, resp[i].petname, resp[i].age, resp[i].sex, resp[i].blurb,
-            resp[i].dateprofile, resp[i].sizeid, resp[i].snstatus, resp[i].ststatus, resp[i].avid, resp[i].typeid, resp[i].shelterid, Array()));
-        idArray.push(resp[i].petid);
 
-    }
+async function petDetails(pet) {
+    let respType = await getType(pet);
+    pet.typeid = respType[0].typename;
+    let respAvid = await getAvid(pet);
+    pet.avid = respAvid[0].pet_availability;
+    let respSize = await getSize(pet);
+    pet.sizeid = respSize[0].petsize;
+    let respShelter = await getShelter(pet);
+    pet.shelterid = respShelter[0].sheltername;
+    document.getElementById(`petBio-${pet.petid}`).addEventListener("click", () => {
+        let modalTable = document.getElementById("modal-table");
 
-    async function getAllImages() {
-        const response = await axios.get(`/getAllImages`);
-        return response.data;
-    }
-
-    let respImgs = await getAllImages();
-    pets.forEach(pet => {
-        for (let x = 0; x < respImgs.length; x++) {
-            if (respImgs[x].petid == pet.petid) {
-                pet.images.push(respImgs[x].imageurl)
-            }
+        while (modalTable.firstChild) {
+            modalTable.removeChild(modalTable.firstChild)
         }
-    })
 
-    async function getType(pet) {
-        const response = await axios.get(`/type/${pet.typeid}`);
-        return response.data;
-    }
-
-
-    async function getAvid(pet) {
-        const response = await axios.get(`/availability/${pet.avid}`);
-        return response.data;
-    }
-
-    async function getSize(pet) {
-        const response = await axios.get(`/size/${pet.sizeid}`)
-        return response.data;
-    }
-
-    async function getShelter(pet) {
-        const response = await axios.get(`/shelter/${pet.shelterid}`)
-        return response.data;
-    }
+        let pID = pet.petid
+        headers = ['Name', 'Age', 'Sex', 'Spayed/Neutered', 'Shots', 'blurb', 'Size', 'type', 'Availability', 'shelter']
+        values = [
+            pet.petname,
+            pet.age,
+            pet.sex,
+            pet.snstatus,
+            pet.ststatus,
+            pet.blurb,
+            pet.sizeid,
+            pet.typeid,
+            pet.avid,
+            pet.shelterid,
+        ]
 
 
+        const img = document.getElementById("petIMG")
+        img.src = "/images/image-not-found.png"
+        img.className = "img-thumbnail mx-auto d-block"
+        img.style="width: 300px; height: 300px; object-fit: cover;"
+  
+        const pics = pet.images
+        console.log(pics)
+        picL = pics.length;
+        if(picL > 0){
+          console.log(pics[0])
+          let pic = pics[0].imageurl
+          console.log(pic)
+          console.log(img)
+          img.src = pic
+        }
 
 
-    // insert cards
-        console.log(pets[9]);
-        pets.forEach((pet) => {
-            if (pet.petid < 9 || counter > 50) {
-                return
-            }
-            mainList.appendChild(pet.generateCard());
-            petDetails(pet);
-            counter ++;
-            // add blurb
-            //   addEventListeners(user);
-        })
+        // const img = document.getElementById("petIMG")
+        // img.src = pet.images[0];
+        // img.className = "img-thumbnail mx-auto d-block"
+        // img.style = "width: 300px; height: 300px; object-fit: cover;"
+
+        // console.log(pet.images.length)
+
+        for (let i = 0; i < values.length; i++) {
+            console.log(headers[i] + " " + values[i])
+            let element = document.createElement("tr");
+            element.innerHTML = `
+                    <th scope="row">${headers[i]}</th>
+                    <td>${values[i]}</td>
+                `;
+            modalTable.appendChild(element);
+        }
+
+        let element = document.createElement("tr");
+        element.innerHTML = `
+          <th colspan = "2">
+            <a id="link-${pID}" href="/users/petProfile?petid=${pID}" class="link-primary" >Profile</a>
+          </th>`
+        modalTable.appendChild(element);
+
+
+        petModal.show();
+    });
+}
 
 
 
-        var tinderContainer = document.querySelector('.tinder');
-        var allCards = document.querySelectorAll('.tinder--card');
-        var nope = document.getElementById('nope');
-        var love = document.getElementById('love');
+function createButtonListener(love) {
+    return function (event) {
+        var cards = document.querySelectorAll('.tinder--card:not(.removed)');
+        var moveOutWidth = document.body.clientWidth * 1.5;
 
-        function initCards() {
-            var newCards = document.querySelectorAll('.tinder--card:not(.removed)');
-            newCards.forEach(function (card, index) {
-                card.style.zIndex = allCards.length - index;
-                card.style.transform = 'scale(' + (20 - index) / 20 + ') translateY(-' + 30 * index + 'px)';
-                card.style.opacity = (10 - index) / 10;
-            });
-            tinderContainer.classList.add('loaded');
+        console.log(cards)
+        if (!cards.length) return false;
+        var card = cards[0];
+        card.classList.add('removed');
+
+        if (love) {
+            card.style.transform = 'translate(' + moveOutWidth + 'px, -100px) rotate(-30deg)';
+            // add to user saved pet
+        } else {
+            card.style.transform = 'translate(-' + moveOutWidth + 'px, -100px) rotate(30deg)';
+            // add to user rejected pet
+        }
+        counter++
+        console.log(counter)
+        if(counter%50 == 0){
+            location.reload()
         }
 
         initCards();
+        event.preventDefault();
+    };
+}
+
+
+
+
+async function createFiftyStack(loggedInUser){
+    let mainList = document.getElementById("tinder--container");
+    let idArray = Array();
+    let resp = await getPets(loggedInUser);
+    //console.log(resp)
+    const pets = Array()
+    // for (let i = 0; i < resp.length; i++) {
+    for (let i = 0; i < 50; i++) {
+        console.log(resp[i].petid)
+        pPics = await getPetImages(resp[i].petid)
+        console.log(pPics)
+        let newPet = new RetrievedPet(resp[i].petid, resp[i].petname, resp[i].age, resp[i].sex, resp[i].blurb,
+            resp[i].dateprofile, resp[i].sizeid, resp[i].snstatus, resp[i].ststatus, resp[i].avid, resp[i].typeid, 
+            resp[i].shelterid, pPics);
+        
+        idArray.push(resp[i].petid);
+        pets.push(newPet)
+    }
+    console.log(pets)
+
+    // let respImgs = await getAllImages();
+    // pets.forEach(pet => {
+    //     for (let x = 0; x < respImgs.length; x++) {
+    //         if (respImgs[x].petid == pet.petid) {
+    //             pet.images.push(respImgs[x].imageurl)
+    //         }
+    //     }
+    // })
+
+
+    // insert cards
+    pets.forEach((pet) => {
+        mainList.appendChild(pet.generateCard());
+        petDetails(pet);
+        // add blurb
+        //   addEventListeners(user);
+    })
+}
+
+
+
+
+
+//generate pictures and data for dating cards
+async function setupCards(counter) {
+    counter = 1
+    let loggedInUser = await getLoggedInUser()
+    document.getElementById("hidden-userID").value = loggedInUser
+    console.log ('get user')
+    console.log("Pet List setup executed")
+
+    
+    loggedInUser = 3 //temp
+
+    await createFiftyStack(loggedInUser)
+
+
 
         // issues with swipe animations, stretch goal to fix
 
@@ -209,88 +356,20 @@ console.log ('get user')
         // });
 
 
-        async function petDetails(pet) {
-            let respType = await getType(pet);
-            pet.typeid = respType[0].typename;
-            let respAvid = await getAvid(pet);
-            pet.avid = respAvid[0].pet_availability;
-            let respSize = await getSize(pet);
-            pet.sizeid = respSize[0].petsize;
-            let respShelter = await getShelter(pet);
-            pet.shelterid = respShelter[0].sheltername;
-            document.getElementById(`petBio-${pet.petid}`).addEventListener("click", () => {
-                let modalTable = document.getElementById("modal-table");
+    initCards();
 
-                while (modalTable.firstChild) {
-                    modalTable.removeChild(modalTable.firstChild)
-                }
+    var nope = document.getElementById('nope');
+    var love = document.getElementById('love');
 
-                let pID = pet.petid
-                headers = ['Name', 'Age', 'Sex', 'Spayed/Neutered', 'Shots', 'blurb', 'Size', 'type', 'Availability', 'shelter']
-                values = [
-                    pet.petname,
-                    pet.age,
-                    pet.sex,
-                    pet.snstatus,
-                    pet.ststatus,
-                    pet.blurb,
-                    pet.sizeid,
-                    pet.typeid,
-                    pet.avid,
-                    pet.shelterid,
-                ]
+    nope.addEventListener('click', createButtonListener(false));
+    love.addEventListener('click', createButtonListener(true));
+};
 
-                const img = document.getElementById("petIMG")
-                img.src = pet.images[0];
-                img.className = "img-thumbnail mx-auto d-block"
-                img.style = "width: 300px; height: 300px; object-fit: cover;"
 
-                console.log(pet.images.length)
-
-                for (let i = 0; i < values.length; i++) {
-                    console.log(headers[i] + " " + values[i])
-                    let element = document.createElement("tr");
-                    element.innerHTML = `
-                            <th scope="row">${headers[i]}</th>
-                            <td>${values[i]}</td>
-                        `;
-                    modalTable.appendChild(element);
-                }
-                petModal.show();
-            });
-        }
+setupCards(counter);
 
 
 
-        function createButtonListener(love) {
-            return function (event) {
-                var cards = document.querySelectorAll('.tinder--card:not(.removed)');
-                var moveOutWidth = document.body.clientWidth * 1.5;
-
-                if (!cards.length) return false;
-                var card = cards[0];
-                card.classList.add('removed');
-
-                if (love) {
-                    card.style.transform = 'translate(' + moveOutWidth + 'px, -100px) rotate(-30deg)';
-                    // add to user saved pet
-                } else {
-                    card.style.transform = 'translate(-' + moveOutWidth + 'px, -100px) rotate(30deg)';
-                    // add to user rejected pet
-                }
-
-                initCards();
-                event.preventDefault();
-            };
-        }
-
-        var nopeListener = createButtonListener(false);
-        var loveListener = createButtonListener(true);
-
-        nope.addEventListener('click', nopeListener);
-        love.addEventListener('click', loveListener);
 
 
 
-    };
-setupCards();

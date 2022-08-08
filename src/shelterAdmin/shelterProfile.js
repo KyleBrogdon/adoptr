@@ -3,11 +3,8 @@
 // CREATE/READ/UPDATE to the shelter table
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
-const loggedInUser = sessionStorage.getItem('userid');
 
-if (loggedInUser){
-    document.getElementById('logout').style.opacity = 1
-}
+
 
 const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
@@ -65,15 +62,14 @@ class petEntry {
 function getShelterID(){
   let pageURL = document.URL;
   let ID = pageURL.split('=')[1];
-  //console.log(ID)
-  // console.log(location.search)
-  // // const urlParams = new URLSearchParams(location.search);
-
-  // // for (const [key, value] of urlParams) {
-  // //     console.log(`${key}:${value}`);
-  // // }
-
   return ID
+}
+
+
+async function getLoggedInUser(){
+  let response = await axios.get('/users/getSessionId');
+  console.log(response.data);
+  return response.data
 }
 
 

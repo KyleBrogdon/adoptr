@@ -1,15 +1,11 @@
 
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
-const loggedInUser = sessionStorage.getItem('userid');
+
+// const loggedInUser = sessionStorage.getItem('userid');
 const shelterModal = new bootstrap.Modal(document.getElementById('shelterModal'), {
     keyboard: false
 });
-
-if (loggedInUser){
-    document.getElementById('logout').style.opacity = 1
-}
-
 
 class shelterEntry{
     constructor(
@@ -117,61 +113,81 @@ function shelterDetails(shelter){
 
 
 
-function getUserID(){
-    let pageURL = document.URL;
-    let ID = pageURL.split('=')[1];  
-    return ID
-}
-
 
 async function getZip(shelter){
-    const response = await axios.get(`/zipcode/${shelter.zipcodeid}`).then((response) => {
-      if(response.status >= 200 && response.status < 300){
-        return response.data
-      }
-      else{
-        console.log('API error')
-      }
-    })
-    return response
+    try {
+        const response = await axios.get(`/zipcode/${shelter.zipcodeid}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+              return response.data
+            }
+            else{
+              console.log('API error')
+              return null
+            }
+        })
+        return response
+    } catch (err) {
+        console.log("zip")
+        return null
+    }
+
 } 
   
 async function getUserNoPassword(id){
-    const response = await axios.get(`/dbUsers/${id}`).then((response) => {
-        if(response.status >= 200 && response.status < 300){
-            response.data[0].password = null
-            return response.data
-        }
-        else{
-        console.log('API error')
-        }
-    })
-    return response
+    try{
+        const response = await axios.get(`/dbUsers/${id}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+                response.data[0].password = null
+                return response.data
+            }
+            else{
+                console.log('API error')
+                return null
+            }
+        })
+        return response
+    }catch(err){
+        return null
+    }
+
 }
 
 
 async function getCity(shelter){
-    const response = await axios.get(`/city/${shelter.cityid}`).then((response) => {
-        if(response.status >= 200 && response.status < 300){
-        return response.data
-        }
-        else{
-        console.log('API error')
-        }
-    })
-    return response
+    try{
+        const response = await axios.get(`/city/${shelter.cityid}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+            return response.data
+            }
+            else{
+            console.log('API error')
+            return null
+            }
+        })
+        return response
+    }catch(err){
+        console.log("no city")
+        return null
+    }
 } 
   
 async function getState(shelter){
-    const response = await axios.get(`/state/${shelter.stateid}`).then((response) => {
-        if(response.status >= 200 && response.status < 300){
-            return response.data
-        }
-        else{
-            console.log('API error')
-        }
-    })
-    return response
+    try{
+        const response = await axios.get(`/state/${shelter.stateid}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+                return response.data
+            }
+            else{
+                console.log('API error')
+                return null
+            }
+        })
+        return response
+    }catch(err){
+        console.log("no state")
+        return null
+    }
+
 } 
 
 async function getShelterAdmin(adminid){
@@ -545,6 +561,11 @@ async function addAdminShelter(userid,shelterid){
 
 
 
+async function getLoggedInUser(){
+    let response = await axios.get('/users/getSessionId');
+    console.log(response.data);
+    return response.data
+}
 
 
 
@@ -553,9 +574,11 @@ async function addAdminShelter(userid,shelterid){
 
 
 const setupList = async () => {
-    userid = 9;
-    document.getElementById('hidden-userID').value = userid
-    const shelterList = await getShelterAdmin(userid)
+    let userInfo = await getLoggedInUser()
+    console.log(userInfo)
+    //userid = 9;
+    document.getElementById('hidden-userID').value = userInfo
+    const shelterList = await getShelterAdmin(userInfo)
     console.log(shelterList)
     const mainList = document.getElementById("main-rows");
     const sheltersArray = Array()
@@ -563,6 +586,7 @@ const setupList = async () => {
         console.log(shelter)
         let adminShelterid = shelter.id
         let newShelter = await getBaseShelterInfo(shelter)
+        console.log( newShelter)
         let zip = await getZip(newShelter)
         let city = await getCity(newShelter)
         let state = await getState(newShelter)
@@ -578,7 +602,7 @@ const setupList = async () => {
         sheltersArray.push(newShelter)
     });
 
-    let user = await getUserNoPassword(userid)
+    let user = await getUserNoPassword(userInfo)
     
     console.log(user)
     document.getElementById("InputFirstName").value =user[0].firstname
