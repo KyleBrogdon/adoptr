@@ -2,29 +2,35 @@
 const express = require('express');
 const router = express.Router();
 const pool = require("../sql/sql_Init");
-var thisGlobal  = require('../server');
 
 router.get("/landingPage", (req,res) => {
-    res.render("../views/pages/general/landingPage", {
-  
-    });
+    console.log("landing")
+    console.log(req.session.userid)
+    console.log(req.session.adminstatus)
+    if(req.session.userid > 1 && req.session.adminstatus != true){
+        res.render("../views/pages/general/datingCards", {})
+    }else if (req.session.userid > 1 && req.session.adminstatus == true){
+        res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+    }else if (req.session.userid == 1 && req.session.adminstatus == true){
+        res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+    }else{
+        res.render("../views/pages/general/landingPage", {});
+    }
+
+
+
+
 })
 
 router.get("/petCards", (req,res) => {
-    console.log('made it to pet cards')
-    console.log(thisGlobal.thisSession);
-    if (thisGlobal.thisSession.userid != null){
-        if (thisGlobal.thisSession.userid == 1){
-            res.render("../views/pages/siteAdmin/siteAdminIndex", {});
-        } else {
-            if (thisGlobal.thisSession.adminstatus == 1){
-                res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
-            } else {
-                res.render("../views/pages/general/datingCards", {})
-            }
-        }
-    } else {
-        res.render("../views/pages/general/login")
+    console.log(req.session.userid)
+    console.log(req.session.adminstatus)
+    if(req.session.userid > 1 && req.session.adminstatus != true){
+        res.render("../views/pages/general/datingCards", {})
+    }else if (req.session.userid > 1 && req.session.adminstatus == true){
+        res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+    }else{
+        res.render("../views/pages/siteAdmin/siteAdminIndex", {})
     }
 })
 
@@ -41,11 +47,18 @@ router.get('/newUser', (req, res) => {
 });
 
 ////////////////////////////////////////////////////////////////////////////////////
-router.get('/shelterAdminTest', (req, res) => {
-    res.render("../views/pages/shelterAdmin/shelterAdminIndex", { //need to add
-
-    });
+router.get('/shelterAdminIndex', (req, res) => {
+    console.log(req.session.userid)
+    console.log(req.session.adminstatus)
+    if(req.session.userid > 1 && req.session.adminstatus != true){
+        res.render("../views/pages/general/datingCards", {})
+    }else if (req.session.userid > 1 && req.session.adminstatus == true){
+        res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+    }else{
+        res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+    }
 });
+
 router.get('/userTest', (req, res) => {
     res.render("../views/pages/users/userIndex", { //need to add
 
@@ -118,10 +131,18 @@ router.get('/loadUser', (req, res) => {
     });
 });
 
-router.get('/siteAdminIndex', (req, res) => {
-res.render("../views/pages/siteAdmin/siteAdminIndex", {
 
-});
+
+router.get('/siteAdminIndex', (req, res) => {
+    console.log(req.session.userid)
+    console.log(req.session.adminstatus)
+    if(req.session.userid > 1 && req.session.adminstatus != true){
+        res.render("../views/pages/general/datingCards", {})
+    }else if (req.session.userid > 1 && req.session.adminstatus == true){
+        res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+    }else{
+        res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+    }
 });
 
 module.exports = router;

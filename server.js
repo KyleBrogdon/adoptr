@@ -2,12 +2,12 @@ const express = require("express");
 const ejs = require("ejs");
 const session = require("express-session");
 // const redis = require('redis');
-// const connectRedis = require('connect-redis');
+// const connectRedis = require('connect-redis')(session);
 const bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 3000; //dynamically acquire ports, default to 3000 if not assigned
 
-var thisSession;
+// var thisSession;
 
 let app = express();
 app.set("view engine", "ejs");
@@ -18,13 +18,12 @@ app.use(express.json());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-// const RedisStore = connectRedis(session);
+// const redisStore = connectRedis(session);
 
 // let redisClient = redis.createClient({
 //     host: 'localhost',
 //     port: 6379,
 // });
-
 
 // async function connect (){
 //     redisClient.on('error', function (err) {
@@ -42,7 +41,12 @@ app.use(
   session({
     secret: 'secret$%^134',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000
+    }
+    // store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl : 260})
   })
 );
 
@@ -78,6 +82,7 @@ const zipcode = require("./sql/API/zipcode");
 const shelterstate = require("./sql/API/shelterstate");
 const login = require("./sql/API/login");
 const router = require("./routes/users");
+
 
 //user API endpoints
 app.get("/dbUsers/:userid", dbUsers.readUser);
@@ -212,14 +217,25 @@ app.put("/state/:stateid", shelterstate.updateState);
 app.delete("/state/:stateid", shelterstate.deleteState);
 
 //Login API endpoints
-app.get("/login/:email/:userpassword", login.validate)
-app.get("/login/:email", login.checkEmail)
+app.get("/loginFunc/:email/:userpassword", login.validate)
+app.get("/checkEmail/:email", login.checkEmail)
 // is this needed?
 // app.get("/users/storeSession/:userid/:adminstaus")
 
 
 app.get("/", (req, res) => {
-  res.render("../views/pages/general/landingPage", {});
+  console.log("root")
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+      res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+      res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+  }else if (req.session.userid == 1 && req.session.adminstatus == true){
+      res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+  }else{
+      res.render("../views/pages/general/landingPage", {});
+  }
 });
 
 
@@ -227,4 +243,4 @@ app.listen(PORT, () => {
   console.log("Listening on port " + PORT);
 });
 
-module.exports = thisSession;
+// module.exports = thisSession;

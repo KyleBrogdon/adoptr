@@ -20,7 +20,15 @@
             <label for="InputPassword" class="form-label">Password</label>
             <input type="password" class="form-control" id="InputPassword">
             </br>
-            <button type="submit" value = "login" class="btn btn-primary" id = "loginButton">Login</button>
+            <div class="row">
+              <div class = "col">
+                <button type="submit" value = "login" class="btn btn-primary" id = "loginButton">Login</button>
+              </div>
+              <div class = "col" id="loginMessageBox">
+                
+              </div>
+            </div>
+            
           </div>
           <a href="/landing/newUser" class="link-primary">newUser</a>
         </div>
@@ -35,9 +43,11 @@
           <p class="h4">Login Options</p>
           <div class="my-3 mx-4 border-top"></div>
           <p><strong>If you want to test out all database entities:</strong></p>
-          <p> admin: password</p>
-          <p><strong>If you want to view the website as a customer would:</strong></p>
-          <p> test@test.com: 12345</p>
+          <p> siteAdmin@email.com: 12345</p>
+          <p><strong>If you want to view the website as a shelter admin:</strong></p>
+          <p> shelteradmin@email.com: 12345</p>
+          <p><strong>If you want to view the website as a user would:</strong></p>
+          <p> appuser@email.com: 12345</p>
         </div>
       </div>
     </div>

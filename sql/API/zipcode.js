@@ -20,9 +20,11 @@ const readZipcode = (request, response) => {
     [id],
     (error, results) => {
       if (error) {
-        throw error;
+        console.log("failed to pull zip")
+        response.status(200).json(null);
+      }else{
+        response.status(200).json(results.rows);
       }
-      response.status(200).json(results.rows);
     }
   );
 };

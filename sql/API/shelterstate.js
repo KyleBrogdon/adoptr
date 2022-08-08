@@ -21,7 +21,8 @@ const readState = (request, response) => {
     [id],
     (error, results) => {
       if (error) {
-        throw error;
+        console.log("failed to pull state")
+        response.status(200).json(null);
       }
       response.status(200).json(results.rows);
     }

@@ -11,7 +11,7 @@
     "seedDB": "node ./sql/sql_init.js seed",
     "heroku-prebuild": "npm install --dev",
     "start:dev": "nodemon server.js",
-    "testServer": "node --trace-warnings server.js" 
+    "testServer": "node --trace-warnings server.js"
   },
   "repository": {
     "type": "git",

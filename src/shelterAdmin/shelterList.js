@@ -426,10 +426,20 @@ async function addAdminShelter(userid,shelterid){
 
 
 
+
+async function getLoggedInUser(){
+    let response = await axios.get('/users/getSessionId');
+    console.log(response.data);
+    return response.data
+}
+
+
 const setupList = async () => {
-    userid = 9;
-    document.getElementById('hidden-userID').value = userid
-    const shelterList = await getShelterAdmin(userid)
+    let userInfo = await getLoggedInUser()
+    console.log(userInfo)
+    //userid = 9;
+    document.getElementById('hidden-userID').value = userInfo
+    const shelterList = await getShelterAdmin(userInfo)
     console.log(shelterList)
     const mainList = document.getElementById("main-rows");
     const sheltersArray = Array()

@@ -10,101 +10,110 @@ var thisSession  = require('../server');
 
 //Users
 router.get("/users", (req, res) => {
-  res.render("../views/pages/siteAdmin/users", {});
-  /*   if(req.session.userID == 1){
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+      res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+      res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+  }else{
       res.render("../views/pages/siteAdmin/users", {});
   }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/landingPage", {});
-  } */
 });
 
 
 //shelter Admins
 router.get("/shelters", (req, res) => {
-  res.render("../views/pages/siteAdmin/sheltersSA", {});
-  /*   if(req.session.userID == 1){
-      res.render("../views/pages/siteAdmin/shelterADmins", {});
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+      res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+      res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+  }else{
+    res.render("../views/pages/siteAdmin/sheltersSA", {});
   }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/index", {});
-  } */
 });
 
 
 //atributesindex
 router.get("/attributes", (req, res) => {
-  res.render("../views/pages/siteAdmin/attributeOptions", {});
-  /*   if(req.session.userID == 1){
-      res.render("../views/pages/siteAdmin/atributeOptions", {});
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+      res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+      res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+  }else{
+    res.render("../views/pages/siteAdmin/attributeOptions", {});
   }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/index", {});
-  } */
 });
 
 //Atributes
 //Availability
 router.get("/attributes/availability", (req, res) => {
-  res.render("../views/pages/siteAdmin/attributes/availability", {});
-  /*   if(req.session.userID == 1){
-      res.render("../views/pages/siteAdmin/availability", {});
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+      res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+      res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+  }else{
+    res.render("../views/pages/siteAdmin/attributes/availability", {});
   }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/landingPage", {});
-  } */
 });
 
 //Breed
 router.get("/attributes/breed", (req, res) => {
-  res.render("../views/pages/siteAdmin/attributes/breed", {});
-  /*   if(req.session.userID == 1){
-      res.render("../views/pages/siteAdmin/breed", {});
+  
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+      res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+      res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+  }else{
+    res.render("../views/pages/siteAdmin/attributes/breed", {});
   }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/landingPage", {});
-  } */
 });
 
 
 //Disposition
 router.get("/attributes/disposition", (req, res) => {
-  res.render("../views/pages/siteAdmin/attributes/disposition", {});
-  /*   if(req.session.userID == 1){
-      res.render("../views/pages/siteAdmin/disposition", {});
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+      res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+      res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+  }else{
+    res.render("../views/pages/siteAdmin/attributes/disposition", {});
   }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/landingPage", {});
-  } */
 });
 
 router.get("/attributes/size", (req, res) => {
-  res.render("../views/pages/siteAdmin/attributes/size", {});
-  /*   if(req.session.userID == 1){
-      res.render("../views/pages/siteAdmin/size", {});
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+    res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+    res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+  }else{
+    res.render("../views/pages/siteAdmin/attributes/size", {});
   }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/landingPage", {});
-  } */
 });
 
 //Type
 router.get("/attributes/type", (req, res) => {
-  res.render("../views/pages/siteAdmin/attributes/type", {});
-  /*   if(req.session.userID == 1){
-      res.render("../views/pages/siteAdmin/type", {});
+  console.log(req.session.userid)
+  console.log(req.session.adminstatus)
+  if(req.session.userid > 1 && req.session.adminstatus != true){
+    res.render("../views/pages/general/datingCards", {})
+  }else if (req.session.userid > 1 && req.session.adminstatus == true){
+    res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
+  }else{
+    res.render("../views/pages/siteAdmin/attributes/type", {});
   }
-  else{
-      console.log("unauthorized access")
-      res.render("../views/pages/general/landingPage", {});
-  } */
 });
 
 

@@ -17,7 +17,8 @@ const readCity = (request, response) => {
   const id = parseInt(request.params.cityid);
   pool.query("SELECT * FROM city WHERE cityid = $1", [id], (error, results) => {
     if (error) {
-      throw error;
+      console.log("failed to pull city")
+      response.status(200).json(null);
     }
     response.status(200).json(results.rows);
   });

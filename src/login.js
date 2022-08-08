@@ -1,10 +1,13 @@
 const { default: axios } = require("axios");
-const loggedInUser = sessionStorage.getItem('userid');
+// const loggedInUser = sessionStorage.getItem('userid');
 
-console.log(loggedInUser);
-if (loggedInUser) {
-    location.href = '/landing/petCards'
-}
+// console.log(loggedInUser);
+// if (loggedInUser) {
+//     location.href = '/landing/petCards'
+// }
+
+
+
 
 class LoginInfo {
     constructor(
@@ -16,15 +19,10 @@ class LoginInfo {
     }
 }
 console.log('here');
-async function validateLogin(login) {
-    console.log('validating');
-    let response = await axios.get(`/login/${login.username}/${login.password}`);
-    console.log(response.data[0].userid);
-    return response.data;
-}
+
+
 
 async function setupLogin() {
-
 
     let login = new LoginInfo;
     let formsFilled = true;
@@ -82,4 +80,90 @@ async function setupLogin() {
     });
 }
 
-setupLogin();
+// setupLogin();
+
+
+
+async function validateLogin(login) {
+    console.log('validating');
+    //console.log(login)
+    const response = await axios.get(`/loginFunc/${login.username}/${login.password}`).then((response) => {
+        if(response.status >= 200 && response.status < 300){
+        //console.log(response.data)
+            return response.data
+        }
+        else{
+            console.log('API error')
+        }
+    })
+    return response
+}
+
+
+
+
+async function executeLogin(){
+    let updatefield = document.getElementById("loginMessageBox");
+
+    if(document.body.contains(document.getElementById("login message"))){
+        updatefield.removeChild(document.getElementById("login message")); 
+    }
+
+    if(document.getElementById('InputPassword').value.length > 0 &&
+        document.getElementById('InputPassword').value.length  > 0){
+        let password = document.getElementById('InputPassword').value;
+        //password = "'"+password+"'"
+        let email = document.getElementById('InputEmail').value;
+        //email = "'"+email+"'"
+        let login = new LoginInfo(email,password)
+
+        let response = await validateLogin(login)
+        console.log(response)
+        if(response == 'bad'){
+            console.log('invalid login')
+            let element = document.createElement('div');
+            element.innerHTML = `Login Failed`;
+            element.setAttribute("class","alert alert-danger");
+            element.setAttribute("id","login message");
+            updatefield.appendChild(element);
+        }else{
+            console.log(response)
+            if(response.userid > 1 && response.adminstatus != true){
+                window.location.href ="/landing/petCards"
+            }else if(response.userid > 1 && response.adminstatus == true){
+                window.location.href ="/landing/shelterAdminIndex"
+            }else{
+                window.location.href ="/landing/siteAdminIndex"
+            }
+            console.log(response)
+        }
+    }else{
+        console.log('need inputs')
+    }
+
+}
+
+
+
+async function getLoggedInUser(){
+    let response = await axios.get('/users/getSessionId');
+    console.log(response.data);
+    return response.data
+}
+
+async function loginPage(){
+    let loggedInUser = await getLoggedInUser()
+    if (loggedInUser > 0){
+        location.href = '/landing/petCards'
+    }
+    let login = new LoginInfo;
+    let loginButton = document.getElementById('loginButton');
+
+  loginButton.addEventListener("click", () => {
+    executeLogin();
+  });
+}
+
+loginPage()
+
+
