@@ -34,6 +34,8 @@
   .loaded.tinder {
     text-align: center;
     opacity: 1;
+    max-height: 650px;
+
   }
   
   .tinder--status {
@@ -68,11 +70,11 @@
   
   .tinder--container {
     flex-grow: 1;;
-    padding-top: 0px;
+    padding-top: 70px;
     text-align: center;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-start;
     z-index: 1;
     max-height: 600px;
     outline: grey;
@@ -80,10 +82,10 @@
   
   .tinder--card {
     display: inline-block;
-    width: 80vw;
-    max-width: 400px;
-    height: 50%;
-    max-height: 500px;
+    width: 60%;
+    max-width: 500px;
+    height: 80%;
+    max-height: 650px;
     background: #FFFFFF;
     padding-bottom: 0px;
     border-radius: 8px;
@@ -104,16 +106,16 @@
   
   .tinder--card img {
     padding-top: 10px;
-    max-width: 70%;
+    max-width: 90%;
     height:70%;
-    max-height: 400px;
+    max-height: 600px;
     pointer-events: none;
     overflow: hidden;
   }
   
   .tinder--card h3 {
     margin-top: 32px;
-    font-size: 32px;
+    font-size: 3em;
     padding: 0 8px;
     pointer-events: none;
   }
@@ -133,8 +135,8 @@
   
   .tinder--buttons button {
     border-radius: 50%;
-    width: 7vw;
-    height: 10vh;
+    width: 120px;
+    height: 120px;
     border: 0;
     background: white;
     display: inline-block;
@@ -148,7 +150,6 @@
     vertical-align: middle;
   }
 
-  
   .fa-heart {
     color: red;
   }
