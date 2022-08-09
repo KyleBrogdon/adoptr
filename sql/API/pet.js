@@ -70,9 +70,7 @@ const readPetsByType = (request, response) => {
 const readPetsForCards = (request, response) => {
   const id = parseInt(request.params.userid);
   pool.query(
-    "SELECT * FROM pet WHERE NOT EXISTS \
-  (SELECT * FROM user_rejected_pet WHERE pet.petid = (SELECT user_rejected_pet.petid WHERE user_rejected_pet.userid = $1) \
-   AND NOT EXISTS (SELECT * FROM user_saved_pet WHERE pet.petid = (SELECT user_saved_pet.petid WHERE user_saved_pet.userid = $1)))",
+    "SELECT * FROM pet WHERE NOT EXISTS (SELECT * FROM user_rejected_pet WHERE pet.petid = (SELECT user_rejected_pet.petid WHERE user_rejected_pet.userid = $1)) AND NOT EXISTS (SELECT * FROM user_saved_pet WHERE pet.petid = (SELECT user_saved_pet.petid WHERE user_saved_pet.userid = $1))",
     [id],
     (error, results) => {
       if (error) {
