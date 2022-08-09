@@ -19,7 +19,8 @@ module.exports = {
         'scripts/shelterAdmin/shelterList':path.join(__dirname,"src","shelterAdmin","shelterList.js"),
         'scripts/user/login': path.join(__dirname, "src", "login.js"),
         'scripts/user/newUser': path.join(__dirname, "src", "newUser.js"),
-        'scripts/landing/landing': path.join(__dirname, "src", "landingPage.js")
+        'scripts/landing/landing': path.join(__dirname, "src", "landingPage.js"),
+        'scripts/user/petSearch': path.join(__dirname, "src", "petSearch.js")
       },
     mode: 'development',
     resolve: {

@@ -60,10 +60,12 @@ function loadTable(res) {
 
 async function search() {
   let prop = "";
+ 
 
   document
     .getElementById("attribute-form")
     .addEventListener("change", function () {
+
       if (this.value === "petID") {
         console.log("petId");
         prop = "petid";

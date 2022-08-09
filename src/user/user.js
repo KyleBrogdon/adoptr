@@ -3,14 +3,10 @@
 // CREATE/READ/UPDATE to the user table
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
-const loggedInUser = sessionStorage.getItem('userid');
 const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
 });
-
-if (loggedInUser){
-    document.getElementById('logout').style.opacity = 1
-}
+let user ={userID: null};
 
 
 class petEntry {
@@ -46,14 +42,14 @@ class petEntry {
     let element = document.createElement("tr");
     element.innerHTML = `
       <th scope="row">
-        <a id="link-${this.petid}" href="/users/petProfile?petid=${this.petid}" class="link-primary" target="_blank">${this.petname}</a>
+        <a id="link-${this.petid}" target = "_self" href="/users/petProfile?petid=${this.petid}" class="link-primary" target="_blank">${this.petname}</a>
       </th>
       <td>${this.typeid}</td>
       <td>${this.age}</td>
       <td>${this.sex}</td>
       <td>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petid}" value = "${this.petid}">Expand</button>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="unfav-button-${this.petid}" value = "${this.petid}">Unfav</button>
+        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petid}" value = "${this.petid}">Pet Details</button>
+        <button type="button" class="btn btn-outline-primary btn-sm" id="unfav-button-${this.petid}" value = "${this.petid}">Remove Pet</button>
       </td>
     `;
     return element;
@@ -89,21 +85,23 @@ const getBasePetInfo = async (pet) =>{
 }
 
 
+async function getLoggedInUser() {
+    let response = await axios.get('/users/getSessionId');
+    console.log(response.data);
+    return response.data
+}
 
 
-
-function unfav(pet){
-  document.getElementById(`unfav-button-${pet.petid}`).addEventListener("click",() => {
-      axios.delete(`/favPets/${pet.petid}`).then((response) => {
+async function unfav(pet){
+  document.getElementById(`unfav-button-${pet.petid}`).addEventListener("click", async () => {
+      let response = await axios.delete(`/usersavedpet/${user.userID}/${pet.petid}`)
           console.log(response.status)
           if (response.status == 200) {
             console.log(pet.petid + " deleted")
             location.reload();
-  
           }else{
             console.log("API error");        
           }
-      })  
       console.log("delete button enabled")
   })
 }
@@ -480,10 +478,13 @@ async function updatePet(pet){
 
 
 const setupList = async () => {
-  let user ={userID: null}
-  user.userID = 5 //test
+  user.userID = await getLoggedInUser();
+  console.log(user.userID);
   console.log('setting up list')
   document.getElementById('hidden-userID').value = user.userID
+  if (user.userID){
+    document.getElementById('logout').style.opacity = 1
+}
 
   // const userCallTest = await fetch(`/dbUsers/${user.userID}`)
   // const profileResponse = await userCallTest.json();
@@ -540,7 +541,7 @@ const setupList = async () => {
     }
   });
 
-
+console.log(`the current user is ${user.userID}`);
   const savedPets = await axios.get(`/usersavedpet/${user.userID}`).then((response) => {
     console.log(response.status);
     if (response.status >= 200 && response.status < 300) {
@@ -587,9 +588,9 @@ const setupList = async () => {
   
   document.getElementById("loadingbar").style.display = "none";
     
-  document.getElementById("searchButton").addEventListener("click", () => {
-    selectProperty()
-  });
+//   document.getElementById("searchButton").addEventListener("click", () => {
+//     selectProperty()
+//   });
 
   document.getElementById("updatePassword").addEventListener("click", () => {
     updatePassword();
