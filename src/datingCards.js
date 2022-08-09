@@ -5,6 +5,7 @@ const petModal = new bootstrap.Modal(document.getElementById('petModal'), {
     keyboard: false
 });
 var counter = 0;
+var loggedInUser;
 
 
 
@@ -50,7 +51,7 @@ class RetrievedPet {
         div.setAttribute('class', "tinder--card");
         div.setAttribute('id', `petBio-${this.petid}`);
         // check if images were uploaded
-        console.log(this.images)
+        // console.log(this.images)
         if (this.images.length == 0) {
             // div.innerHTML = `
             // <img src= "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930">
@@ -61,7 +62,7 @@ class RetrievedPet {
             <h3>${this.petname}</h3>
             `;
         } else {
-            console.log(this.images[0])
+            // console.log(this.images[0])
             div.innerHTML = `
             <img src= "${this.images[0].imageurl}">
             <h3>${this.petname}</h3>
@@ -111,7 +112,7 @@ async function getShelter(pet) {
     return response.data;
 }
 
-async function getLoggedInUser(){
+async function getLoggedInUser() {
     let response = await axios.get('/users/getSessionId');
     console.log(response.data);
     return response.data
@@ -127,7 +128,7 @@ function initCards() {
     var tinderContainer = document.querySelector('.tinder');
     var allCards = document.querySelectorAll('.tinder--card');
     var newCards = document.querySelectorAll('.tinder--card:not(.removed)');
-    
+
     newCards.forEach(function (card, index) {
         card.style.zIndex = allCards.length - index;
         card.style.transform = 'scale(' + (20 - index) / 20 + ') translateY(-' + 30 * index + 'px)';
@@ -173,17 +174,17 @@ async function petDetails(pet) {
         const img = document.getElementById("petIMG")
         img.src = "/images/image-not-found.png"
         img.className = "img-thumbnail mx-auto d-block"
-        img.style="width: 300px; height: 300px; object-fit: cover;"
-  
+        img.style = "width: 300px; height: 300px; object-fit: cover;"
+
         const pics = pet.images
-        console.log(pics)
+        // console.log(pics)
         picL = pics.length;
-        if(picL > 0){
-          console.log(pics[0])
-          let pic = pics[0].imageurl
-          console.log(pic)
-          console.log(img)
-          img.src = pic
+        if (picL > 0) {
+            //   console.log(pics[0])
+            let pic = pics[0].imageurl
+            //   console.log(pic)
+            //   console.log(img)
+            img.src = pic
         }
 
 
@@ -195,7 +196,7 @@ async function petDetails(pet) {
         // console.log(pet.images.length)
 
         for (let i = 0; i < values.length; i++) {
-            console.log(headers[i] + " " + values[i])
+            // console.log(headers[i] + " " + values[i])
             let element = document.createElement("tr");
             element.innerHTML = `
                     <th scope="row">${headers[i]}</th>
@@ -219,25 +220,39 @@ async function petDetails(pet) {
 
 
 function createButtonListener(love) {
-    return function (event) {
+    return async function (event) {
         var cards = document.querySelectorAll('.tinder--card:not(.removed)');
         var moveOutWidth = document.body.clientWidth * 1.5;
 
-        console.log(cards)
+        // console.log(cards)
         if (!cards.length) return false;
         var card = cards[0];
         card.classList.add('removed');
 
         if (love) {
+            let pid = cards[0].id;
+            pid = pid.replace(/\D/g, '');
             card.style.transform = 'translate(' + moveOutWidth + 'px, -100px) rotate(-30deg)';
-            // add to user saved pet
+            let resp = await axios.post('/usersavedpet', {
+                params: {
+                    petid: pid,
+                    userid: loggedInUser
+                }
+            });
         } else {
+            let pid = cards[0].id;
+            pid = pid.replace(/\D/g, '');
             card.style.transform = 'translate(-' + moveOutWidth + 'px, -100px) rotate(30deg)';
-            // add to user rejected pet
+            let resp = await axios.post('/userrejectedpet', {
+                params: {
+                    petid: pid,
+                    userid: loggedInUser
+                }
+            });
         }
         counter++
-        console.log(counter)
-        if(counter%50 == 0){
+        // console.log(counter)
+        if (counter % 50 == 0) {
             location.reload()
         }
 
@@ -249,7 +264,7 @@ function createButtonListener(love) {
 
 
 
-async function createFiftyStack(loggedInUser){
+async function createFiftyStack(loggedInUser) {
     let mainList = document.getElementById("tinder--container");
     let idArray = Array();
     let resp = await getPets(loggedInUser);
@@ -257,17 +272,17 @@ async function createFiftyStack(loggedInUser){
     const pets = Array()
     // for (let i = 0; i < resp.length; i++) {
     for (let i = 0; i < 50; i++) {
-        console.log(resp[i].petid)
+        // console.log(resp[i].petid)
         pPics = await getPetImages(resp[i].petid)
-        console.log(pPics)
+        // console.log(pPics)
         let newPet = new RetrievedPet(resp[i].petid, resp[i].petname, resp[i].age, resp[i].sex, resp[i].blurb,
-            resp[i].dateprofile, resp[i].sizeid, resp[i].snstatus, resp[i].ststatus, resp[i].avid, resp[i].typeid, 
+            resp[i].dateprofile, resp[i].sizeid, resp[i].snstatus, resp[i].ststatus, resp[i].avid, resp[i].typeid,
             resp[i].shelterid, pPics);
-        
+
         idArray.push(resp[i].petid);
         pets.push(newPet)
     }
-    console.log(pets)
+    // console.log(pets)
 
     // let respImgs = await getAllImages();
     // pets.forEach(pet => {
@@ -295,65 +310,65 @@ async function createFiftyStack(loggedInUser){
 //generate pictures and data for dating cards
 async function setupCards(counter) {
     counter = 1
-    let loggedInUser = await getLoggedInUser()
+    loggedInUser = await getLoggedInUser()
     document.getElementById("hidden-userID").value = loggedInUser
-    console.log ('get user')
+    console.log('get user')
     console.log("Pet List setup executed")
 
-    
+
     loggedInUser = 3 //temp
 
     await createFiftyStack(loggedInUser)
 
 
 
-        // issues with swipe animations, stretch goal to fix
+    // issues with swipe animations, stretch goal to fix
 
-        // allCards.forEach(function (el) {
-        //     var hammertime = new Hammer(el);
-        //     hammertime.on('pan', function (event) {
-        //         el.classList.add('moving');
-        //     });
+    // allCards.forEach(function (el) {
+    //     var hammertime = new Hammer(el);
+    //     hammertime.on('pan', function (event) {
+    //         el.classList.add('moving');
+    //     });
 
-        //     hammertime.on('pan', function (event) {
-        //         if (event.deltaX === 0) return;
-        //         if (event.center.x === 0 && event.center.y === 0) return;
+    //     hammertime.on('pan', function (event) {
+    //         if (event.deltaX === 0) return;
+    //         if (event.center.x === 0 && event.center.y === 0) return;
 
-        //         tinderContainer.classList.toggle('tinder_love', event.deltaX > 0);
-        //         tinderContainer.classList.toggle('tinder_nope', event.deltaX < 0);
+    //         tinderContainer.classList.toggle('tinder_love', event.deltaX > 0);
+    //         tinderContainer.classList.toggle('tinder_nope', event.deltaX < 0);
 
-        //         var xMulti = event.deltaX * 0.03;
-        //         var yMulti = event.deltaY / 80;
-        //         var rotate = xMulti * yMulti;
+    //         var xMulti = event.deltaX * 0.03;
+    //         var yMulti = event.deltaY / 80;
+    //         var rotate = xMulti * yMulti;
 
-        //         event.target.style.transform = 'translate(' + event.deltaX + 'px, ' + event.deltaY + 'px) rotate(' + rotate + 'deg)';
-        //     });
+    //         event.target.style.transform = 'translate(' + event.deltaX + 'px, ' + event.deltaY + 'px) rotate(' + rotate + 'deg)';
+    //     });
 
-        //     hammertime.on('panend', function (event) {
-        //         el.classList.remove('moving');
-        //         tinderContainer.classList.remove('tinder_love');
-        //         tinderContainer.classList.remove('tinder_nope');
+    //     hammertime.on('panend', function (event) {
+    //         el.classList.remove('moving');
+    //         tinderContainer.classList.remove('tinder_love');
+    //         tinderContainer.classList.remove('tinder_nope');
 
-        //         var moveOutWidth = document.body.clientWidth;
-        //         var keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
+    //         var moveOutWidth = document.body.clientWidth;
+    //         var keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
 
-        //         event.target.classList.toggle('removed', !keep);
+    //         event.target.classList.toggle('removed', !keep);
 
-        //         if (keep) {
-        //             event.target.style.transform = '';
-        //         } else {
-        //             var endX = Math.max(Math.abs(event.velocityX) * moveOutWidth, moveOutWidth);
-        //             var toX = event.deltaX > 0 ? endX : -endX;
-        //             var endY = Math.abs(event.velocityY) * moveOutWidth;
-        //             var toY = event.deltaY > 0 ? endY : -endY;
-        //             var xMulti = event.deltaX * 0.03;
-        //             var yMulti = event.deltaY / 80;
-        //             var rotate = xMulti * yMulti;
-        //             event.target.style.transform = 'translate(' + toX + 'px, ' + (toY + event.deltaY) + 'px) rotate(' + rotate + 'deg)';
-        //             initCards();
-        //         }
-        //     });
-        // });
+    //         if (keep) {
+    //             event.target.style.transform = '';
+    //         } else {
+    //             var endX = Math.max(Math.abs(event.velocityX) * moveOutWidth, moveOutWidth);
+    //             var toX = event.deltaX > 0 ? endX : -endX;
+    //             var endY = Math.abs(event.velocityY) * moveOutWidth;
+    //             var toY = event.deltaY > 0 ? endY : -endY;
+    //             var xMulti = event.deltaX * 0.03;
+    //             var yMulti = event.deltaY / 80;
+    //             var rotate = xMulti * yMulti;
+    //             event.target.style.transform = 'translate(' + toX + 'px, ' + (toY + event.deltaY) + 'px) rotate(' + rotate + 'deg)';
+    //             initCards();
+    //         }
+    //     });
+    // });
 
 
     initCards();
