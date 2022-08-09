@@ -48,8 +48,8 @@ class petEntry {
       <td>${this.age}</td>
       <td>${this.sex}</td>
       <td>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petid}" value = "${this.petid}">Expand</button>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="unfav-button-${this.petid}" value = "${this.petid}">Unfav</button>
+        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petid}" value = "${this.petid}">Pet Details</button>
+        <button type="button" class="btn btn-outline-primary btn-sm" id="unfav-button-${this.petid}" value = "${this.petid}">Remove Pet</button>
       </td>
     `;
     return element;
