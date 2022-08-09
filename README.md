@@ -1,7 +1,14 @@
-### Start Server
-npm run build 
+### Start Instructions
 
-npm run start  <port number>
+Local Run:
+  npm i
 
-open 'localhost: <port number>' in web browser
+  npm run build 
 
+  npm run start:dev
+
+  open 'localhost: 3000
+
+Heroku:
+
+Visit adoptr.herokuapp.com
