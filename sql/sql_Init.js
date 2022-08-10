@@ -23,7 +23,7 @@ const credentials = {
 //   password: "password",
 //   database: "adoptrdb",
 //   port: 5432,
-// }
+}
 
 
 function executeQuery(newpath){
