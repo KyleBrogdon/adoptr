@@ -5,8 +5,6 @@ const pool = require("../sql/sql_Init");
 
 router.get("/landingPage", (req,res) => {
     console.log("landing")
-    console.log(req.session.userid)
-    console.log(req.session.adminstatus)
     if(req.session.userid > 1 && req.session.adminstatus != true){
         res.render("../views/pages/general/datingCards", {})
     }else if (req.session.userid > 1 && req.session.adminstatus == true){
@@ -23,14 +21,14 @@ router.get("/landingPage", (req,res) => {
 })
 
 router.get("/petCards", (req,res) => {
-    console.log(req.session.userid)
-    console.log(req.session.adminstatus)
     if(req.session.userid > 1 && req.session.adminstatus != true){
         res.render("../views/pages/general/datingCards", {})
     }else if (req.session.userid > 1 && req.session.adminstatus == true){
         res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
-    }else{
+    }else if (req.session.userid == 1 && req.session.adminstatus == true){
         res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+    }else{
+        res.render("../views/pages/general/landingPage", {});
     }
 })
 
@@ -48,14 +46,14 @@ router.get('/newUser', (req, res) => {
 
 ////////////////////////////////////////////////////////////////////////////////////
 router.get('/shelterAdminIndex', (req, res) => {
-    console.log(req.session.userid)
-    console.log(req.session.adminstatus)
     if(req.session.userid > 1 && req.session.adminstatus != true){
         res.render("../views/pages/general/datingCards", {})
     }else if (req.session.userid > 1 && req.session.adminstatus == true){
         res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
-    }else{
+    }else if (req.session.userid == 1 && req.session.adminstatus == true){
         res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+    }else{
+        res.render("../views/pages/general/landingPage", {});
     }
 });
 
@@ -134,14 +132,14 @@ router.get('/loadUser', (req, res) => {
 
 
 router.get('/siteAdminIndex', (req, res) => {
-    console.log(req.session.userid)
-    console.log(req.session.adminstatus)
     if(req.session.userid > 1 && req.session.adminstatus != true){
         res.render("../views/pages/general/datingCards", {})
     }else if (req.session.userid > 1 && req.session.adminstatus == true){
         res.render("../views/pages/shelterAdmin/shelterAdminIndex", {})
-    }else{
+    }else if (req.session.userid == 1 && req.session.adminstatus == true){
         res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+    }else{
+        res.render("../views/pages/general/landingPage", {});
     }
 });
 

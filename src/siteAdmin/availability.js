@@ -32,13 +32,6 @@ class availabilityEntry {
 
       return element;
     }
-  
-    generateOption() {
-      let element = document.createElement("option");
-      element.innerHTML = `<option value="${this.availabilityid}">${this.availabilityid}</option>`;
-      return element;
-    }
-  
 };
   
   
@@ -106,7 +99,7 @@ function updateAvailability(){
     availability.availabilityStatus = document.getElementById('update-availability-name').value;
 
 
-    console.log(availability)
+    //console.log(availability)
 
     axios.put(`/availability/${availability.availabilityid}`,{
       pet_availability : availability.availabilityStatus,
@@ -129,80 +122,6 @@ function updateAvailability(){
 }
 
 
-// function selectProperty(){
-//   if(document.getElementById('searchBar').value.length  > 0 && 
-//     document.getElementById('atribute-form').value.length > 0 && 
-//     document.getElementById('atribute-form').value != 'Attribute'){
-  
-//       console.log("search bar: " + document.getElementById('searchBar').value)
-//       document.getElementById("loadingbar").style.display = "inline";
-  
-//       var search = {property: null, value: null};      
-//       search.property = document.getElementById('atribute-form').value;
-//       search.value = document.getElementById('searchBar').value;
-
-//       axios.get(`/dbAvailability/${search.property}/${search.value}`).then((response) => {
-//         console.log(response.status)
-//         if (response.status == 200) {
-//           console.log(response.data)
-//           const parsedJson = response.data
-//           console.log(parsedJson);
-          
-//           if (parsedJson.length > 0){
-//             console.log("results exist")
-
-//           // parsedJson.forEach(availability => {
-//           //   if(availability.availabilityid != 1){
-//           //     if (availability.adminstatus){
-//           //       availability.adminstatus = "true"
-//           //     }
-//           //     else{
-//           //       availability.adminstatus = "false"
-//           //     }
-//           //     console.log(availability)
-//           //     availabilitys.push(new availabilityEntry(availability.availabilityid, availability.firstname, availability.lastname, availability.email, availability.password, availability.adminstatus));
-//           //   }
-//           // });
-        
-        
-//           // // Activate buttons for detailed item views
-//           // availabilitys.forEach((availability) => { 
-//           //   mainList.appendChild(availability.generateRow());
-//           //   availabilityPK.append(availability.generateOption());
-//           //   addEventListeners(availability);
-//           // })
-
-//           } else{
-//             console.log("no results returned")
-//           }
-  
-//           document.getElementById("addAvailabilityButton").addEventListener("click", () => {
-//             addAvailability();
-//           });
-        
-//           document.getElementById("updateAvailabilityButton").addEventListener("click", () => {
-//             updateAvailability();
-//           });
-        
-//           document.getElementById("searchButton").addEventListener("click", () => {
-//             selectProperty()
-//           });
-        
-        
-//           document.getElementById('update-availability-pk-menu').addEventListener("change", () => {
-//             populateUpdate();
-//           });
-        
-//           document.getElementById("loadingbar").style.display = "none";
-//         }else{
-//           console.log("API error");        
-//         }
-//       })  
-
-//       console.log('search Enabled')
-//   }
-// }
-
 
 async function getAvailability(){
   const response = await axios.get(`/availability`).then((response) => {
@@ -220,17 +139,15 @@ async function getAvailability(){
 const setupList = async () => {
   console.log("setupList executed")
   let mainList = document.getElementById("main-rows");
-  let availabilityPK = document.getElementById("update-availability-pk-menu");
   let avArray = Array();
 
   const avResp = await getAvailability()
 
   avResp.forEach(availability => {
-    console.log(availability)
+    //console.log(availability)
     let newEntry = new availabilityEntry(availability.avid, availability.pet_availability)
     
     mainList.appendChild(newEntry.generateRow());
-    availabilityPK.append(newEntry.generateOption())
     addEventListeners(newEntry)
     avArray.push(newEntry);
 
@@ -243,10 +160,6 @@ const setupList = async () => {
   document.getElementById("updateAvailabilityButton").addEventListener("click", () => {
     updateAvailability();
   });
-
-  // document.getElementById("searchButton").addEventListener("click", () => {
-  //   selectProperty()
-  // });
 
   document.getElementById('update-availability-pk-menu').addEventListener("change", () => {
     populateUpdate();

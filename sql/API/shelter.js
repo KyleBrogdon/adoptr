@@ -27,6 +27,25 @@ const readShelter = (request, response) => {
   );
 };
 
+
+const readShelterMinData = (request, response) => {
+  const id = parseInt(request.params.shelterid);
+  pool.query(
+    "SELECT sheltername,sheltercode,email,phonenumber\
+    FROM shelter\
+    WHERE shelterid = $1",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+
+
 const readShelterCredential = (request, response) => {
   console.log("GET shelter/sheltercode/shelterpassword");
   const sheltercode = request.params.sheltercode;
@@ -249,4 +268,5 @@ module.exports = {
   updateShelterName,
   updateShelterLocation,
   deleteShelter,
+  readShelterMinData
 };

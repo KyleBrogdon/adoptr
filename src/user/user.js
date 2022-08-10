@@ -74,10 +74,10 @@ const getBasePetInfo = async (pet) =>{
             null
           )
       }else{
-        console.log('failed pet pull')
+        //console.log('failed pet pull')
       }
     })
-    console.log(resp)
+    //console.log(resp)
     return resp
   }catch(err){
 
@@ -87,7 +87,7 @@ const getBasePetInfo = async (pet) =>{
 
 async function getLoggedInUser() {
     let response = await axios.get('/users/getSessionId');
-    console.log(response.data);
+    //console.log(response.data);
     return response.data
 }
 
@@ -95,14 +95,14 @@ async function getLoggedInUser() {
 async function unfav(pet){
   document.getElementById(`unfav-button-${pet.petid}`).addEventListener("click", async () => {
       let response = await axios.delete(`/usersavedpet/${user.userID}/${pet.petid}`)
-          console.log(response.status)
+          //console.log(response.status)
           if (response.status == 200) {
-            console.log(pet.petid + " deleted")
+            //console.log(pet.petid + " deleted")
             location.reload();
           }else{
-            console.log("API error");        
+            //console.log("API error");        
           }
-      console.log("delete button enabled")
+      //console.log("delete button enabled")
   })
 }
 
@@ -138,17 +138,17 @@ function petDetails(pet){
       const pics = pet.images
       picL = pics.length;
       if(picL > 0){
-        console.log(pics[0])
+        //console.log(pics[0])
         let pic = pics[0].imageurl
-        console.log(pic)
-        console.log(img)
+        //console.log(pic)
+        //console.log(img)
         img.src = pic
       }
 
-      console.log(pet.images.length)
+      //console.log(pet.images.length)
 
       for (let i  = 0; i < values.length; i++){
-          console.log(headers[i] + " " + values[i])
+          //console.log(headers[i] + " " + values[i])
           let element = document.createElement("tr");
           element.innerHTML = `
               <th scope="row">${headers[i]}</th>
@@ -166,7 +166,7 @@ function selectProperty(){
     document.getElementById('atribute-form').value.length > 0 && 
     document.getElementById('atribute-form').value != 'Attribute'){
   
-      console.log("search bar: " + document.getElementById('searchBar').value)
+      //console.log("search bar: " + document.getElementById('searchBar').value)
       document.getElementById("loadingbar").style.display = "inline";
   
       var search = {property: null, value: null};      
@@ -174,17 +174,17 @@ function selectProperty(){
       search.value = document.getElementById('searchBar').value;
 
       axios.get(`/pets/${search.property}/${search.value}`).then((response) => {
-        console.log(response.status)
+        //console.log(response.status)
         if (response.status == 200) {
-          console.log(response.data)
+          //console.log(response.data)
           const parsedJson = response.data
-          console.log(parsedJson);
+          //console.log(parsedJson);
           
           if (parsedJson.length > 0){
-            console.log("results exist")
+            //console.log("results exist")
 
           } else{
-            console.log("no results returned")
+            //console.log("no results returned")
           }
   
           document.getElementById("loadingbar").style.display = "none";
@@ -211,11 +211,11 @@ function selectProperty(){
           });
 
         }else{
-          console.log("API error");        
+          //console.log("API error");        
         }
       })  
 
-      console.log('search Enabled')
+      //console.log('search Enabled')
   }
 }
 
@@ -239,9 +239,9 @@ function updatePassword(){
       axios.put(`/dbUserPassword/${user.userid}`,{
         userpassword: user.newPassword
       }).then((response) => {
-        console.log(response.status)
+        //console.log(response.status)
         if (response.status >= 200 && response.status<300) {
-          console.log("password updated");
+          //console.log("password updated");
           let element = document.createElement('div');
           element.innerHTML = `Password Updated`;
           element.setAttribute("class","alert alert-primary");
@@ -249,8 +249,8 @@ function updatePassword(){
           updatefield.appendChild(element);
           
         }else{
-          console.log("API error");  
-          console.log("password failed");
+          //console.log("API error");  
+          //console.log("password failed");
           let element = document.createElement('div');
           element.innerHTML = `Password Failed`;
           element.setAttribute("class","alert alert-danger");
@@ -261,7 +261,7 @@ function updatePassword(){
       })  
   }
   else{ 
-    console.log("new password does not match");
+    //console.log("new password does not match");
     let element = document.createElement('div');
     element.innerHTML = `new Password does not match`;
     element.setAttribute("class","alert alert-danger");
@@ -272,7 +272,7 @@ function updatePassword(){
 
 
 function updateProfile(){
-  console.log("updating profile")
+  //console.log("updating profile")
 
   let updatefield = document.getElementById("profileFields");
 
@@ -295,7 +295,7 @@ function updateProfile(){
       lastname: user.lastname,
       email : user.email
     }).then((response) => {
-      console.log(response.status)
+      //console.log(response.status)
       if (response.status >= 200 && response.status<300) {
         let element = document.createElement('div');
         element.innerHTML = `Profile Updated`;
@@ -454,7 +454,7 @@ async function getImage(pet){
 } 
 
 async function updatePet(pet){
-  console.log(pet)
+  //console.log(pet)
   let size = await getSize(pet)
 
   let type = await getType(pet)
@@ -464,11 +464,11 @@ async function updatePet(pet){
   let pics = await getImage(pet)
 
   let shelter = await getShelter(pet)
-  console.log(size)
-  console.log(type)
-  console.log(avail)
-  console.log(pics)
-  console.log(shelter)
+  //console.log(size)
+  //console.log(type)
+  //console.log(avail)
+  //console.log(pics)
+ // console.log(shelter)
 
   pet.sizeid =size
   pet.typeid =type
@@ -479,7 +479,7 @@ async function updatePet(pet){
 
 const setupList = async () => {
   user.userID = await getLoggedInUser();
-  console.log(user.userID);
+  //console.log(user.userID);
   console.log('setting up list')
   document.getElementById('hidden-userID').value = user.userID
   if (user.userID){
@@ -493,11 +493,11 @@ const setupList = async () => {
 
 
   const userCall = await axios.get(`/dbUsers/${user.userID}`).then((response) => {
-    console.log(response);
+    //console.log(response);
     if (response.status >= 200 && response.status < 300) {
 
       const profileResponse = response.data
-      console.log(profileResponse);
+      //console.log(profileResponse);
 
       //document.getElementById("userID").value = profileResponse.userID;
     
@@ -543,10 +543,10 @@ const setupList = async () => {
 
 console.log(`the current user is ${user.userID}`);
   const savedPets = await axios.get(`/usersavedpet/${user.userID}`).then((response) => {
-    console.log(response.status);
+    //console.log(response.status);
     if (response.status >= 200 && response.status < 300) {
       const petIDList = response.data
-      console.log(petIDList)
+      //console.log(petIDList)
       return petIDList
     }
     else{
@@ -554,23 +554,23 @@ console.log(`the current user is ${user.userID}`);
     }
   })
 
-  console.log(savedPets)
+  //console.log(savedPets)
 
   const mainList = document.getElementById("main-rows");
   const pets = Array();
   savedPets.forEach(async petid=>{
-    console.log("getting: " + petid.petid)
+    //console.log("getting: " + petid.petid)
     let newPet = await getBasePetInfo(petid)
     let size = await getSize(newPet)
     let type = await getType(newPet)
     let avail = await getAvailability(newPet)
     let pics = await getImage(newPet)
     let shelter = await getShelter(newPet)
-    console.log(size)
-    console.log(type)
-    console.log(avail)
-    console.log(pics)
-    console.log(shelter)
+    // console.log(size)
+    // console.log(type)
+    // console.log(avail)
+    // console.log(pics)
+    // console.log(shelter)
     newPet.sizeid = size[0].petsize
     newPet.typeid =type[0].typename
     newPet.avid = avail[0].pet_availability
@@ -583,15 +583,11 @@ console.log(`the current user is ${user.userID}`);
     //console.log(newPet)
     pets.push(newPet)
   })
-  console.log(pets)
+  //console.log(pets)
 
   
   document.getElementById("loadingbar").style.display = "none";
     
-//   document.getElementById("searchButton").addEventListener("click", () => {
-//     selectProperty()
-//   });
-
   document.getElementById("updatePassword").addEventListener("click", () => {
     updatePassword();
   });

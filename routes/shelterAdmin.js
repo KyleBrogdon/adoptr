@@ -13,8 +13,10 @@ router.get('/adminShelters', (req, res) => {
     res.render("../views/pages/general/datingCards", {})
   }else if (req.session.userid > 1 && req.session.adminstatus == true){
     res.render("../views/pages/shelterAdmin/adminShelters", {});
-  }else{
+  }else if (req.session.userid == 1 && req.session.adminstatus == true){
     res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+  }else{
+    res.render("../views/pages/general/landingPage", {});
   }
 });
 
@@ -27,8 +29,10 @@ router.get('/shelterAdminProfile', (req, res) => {
     res.render("../views/pages/general/datingCards", {})
   }else if (req.session.userid > 1 && req.session.adminstatus == true){
     res.render("../views/pages/shelterAdmin/shelterAdminProfile", {});
-  }else{
+  }else if (req.session.userid == 1 && req.session.adminstatus == true){
     res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+  }else{
+    res.render("../views/pages/general/landingPage", {});
   }
 });
 
@@ -40,8 +44,10 @@ router.get('/petProfiles', (req, res) => {
       res.render("../views/pages/general/datingCards", {})
     }else if (req.session.userid > 1 && req.session.adminstatus == true){
       res.render("../views/pages/shelterAdmin/petProfiles", {});
-    }else{
+    }else if (req.session.userid == 1 && req.session.adminstatus == true){
       res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+    }else{
+      res.render("../views/pages/general/landingPage", {});
     }
   });
 
@@ -54,8 +60,10 @@ router.get('/shelterProfile', (req, res) => {
       res.render("../views/pages/general/datingCards", {})
     }else if (req.session.userid > 1 && req.session.adminstatus == true){
       res.render("../views/pages/shelterAdmin/shelterProfile", {});
-    }else{
+    }else if (req.session.userid == 1 && req.session.adminstatus == true){
       res.render("../views/pages/siteAdmin/siteAdminIndex", {})
+    }else{
+      res.render("../views/pages/general/landingPage", {});
     }
   });
 

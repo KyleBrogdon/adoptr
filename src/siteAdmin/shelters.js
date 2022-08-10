@@ -18,9 +18,6 @@ if (loggedInUser) {
 //     keyboard: false
 // });
 
-if (loggedInUser) { 
-    logoutButton.logoutButton(loggedInUser);
-    }
   
 class ShelterEntry {
     constructor(
@@ -76,12 +73,6 @@ class ShelterEntry {
       return element;
     }
   
-    generateOption() {
-      let element = document.createElement("option");
-      element.innerHTML = `<option value="${this.shelterid}">${this.shelterid}</option>`;
-      return element;
-    }
-  
 };
   
 function addEventListeners(shelter){
@@ -105,10 +96,10 @@ function addEventListeners(shelter){
         while(modalTable.firstChild){
             modalTable.removeChild(modalTable.firstChild)
         }
-        console.log(shelter)
+        //console.log(shelter)
         headers = ['Phone','Zipcode','City','State']
         values = [shelter.phone, shelter.zipcode, shelter.city, shelter.state]
-        console.log(values)
+        //console.log(values)
         for (let i  = 0; i < values.length; i++){
             console.log(headers[i] + " " + values[i])
             let element = document.createElement("tr");
@@ -217,7 +208,7 @@ function updateShelter(){
 
 
 
-      console.log(shelter)
+      //console.log(shelter)
       axios.put(`/shelter/${shelter.shelterid}`,{
         sheltername : shelter.sheltername,
         sheltercode : shelter.sheltercode,
@@ -245,88 +236,10 @@ function updateShelter(){
 }
   
   
-function selectProperty(){
-    if(document.getElementById('searchBar').value.length  > 0 && 
-      document.getElementById('atribute-form').value.length > 0 && 
-      document.getElementById('atribute-form').value != 'Attribute'){
-    
-        console.log("search bar: " + document.getElementById('searchBar').value)
-        document.getElementById("loadingbar").style.display = "inline";
-    
-        var search = {property: null, value: null};      
-        search.property = document.getElementById('atribute-form').value;
-        search.value = document.getElementById('searchBar').value;
-
-        axios.get(`/shelter/${search.property}/${search.value}`).then((response) => {
-          console.log(response.status)
-          if (response.status == 200) {
-            console.log(response.data)
-            const parsedJson = response.data
-            console.log(parsedJson);
-            
-            if (parsedJson.length > 0){
-              console.log("results exist")
-
-            // parsedJson.forEach(shelter => {
-            //   if(shelter.shelterid != 1){
-            //     if (shelter.phone){
-            //       shelter.phone = "true"
-            //     }
-            //     else{
-            //       shelter.phone = "false"
-            //     }
-            //     console.log(shelter)
-            //     shelters.push(new ShelterEntry(shelter.shelterid, shelter.sheltername, shelter.sheltercode, shelter.email, shelter.password, shelter.phone));
-            //   }
-            // });
-          
-          
-            // // Activate buttons for detailed item views
-            // shelters.forEach((shelter) => { 
-            //   mainList.appendChild(shelter.generateRow());
-            //   shelterPK.append(shelter.generateOption());
-            //   addEventListeners(shelter);
-            // })
-
-            } else{
-              console.log("no results returned")
-            }
-    
-
-    
-    
-            document.getElementById("addShelterButton").addEventListener("click", () => {
-              addShelter();
-            });
-          
-            document.getElementById("updateShelterButton").addEventListener("click", () => {
-              updateShelter();
-            });
-          
-            document.getElementById("searchButton").addEventListener("click", () => {
-              selectProperty()
-            });
-          
-          
-            document.getElementById('update-shelter-pk-menu').addEventListener("change", () => {
-              populateUpdate();
-            });
-          
-            document.getElementById("loadingbar").style.display = "none";
-          }else{
-            console.log("API error");        
-          }
-        })  
-
-        console.log('search Enabled')
-    }
-}
-  
   
 const setupList = async () => {
     console.log("setupList executed")
     let mainList = document.getElementById("main-rows");
-    let shelterPK = document.getElementById("update-shelter-pk-menu");
     let shelters = Array();
   
     axios.get('/shelter').then((response) => {
@@ -339,7 +252,7 @@ const setupList = async () => {
 
 
         parsedJson.forEach(shelter => {
-            console.log(shelter)
+            //console.log(shelter)
             shelters.push(new ShelterEntry(shelter.shelterid, shelter.sheltername, 
                 shelter.sheltercode, shelter.email, shelter.password, shelter.phonenumber, 
                 shelter.zipcodeid, shelter.cityid, shelter.stateid));
@@ -350,7 +263,6 @@ const setupList = async () => {
         shelters.forEach((shelter) => { 
           //console.log(shelter)
           mainList.appendChild(shelter.generateRow());
-          shelterPK.append(shelter.generateOption());
           addEventListeners(shelter);
         })
 
@@ -362,12 +274,7 @@ const setupList = async () => {
         document.getElementById("updateShelterButton").addEventListener("click", () => {
           updateShelter();
         });
-      
-        document.getElementById("searchButton").addEventListener("click", () => {
-          selectProperty()
-        });
-      
-      
+
         document.getElementById('update-shelter-pk-menu').addEventListener("change", () => {
           populateUpdate();
         });

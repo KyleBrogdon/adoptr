@@ -132,9 +132,9 @@ async function updateBreed(){
     breed.breedname = document.getElementById('update-breed-name').value;
     breed.typename = document.getElementById('update-type-name').value;
     breed.typeid = await getTypeName(breed.typename)
-    console.log(breed.typeid)
+    //console.log(breed.typeid)
     breed.typeid = breed.typeid[0].typeid
-    console.log(breed.typeid)
+    //console.log(breed.typeid)
 
     axios.put(`/breed/${breed.breedid}`,{
       breedname : breed.breedname,
@@ -258,7 +258,7 @@ async function getType(id){
 } 
 
 async function getTypeName(name){
-  console.log(name)
+  //console.log(name)
   const response = await axios.get(`/typeName/${name}`).then((response) => {
     if(response.status >= 200 && response.status < 300){
       return response.data
