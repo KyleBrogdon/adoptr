@@ -42,10 +42,18 @@ class RetrievedPet {
     generateImages() {
         let containerDiv = document.getElementById('petRow')
         let images = this.images;
-        if (images == null) {
-            let div = document.createElement('div');
-            div.innerHTML = ' <p>No Images Found</p>'
-            containerDiv.appendChild(div);
+        if (images.length == 0) {
+
+            let img = document.createElement('img');
+            img.src = "/images/image-not-found.png"
+            img.className = "img-thumbnail mx-auto d-block"
+            img.style = "width: 300px; height: 300px; object-fit: cover;"
+            containerDiv.appendChild(img);
+
+
+            // let div = document.createElement('div');
+            // div.innerHTML = ' <p>No Images Found</p>'
+            // containerDiv.appendChild(div);
         }
         images.forEach(image => {
             let div = document.createElement('div');
@@ -90,6 +98,40 @@ async function getPetID(){
 }
 
 
+async function getShelterMinData(pet){
+    const response = await axios.get(`/shelterMinData/${pet.shelterid}`).then((response) => {
+      if(response.status >= 200 && response.status < 300){
+        return response.data
+      }
+      else{
+        console.log('API error')
+      }
+    })
+    return response
+  } 
+
+async function getPet(petid) {
+    const response = await axios.get(`/pet/${petid}`);
+    return response.data;
+}
+
+async function getImage(pet) {
+    const response = await axios.get(`/getPetImages/${pet.petid}`);
+    //console.log(response.data[0].imageurl);
+    return response.data;
+}
+async function getType(pet) {
+    const response = await axios.get(`/type/${pet.typeid}`);
+    return response.data;
+}
+async function getAvid(pet) {
+    const response = await axios.get(`/availability/${pet.avid}`);
+    return response.data;
+}
+async function getSize(pet) {
+    const response = await axios.get(`/size/${pet.sizeid}`)
+    return response.data;
+}
 
 //generate pictures and data for dating cards
 async function setupCards() {
@@ -100,54 +142,39 @@ async function setupCards() {
     let imageDiv = document.getElementById("petRow");
     let blurbDiv = document.getElementById("mb-3");
 
-
-    async function getPet(petid) {
-        const response = await axios.get(`/pet/${petid}`);
-        return response.data;
-    }
-    let idFromLink = await getPetID();
+    let idFromLink = await getPetID(petid);
     let resp = await getPet(idFromLink);
     console.log(JSON.stringify(resp[0].petid));
     pet = new RetrievedPet(JSON.stringify(resp[0].petid), resp[0].petname, resp[0].age, resp[0].sex, JSON.stringify(resp[0].blurb),
         JSON.stringify(resp[0].dateprofile), JSON.stringify(resp[0].sizeid), JSON.stringify(resp[0].snstatus), JSON.stringify(resp[0].ststatus), JSON.stringify(resp[0].avid), JSON.stringify(resp[0].typeid), JSON.stringify(resp[0].shelterid), Array());
 
 
-    async function getImage() {
-        const response = await axios.get(`/getPetImages/${pet.petid}`);
-        console.log(response.data[0].imageurl);
-        return response.data;
-    }
+    console.log(pet)
 
-    let respImg = await getImage();
+
+    let respImg = await getImage(pet);
     respImg.forEach(response => {
         pet.images.push(response.imageurl)
     })
 
-
-    async function getType() {
-        const response = await axios.get(`/type/${pet.typeid}`);
-        return response.data;
-    }
-
-    let respType = await getType();
+    let respType = await getType(pet);
     pet.typeid = respType[0].typename;
 
-    async function getAvid() {
-        const response = await axios.get(`/availability/${pet.avid}`);
-        return response.data;
-    }
-
-    let respAvid = await getAvid();
+    let respAvid = await getAvid(pet);
     pet.avid = respAvid[0].pet_availability;
 
-    async function getSize() {
-        const response = await axios.get(`/size/${pet.sizeid}`)
-        return response.data;
-    }
-
-    let respSize = await getSize();
+    let respSize = await getSize(pet);
     pet.sizeid = respSize[0].petsize;
 
+
+    let shelter = await getShelterMinData(pet);
+    console.log(shelter)
+    console.log(shelter[0])
+    console.log(shelter[0].email)
+    document.getElementById('sheltername').innerText = shelter[0].sheltername;
+    document.getElementById('sheltercode').innerText = shelter[0].sheltercode;
+    document.getElementById('shelteremail').innerText = shelter[0].email;
+    document.getElementById('phonenumber').innerText = shelter[0].phonenumber;
 
     function generateSlides(pet){
         let slideDiv = document.createElement('div');

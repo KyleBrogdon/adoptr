@@ -81,7 +81,7 @@ class UserEntry {
 function addEventListeners(user){
     document.getElementById(`delete-button-${user.userid}`).addEventListener("click", () => { //add delete
       axios.delete(`/dbUsers/${user.userid}`).then((response) => {
-        console.log(response.status)
+        //console.log(response.status)
         if (response.status == 200) {
           console.log(user.userid + " deleted")
           location.reload();
@@ -119,7 +119,7 @@ async function addUser(){
           userpassword : user.password,
           adminstatus : user.adminstatus
         }).then((response) => {
-          console.log(response.status)
+          //console.log(response.status)
           if (response.status >= 200 && response.status<300) {
             console.log("user added")
             location.reload();
@@ -163,7 +163,7 @@ function updateUser(){
       user.password =document.getElementById('update-password').value;
       user.adminstatus =document.getElementById('update-admin-status').checked;
 
-      console.log(user)
+      //console.log(user)
       axios.put(`/dbUsers/${user.userid}`,{
         firstname : user.firstname,
         lastname : user.lastname,
@@ -171,7 +171,7 @@ function updateUser(){
         userpassword : user.password,
         adminstatus : user.adminstatus
       }).then((response) => {
-        console.log(response.status)
+        //console.log(response.status)
         if (response.status >= 200 && response.status<300) {
           console.log("user updated")
           location.reload();
@@ -187,86 +187,7 @@ function updateUser(){
     }
 }
   
-  
-async function selectProperty(){
-    if(document.getElementById('searchBar').value.length  > 0 && 
-      document.getElementById('atribute-form').value.length > 0 && 
-      document.getElementById('atribute-form').value != 'Attribute'){
-    
-        console.log("search bar: " + document.getElementById('searchBar').value)
-        document.getElementById("loadingbar").style.display = "inline";
-    
-        var search = {property: null, value: null};      
-        search.property = document.getElementById('atribute-form').value;
-        search.value = document.getElementById('searchBar').value;
-        console.log("attribute: " + document.getElementById('atribute-form').value)
 
-        
-        await axios.get(`/dbUserSearch/${search.property}/${search.value}`).then((response) => {
-          console.log(response.status)
-          if (response.status == 200) {
-            console.log(response.data)
-            const parsedJson = response.data
-            console.log(parsedJson);
-            
-            if (parsedJson.length > 0){
-              console.log("results exist")
-
-            // parsedJson.forEach(user => {
-            //   if(user.userid != 1){
-            //     if (user.adminstatus){
-            //       user.adminstatus = "true"
-            //     }
-            //     else{
-            //       user.adminstatus = "false"
-            //     }
-            //     console.log(user)
-            //     users.push(new UserEntry(user.userid, user.firstname, user.lastname, user.email, user.password, user.adminstatus));
-            //   }
-            // });
-          
-          
-            // // Activate buttons for detailed item views
-            // users.forEach((user) => { 
-            //   mainList.appendChild(user.generateRow());
-            //   userPK.append(user.generateOption());
-            //   addEventListeners(user);
-            // })
-
-            } else{
-              console.log("no results returned")
-            }
-    
-
-    
-    
-            document.getElementById("addUserButton").addEventListener("click", () => {
-              addUser();
-            });
-          
-            document.getElementById("updateUserButton").addEventListener("click", () => {
-              updateUser();
-            });
-          
-            document.getElementById("searchButton").addEventListener("click", () => {
-              selectProperty()
-            });
-          
-          
-            document.getElementById('update-user-pk-menu').addEventListener("change", () => {
-              populateUpdate();
-            });
-          
-            document.getElementById("loadingbar").style.display = "none";
-          }else{
-            console.log("API error");        
-          }
-        })  
-
-        console.log('search Enabled')
-    }
-}
-  
   
 const setupList = async () => {
     console.log("setupList executed")
@@ -275,12 +196,12 @@ const setupList = async () => {
     let users = Array();
   
     axios.get('/dbUsers').then((response) => {
-      console.log(response.status);
+      //console.log(response.status);
       if (response.status == 200) {
-        console.log(response.data);
+        //console.log(response.data);
 
         const parsedJson = response.data
-        console.log(parsedJson);
+        //console.log(parsedJson);
 
 
         parsedJson.forEach(user => {
@@ -291,7 +212,7 @@ const setupList = async () => {
             else{
               user.adminstatus = "false"
             }
-            console.log(user)
+            //console.log(user)
             users.push(new UserEntry(user.userid, user.firstname, user.lastname, user.email, user.password, user.adminstatus));
           }
         });
@@ -313,19 +234,12 @@ const setupList = async () => {
           updateUser();
         });
       
-        document.getElementById("searchButton").addEventListener("click", () => {
-          selectProperty()
-        });
-      
       
         document.getElementById('update-user-pk-menu').addEventListener("change", () => {
           populateUpdate();
         });
       
         document.getElementById("loadingbar").style.display = "none";
-
-
-
 
       } else {
         console.log("API error");

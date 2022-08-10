@@ -8,6 +8,7 @@
 
     <%- include('../../partials/header_user'); %>
     <div class="container overflow-hidden">
+        <br>
         <div class="row">
             <div  id="profileFields" class="col" style="padding-right: 10%;">
                 <h6 class="display-6" style ="text-decoration: underline;">Pet Profile</h6>
@@ -18,7 +19,7 @@
         <br>
 
         <div class="petRow" id ="petRow">
-          </div>
+        </div>
 
     
         <h8 class="display-6" style ="text-decoration: underline; padding-top: 2%;">Blurb</h8>
@@ -76,7 +77,34 @@
     
         </br>
 
+        <h8 class="display-6" style ="text-decoration: underline; padding-top: 2%;">Shelter</h8>
+        <table class="table table-striped" id = 'petProfile--properties'>
+            <thead>
+                <tr>
+                    <th scope="col-2">Attribute</th>
+                    <th scope="col">Value</th>           
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col" id ="sheltername"></th>     
+                </tr>
+                <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col" id = "sheltercode"></th>   
+                </tr>
+                <tr>
+                    <th scope="col">Email</th>
+                    <th scope="col" id = "shelteremail"></th>   
+                </tr>
+                <tr>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col" id = "phonenumber"></th>      
+                </tr>
+            </tbody>
 
+        </table>
 
 
     </div>

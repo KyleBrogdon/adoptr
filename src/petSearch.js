@@ -31,7 +31,7 @@ class PetEntry {
       </td>
 
       <td>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petId}" value = ${this.petId}><a id="link-${this.petId}" href="/petProfile?petid=${this.petid}" class="link-primary" >Profile</a></button>
+        <button type="button" class="btn btn-outline-primary btn-sm" id="expand-button-${this.petId}" value = ${this.petId}><a id="link-${this.petId}" href="/users/petProfile?petid=${this.petId}" class="link-primary" >Profile</a></button>
       </td>
     `;
     return element;
@@ -40,8 +40,7 @@ class PetEntry {
 
 function loadTable(res) {
   let mainList = document.getElementById("main-rows");
-  document.getElementById("loadingbar").style.display = "none";
-  // }
+
   let receivedPets = Array();
   const parsedJson = res.data;
   console.log(parsedJson);

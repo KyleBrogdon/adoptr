@@ -121,6 +121,7 @@ app.get(
   "/shelter/:sheltercode/:shelterpassword",
   shelters.readShelterCredential
 );
+app.get("/shelterMinData/:shelterid", shelters.readShelterMinData);
 app.get("/shelter", shelters.readShelters);
 app.get("/shelter/:shelterid", shelters.readShelter);
 app.post("/shelter", shelters.createShelter);
@@ -130,6 +131,8 @@ app.put("/shelterPassword/:shelterid", shelters.updateShelterPassword);
 app.put("/shelterName/:shelterid", shelters.updateShelterName);
 app.put("/shelterLocation/:shelterid", shelters.updateShelterLocation);
 app.delete("/shelter/:shelterid", shelters.deleteShelter);
+
+
 
 //Admin-shelter API endpoints
 app.get("/adminshelter/:id", adminshelters.readAdminShelter);
