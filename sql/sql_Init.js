@@ -8,22 +8,22 @@ const path = require("path");
 
 const credentials = {
 //for heruko deployment, comment this out if testing locally
-  // host: "ec2-3-224-184-9.compute-1.amazonaws.com",
-  // user: "wbzkszrqyydneh",
-  // password: "c66bc34eae0b43e4317b1c08e1b5771905c38a5e653e8dcea41ccc04a24dcae3",
-  // database: "d5khufng7stn58",
-  // ssl: {
-  //   require: true,
-  //   rejectUnauthorized: false
-  // }
+  host: "ec2-3-224-184-9.compute-1.amazonaws.com",
+  user: "wbzkszrqyydneh",
+  password: "c66bc34eae0b43e4317b1c08e1b5771905c38a5e653e8dcea41ccc04a24dcae3",
+  database: "d5khufng7stn58",
+  ssl: {
+    require: true,
+    rejectUnauthorized: false
+  }
 
 //uncomment this for local testing
-  host: "localhost",
-  user: "postgres",
-  password: "password",
-  database: "adoptrdb",
-  port: 5432,
-}
+//   host: "localhost",
+//   user: "postgres",
+//   password: "password",
+//   database: "adoptrdb",
+//   port: 5432,
+// }
 
 
 function executeQuery(newpath){
