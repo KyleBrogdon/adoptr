@@ -7,9 +7,11 @@ const pool = require("../sql_Init");
 const readShelters = (request, response) => {
   pool.query("SELECT * FROM shelter", (error, results) => {
     if (error) {
-      throw error;
+      console.log("failed to pull shelter")
+      response.status(200).json(null);
+    }else{
+      response.status(200).json(results.rows);
     }
-    response.status(200).json(results.rows);
   });
 };
 
@@ -20,9 +22,11 @@ const readShelter = (request, response) => {
     [id],
     (error, results) => {
       if (error) {
-        throw error;
+        console.log("failed to pull shelter")
+        response.status(200).json(null);
+      }else{
+        response.status(200).json(results.rows);
       }
-      response.status(200).json(results.rows);
     }
   );
 };
@@ -64,6 +68,7 @@ const readShelterCredential = (request, response) => {
 };
 
 const createShelter = (request, response) => {
+  console.log(request.body)
   const {
     sheltername,
     sheltercode,
@@ -92,11 +97,14 @@ const createShelter = (request, response) => {
     ],
     (error, results) => {
       if (error) {
-        throw error;
+        console.log("failed to create shelter")
+        response.status(200).json(null);
+      }else{
+        //console.log(results.rows)
+        response
+          .status(200)
+          .send(results.rows);
       }
-      response
-        .status(201)
-        .send(`Shelter added with ID: ${results.rows[0].shelterid}`);
     }
   );
 };
@@ -251,7 +259,8 @@ const deleteShelter = (request, response) => {
     [id],
     (error, results) => {
       if (error) {
-        throw error;
+        console.log("failed to delete")
+        response.status(200).json(null);
       }
       response.status(200).send(`Shelter deleted with ID: ${id}`);
     }

@@ -47,10 +47,9 @@ class shelterEntry{
           <td>${this.cityname}, ${this.statecode}</td>
           <td>
             <button type="button" class="btn btn-primary btn-sm" id="expand-button-${this.shelterid}" value = "${this.shelterid}">Expand</button>
-            <button type="button" class="btn btn-warning btn-sm" id="remove-button-${this.shelterid}" value = "${this.shelterid}">Remove</button>
           </td>
           <td>
-            <button type="button" class="btn btn-danger btn-sm" id="delete-button-${this.shelterid}" value = "${this.shelterid}">delete</button>
+            <button type="button" class="btn btn-warning btn-sm" id="remove-button-${this.shelterid}" value = "${this.shelterid}">Remove</button>
           </td>
         `;
         return element;
@@ -73,6 +72,8 @@ function delistShelter(shelter){
         console.log("delete button enabled")
     })
 }
+
+
 
 function shelterDetails(shelter){
     document.getElementById(`expand-button-${shelter.shelterid}`).addEventListener("click", () => {
@@ -109,61 +110,140 @@ function shelterDetails(shelter){
 
 
 
-function getUserID(){
-    let pageURL = document.URL;
-    let ID = pageURL.split('=')[1];  
-    return ID
-}
 
 
-async function getZip(shelter){
-    const response = await axios.get(`/zipcode/${shelter.zipcodeid}`).then((response) => {
-      if(response.status >= 200 && response.status < 300){
-        return response.data
-      }
-      else{
+
+
+async function getZipID(zipcode){
+    try {
+        const response = await axios.get(`/zipcodeValue/${zipcode}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+              return response.data
+            }
+            else{ 
+              console.log('API error')
+              return null
+            }
+          })
+          return response
+    } catch (error) {
         console.log('API error')
-      }
-    })
-    return response
+        return null      
+    }
 } 
   
-async function getUserNoPassword(id){
-    const response = await axios.get(`/dbUsers/${id}`).then((response) => {
-        if(response.status >= 200 && response.status < 300){
-            response.data[0].password = null
-            return response.data
-        }
-        else{
+async function getZip(zipcodeid){
+    try {
+        const response = await axios.get(`/zipcode/${zipcodeid}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+                return response.data
+            }
+            else{
+                console.log('API error')
+                return null
+            }
+        })
+        return response
+    } catch (error) {
         console.log('API error')
-        }
-    })
-    return response
+        return null
+    }
+} 
+
+async function getCityID(cityname){
+    try {
+        const response = await axios.get(`/cityValue/${cityname}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+              return response.data
+            }
+            else{ 
+              console.log('API error')
+              return null
+            }
+          })
+          return response
+    } catch (error) {
+        console.log('API error')
+        return null      
+    }
+} 
+
+async function getCity(cityid){
+    try {
+        const response = await axios.get(`/city/${cityid}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+            return response.data
+            }
+            else{
+            console.log('API error')
+            return null
+            }
+        })
+        return response
+    } catch (error) {
+        console.log('API error')
+        return null
+    }
+
+} 
+
+async function getStateID(statename){
+    try {
+        const response = await axios.get(`/stateValue/${statename}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+              return response.data
+            }
+            else{ 
+              console.log('API error')
+              return null
+            }
+          })
+          return response
+    } catch (error) {
+        console.log('API error')
+        return null      
+    }
+} 
+
+
+
+async function getUserNoPassword(id){
+    try{
+        const response = await axios.get(`/dbUsers/${id}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+                response.data[0].password = null
+                return response.data
+            }
+            else{
+                console.log('API error')
+                return null
+            }
+        })
+        return response
+    }catch(err){
+        return null
+    }
+
 }
 
-
-async function getCity(shelter){
-    const response = await axios.get(`/city/${shelter.cityid}`).then((response) => {
-        if(response.status >= 200 && response.status < 300){
-        return response.data
-        }
-        else{
-        console.log('API error')
-        }
-    })
-    return response
-} 
   
 async function getState(shelter){
-    const response = await axios.get(`/state/${shelter.stateid}`).then((response) => {
-        if(response.status >= 200 && response.status < 300){
-            return response.data
-        }
-        else{
-            console.log('API error')
-        }
-    })
-    return response
+    try{
+        const response = await axios.get(`/state/${shelter.stateid}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+                return response.data
+            }
+            else{
+                console.log('API error')
+                return null
+            }
+        })
+        return response
+    }catch(err){
+        console.log("no state")
+        return null
+    }
+
 } 
 
 async function getShelterAdmin(adminid){
@@ -214,6 +294,12 @@ const getBaseShelterInfo = async (shelter) =>{
 }
 
 
+
+
+
+
+
+
 async function addNewShelterForm(){
     let element = document.createElement('div')
     element.innerHTML = `
@@ -241,14 +327,6 @@ async function addNewShelterForm(){
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="inputGroup-sizing-sm">zipcode</span>
           <input type="text" id="new-zipcode" class="form-control" aria-label="zipcode" aria-describedby="inputGroup-sizing-sm" >
-        </div>
-        <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="inputGroup-sizing-sm">city</span>
-          <input type="text" id="new-city" class="form-control" aria-label="city" aria-describedby="inputGroup-sizing-sm" >
-        </div>
-        <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="inputGroup-sizing-sm">state</span>
-          <input type="text" id="new-state" class="form-control" aria-label="state" aria-describedby="inputGroup-sizing-sm" >
         </div>
         <div class="my-3 mx-4 border-top"></div>
         <div class="row">
@@ -282,41 +360,44 @@ async function addShelter(){
         document.getElementById('new-email').value.length > 0 &&
         document.getElementById('new-password').value.length > 0 &&
         document.getElementById('new-phone').value.length > 0 &&
-        document.getElementById('new-zipcode').value.length > 0 &&
-        document.getElementById('new-city').value.length > 0 &&
-        document.getElementById('new-state').value.length > 0 ){
+        document.getElementById('new-zipcode').value.length > 0 ){
 
         //var req = new XMLHttpRequest();
-        var shelter = {sheltername: null, sheltercode: null, email: null, password: null, phone: null};
+        var shelter = {sheltername: null, sheltercode: null, email: null, password: null, phone: null, zipcode: null,city: null, state: null, zipid: null,cityid:null,stateid:null};
         shelter.sheltername = document.getElementById('new-shelter-name').value;
         shelter.sheltercode = document.getElementById('new-shelter-code').value;
         shelter.email = document.getElementById('new-email').value;
         shelter.password = document.getElementById('new-password').value;
         shelter.phone = document.getElementById('new-phone').value;
         shelter.zipcode = document.getElementById('new-zipcode').value;
-        shelter.city = document.getElementById('new-city').value;
-        shelter.state = document.getElementById('new-state').value;
 
-        axios.post(`/shelter`,{
-          sheltername : shelter.sheltername,
-          sheltercode : shelter.sheltercode,
-          email: shelter.email,
-          shelterpassword : shelter.password,
-          phone : shelter.phone,
-          zipcode : shelter.zipcode,
-          city : shelter.city,
-          state : shelter.state
-        }).then((response) => {
-          console.log(response.status)
-          if (response.status >= 200 && response.status<300) {
-            console.log("shelter added")
-            location.reload();
-  
-          }else{
-            console.log("API error");        
-          }
-        })  
+        shelter.zipcode = await getZipID(shelter.zipcode);
 
+        //console.log("shelter.zipcode: " + shelter.zipcode[0].zipcodeid)
+        console.log(shelter.zipcode)
+        if (shelter.zipcode.length > 0){
+            shelter.zipid = shelter.zipcode[0].zipcodeid;
+            console.log(shelter.zipid)
+            shelter.cityid = shelter.zipcode[0].cityid
+            console.log(shelter.cityid)
+            shelter.state = await getCity(shelter.cityid)
+            shelter.stateid = shelter.state[0].stateid
+            console.log(shelter.stateid)
+        }else{
+            shelter.zipid= null
+            shelter.cityid  =null
+            shelter.stateid = null
+        }
+        console.log( shelter.zipid)
+        console.log(shelter.cityid)
+        console.log(shelter.stateid)
+
+        let shelterid = await postShelter(shelter, shelter.zipid,shelter.cityid,shelter.stateid)
+        console.log(shelterid)
+        let userid = document.getElementById("hidden-userID").value
+        
+        await addAdminShelter(userid,shelterid)
+        location.reload()
         console.log("add shelter button enabled")
     }
     else{
@@ -324,7 +405,35 @@ async function addShelter(){
     }
 }
 
-
+async function postShelter(shelter,zipid,cityid,stateid){
+    try {
+        const response = await axios.post(`/shelter`,{
+            sheltername : shelter.sheltername,
+            sheltercode : shelter.sheltercode,
+            email: shelter.email,
+            shelterpassword : shelter.password,
+            phonenumber : shelter.phone,
+            zipcodeid : zipid,
+            cityid : cityid,
+            stateid : stateid
+          }).then((response) => {
+            if (response.status >= 200 && response.status<300) {
+              console.log("shelter added")
+              //console.log(response.data[0].shelterid)
+              
+              return response.data[0].shelterid
+              //location.reload();
+    
+            }else{
+              console.log("API error");
+              return null        
+            }
+          })
+          return response  
+    } catch (error) {
+        return null
+    }
+}
 
 async function addExistingShelterForm(){
     let element = document.createElement('div')
@@ -393,6 +502,7 @@ async function addExistingShelter(){
                 let shelterid = valid[0].shelterid
                 let userid = document.getElementById("hidden-userID").value
                 await addAdminShelter(userid,shelterid)
+                location.reload()
             }
         }else{
             console.log("failed")
@@ -414,7 +524,7 @@ async function addAdminShelter(userid,shelterid){
             console.log(response.status)
             if (response.status >= 200 && response.status<300) {
               console.log("shelter added")
-              location.reload();
+              //location.reload();
             }else{
               console.log("API error");        
             }
@@ -427,11 +537,14 @@ async function addAdminShelter(userid,shelterid){
 
 
 
+
 async function getLoggedInUser(){
     let response = await axios.get('/users/getSessionId');
     console.log(response.data);
     return response.data
 }
+
+
 
 
 const setupList = async () => {
@@ -447,12 +560,29 @@ const setupList = async () => {
         console.log(shelter)
         let adminShelterid = shelter.id
         let newShelter = await getBaseShelterInfo(shelter)
-        let zip = await getZip(newShelter)
-        let city = await getCity(newShelter)
+
+        let zip = await getZip(newShelter.zipcodeid)
+
+        //console.log(zip)
+        if(zip != null){
+            newShelter.zipcode = zip[0].zipcode
+        }else{
+            newShelter.zipcode = null
+        }
+
+        let city = await getCity(newShelter.cityid)
+        if(city != null){
+            newShelter.cityname = city[0].cityname
+        }else{
+            newShelter.cityname = null
+        }
+
         let state = await getState(newShelter)
-        newShelter.statecode = state[0].statecode
-        newShelter.cityname = city[0].cityname
-        newShelter.zipcode = zip[0].zipcode
+        if( state != null){
+            newShelter.statecode = state[0].statecode
+        }else{
+            newShelter.statecode = null
+        }
         newShelter.adminshelterid = adminShelterid
         console.log(newShelter)
 

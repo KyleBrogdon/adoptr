@@ -199,6 +199,7 @@ app.delete("/type/:typeid", type.deleteType);
 
 //City API endpoints
 app.get("/city/:cityid", city.readCity);
+app.get("/cityValue/:cityname", city.readCityValue);
 app.get("/city", city.readCities);
 app.post("/city", city.createCity);
 app.put("/city/:cityid", city.updateCity);
@@ -214,6 +215,7 @@ app.delete("/zipcode/:zipcodeid", zipcode.deleteZipcode);
 
 //State API endpoints
 app.get("/state/:stateid", shelterstate.readState);
+app.get("/stateValue/:statename", shelterstate.readStateValue)
 app.get("/state", shelterstate.readStates);
 app.post("/state", shelterstate.createState);
 app.put("/state/:stateid", shelterstate.updateState);

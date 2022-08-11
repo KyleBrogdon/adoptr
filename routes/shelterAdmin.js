@@ -7,8 +7,6 @@ var thisSession  = require('../server');
 
 //Users
 router.get('/adminShelters', (req, res) => {
-  console.log(req.session.userid)
-  console.log(req.session.adminstatus)
   if(req.session.userid > 1 && req.session.adminstatus != true){
     res.render("../views/pages/general/datingCards", {})
   }else if (req.session.userid > 1 && req.session.adminstatus == true){
@@ -23,8 +21,7 @@ router.get('/adminShelters', (req, res) => {
 
 //shelter Admin profile
 router.get('/shelterAdminProfile', (req, res) => {
-  console.log(req.session.userid)
-  console.log(req.session.adminstatus)
+
   if(req.session.userid > 1 && req.session.adminstatus != true){
     res.render("../views/pages/general/datingCards", {})
   }else if (req.session.userid > 1 && req.session.adminstatus == true){
@@ -38,8 +35,7 @@ router.get('/shelterAdminProfile', (req, res) => {
 
 //petprofile
 router.get('/petProfiles', (req, res) => {
-    console.log(req.session.userid)
-    console.log(req.session.adminstatus)
+
     if(req.session.userid > 1 && req.session.adminstatus != true){
       res.render("../views/pages/general/datingCards", {})
     }else if (req.session.userid > 1 && req.session.adminstatus == true){
@@ -54,8 +50,7 @@ router.get('/petProfiles', (req, res) => {
 
 //shelter profile
 router.get('/shelterProfile', (req, res) => {
-    console.log(req.session.userid)
-    console.log(req.session.adminstatus)
+
     if(req.session.userid > 1 && req.session.adminstatus != true){
       res.render("../views/pages/general/datingCards", {})
     }else if (req.session.userid > 1 && req.session.adminstatus == true){
