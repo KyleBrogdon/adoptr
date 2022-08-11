@@ -1,4 +1,3 @@
-
 const { offset } = require("@popperjs/core");
 const { default: axios, Axios } = require("axios");
 
@@ -49,197 +48,14 @@ class shelterEntry{
           <td>${this.cityname}, ${this.statecode}</td>
           <td>
             <button type="button" class="btn btn-primary btn-sm" id="expand-button-${this.shelterid}" value = "${this.shelterid}">Expand</button>
-            <button type="button" class="btn btn-warning btn-sm" id="remove-button-${this.shelterid}" value = "${this.shelterid}">Remove</button>
           </td>
           <td>
-            <button type="button" class="btn btn-danger btn-sm" id="delete-button-${this.shelterid}" value = "${this.shelterid}">delete</button>
+            <button type="button" class="btn btn-warning btn-sm" id="remove-button-${this.shelterid}" value = "${this.shelterid}">Remove</button>
           </td>
         `;
         return element;
       }
 }
-
-
-
-
-function delistShelter(shelter){
-    document.getElementById(`remove-button-${shelter.shelterid}`).addEventListener("click", () => {
-        axios.delete(`/adminshelter/${shelter.adminshelterid}`).then((response) => {
-            console.log(response.status)
-            if (response.status == 200) {
-                console.log(shelter.adminshelterid + " deleted")
-                location.reload();
-    
-            }else{
-                console.log("API error");        
-            }
-        })  
-        console.log("delete button enabled")
-    })
-}
-
-function shelterDetails(shelter){
-    document.getElementById(`expand-button-${shelter.shelterid}`).addEventListener("click", () => {
-        let modalTable = document.getElementById("modal-table");
-    
-        while(modalTable.firstChild){
-            modalTable.removeChild(modalTable.firstChild)
-        }
-
-        headers =['Shelter ID','Name','Code','Email','Phone Number','Zipcode','City','State']
-        values =[
-            shelter.shelterid,
-            shelter.sheltername,
-            shelter.sheltercode,
-            shelter.email,
-            shelter.phonenumber,
-            shelter.zipcode,
-            shelter.cityname,
-            shelter.statecode
-        ]
-  
-        for (let i  = 0; i < values.length; i++){
-            console.log(headers[i] + " " + values[i])
-            let element = document.createElement("tr");
-            element.innerHTML = `
-                <th scope="row">${headers[i]}</th>
-                <td>${values[i]}</td>
-            `;
-            modalTable.appendChild(element);
-        }
-        shelterModal.show();
-    });
-}
-
-
-
-
-async function getZip(shelter){
-    try {
-        const response = await axios.get(`/zipcode/${shelter.zipcodeid}`).then((response) => {
-            if(response.status >= 200 && response.status < 300){
-              return response.data
-            }
-            else{
-              console.log('API error')
-              return null
-            }
-        })
-        return response
-    } catch (err) {
-        console.log("zip")
-        return null
-    }
-
-} 
-  
-async function getUserNoPassword(id){
-    try{
-        const response = await axios.get(`/dbUsers/${id}`).then((response) => {
-            if(response.status >= 200 && response.status < 300){
-                response.data[0].password = null
-                return response.data
-            }
-            else{
-                console.log('API error')
-                return null
-            }
-        })
-        return response
-    }catch(err){
-        return null
-    }
-
-}
-
-
-async function getCity(shelter){
-    try{
-        const response = await axios.get(`/city/${shelter.cityid}`).then((response) => {
-            if(response.status >= 200 && response.status < 300){
-            return response.data
-            }
-            else{
-            console.log('API error')
-            return null
-            }
-        })
-        return response
-    }catch(err){
-        console.log("no city")
-        return null
-    }
-} 
-  
-async function getState(shelter){
-    try{
-        const response = await axios.get(`/state/${shelter.stateid}`).then((response) => {
-            if(response.status >= 200 && response.status < 300){
-                return response.data
-            }
-            else{
-                console.log('API error')
-                return null
-            }
-        })
-        return response
-    }catch(err){
-        console.log("no state")
-        return null
-    }
-
-} 
-
-async function getShelterAdmin(adminid){
-    const response = await axios.get(`/adminshelteruser/${adminid}`).then((response) => {
-    if(response.status >= 200 && response.status < 300){
-        return response.data
-    }
-    else{
-        console.log('API error')
-    }
-    })
-    return response
-} 
-
-async function getShelter(shelterid){
-    const response = await axios.get(`/shelter/${shelterid}`).then((response) => {
-      if(response.status >= 200 && response.status < 300){
-        return response.data
-      }
-      else{
-        console.log('API error')
-      }
-    })
-    return response
-}
-
-const getBaseShelterInfo = async (shelter) =>{
-    try{
-      const resp = await axios.get(`/shelter/${shelter.shelterid}`).then((response) => {
-        if (response.status == 200 && response.status < 300) {
-          const shelterResponse = response.data
-          console.log(shelterResponse)
-          return new shelterEntry(
-              JSON.stringify(shelterResponse[0].shelterid),shelterResponse[0].sheltername,
-              shelterResponse[0].sheltercode, shelterResponse[0].email, shelterResponse[0].phonenumber,
-              JSON.stringify(shelterResponse[0].zipcodeid), JSON.stringify(shelterResponse[0].cityid),
-              JSON.stringify(shelterResponse[0].stateid), null,null,null,null
-            )
-        }else{
-          console.log('failed shelter pull')
-        }
-      })
-      console.log(resp)
-      return resp
-    }catch(err){
-  
-    }
-}
-
-
-
-
 
 function updatePassword(){
     let updatefield = document.getElementById("passwordUpdateField");
@@ -347,6 +163,265 @@ function updateProfile(){
 
 
 
+function delistShelter(shelter){
+    document.getElementById(`remove-button-${shelter.shelterid}`).addEventListener("click", () => {
+        axios.delete(`/adminshelter/${shelter.adminshelterid}`).then((response) => {
+            console.log(response.status)
+            if (response.status == 200) {
+                console.log(shelter.adminshelterid + " deleted")
+                location.reload();
+    
+            }else{
+                console.log("API error");        
+            }
+        })  
+        console.log("delete button enabled")
+    })
+}
+
+
+function deleteShelter(shelter){
+    document.getElementById(`delete-button-${shelter.shelterid}`).addEventListener("click", () => {
+        axios.delete(`/shelter/${shelter.adminshelterid}`).then((response) => {
+            console.log(response.status)
+            if (response.status == 200) {
+                console.log(" deleted")
+                location.reload();
+    
+            }else{
+                console.log("API error");        
+            }
+        })  
+        console.log("delete button enabled")
+    })
+}
+
+
+function shelterDetails(shelter){
+    document.getElementById(`expand-button-${shelter.shelterid}`).addEventListener("click", () => {
+        let modalTable = document.getElementById("modal-table");
+    
+        while(modalTable.firstChild){
+            modalTable.removeChild(modalTable.firstChild)
+        }
+
+        headers =['Shelter ID','Name','Code','Email','Phone Number','Zipcode','City','State']
+        values =[
+            shelter.shelterid,
+            shelter.sheltername,
+            shelter.sheltercode,
+            shelter.email,
+            shelter.phonenumber,
+            shelter.zipcode,
+            shelter.cityname,
+            shelter.statecode
+        ]
+  
+        for (let i  = 0; i < values.length; i++){
+            console.log(headers[i] + " " + values[i])
+            let element = document.createElement("tr");
+            element.innerHTML = `
+                <th scope="row">${headers[i]}</th>
+                <td>${values[i]}</td>
+            `;
+            modalTable.appendChild(element);
+        }
+        shelterModal.show();
+    });
+}
+
+
+
+
+
+
+
+async function getZipID(zipcode){
+    try {
+        const response = await axios.get(`/zipcodeValue/${zipcode}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+              return response.data
+            }
+            else{ 
+              console.log('API error')
+              return null
+            }
+          })
+          return response
+    } catch (error) {
+        console.log('API error')
+        return null      
+    }
+} 
+  
+async function getZip(zipcodeid){
+    try {
+        const response = await axios.get(`/zipcode/${zipcodeid}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+                return response.data
+            }
+            else{
+                console.log('API error')
+                return null
+            }
+        })
+        return response
+    } catch (error) {
+        console.log('API error')
+        return null
+    }
+} 
+
+async function getCityID(cityname){
+    try {
+        const response = await axios.get(`/cityValue/${cityname}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+              return response.data
+            }
+            else{ 
+              console.log('API error')
+              return null
+            }
+          })
+          return response
+    } catch (error) {
+        console.log('API error')
+        return null      
+    }
+} 
+
+async function getCity(cityid){
+    try {
+        const response = await axios.get(`/city/${cityid}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+            return response.data
+            }
+            else{
+            console.log('API error')
+            return null
+            }
+        })
+        return response
+    } catch (error) {
+        console.log('API error')
+        return null
+    }
+
+} 
+
+async function getStateID(statename){
+    try {
+        const response = await axios.get(`/stateValue/${statename}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+              return response.data
+            }
+            else{ 
+              console.log('API error')
+              return null
+            }
+          })
+          return response
+    } catch (error) {
+        console.log('API error')
+        return null      
+    }
+} 
+
+
+
+async function getUserNoPassword(id){
+    try{
+        const response = await axios.get(`/dbUsers/${id}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+                response.data[0].password = null
+                return response.data
+            }
+            else{
+                console.log('API error')
+                return null
+            }
+        })
+        return response
+    }catch(err){
+        return null
+    }
+
+}
+
+  
+async function getState(shelter){
+    try{
+        const response = await axios.get(`/state/${shelter.stateid}`).then((response) => {
+            if(response.status >= 200 && response.status < 300){
+                return response.data
+            }
+            else{
+                console.log('API error')
+                return null
+            }
+        })
+        return response
+    }catch(err){
+        console.log("no state")
+        return null
+    }
+
+} 
+
+async function getShelterAdmin(adminid){
+    const response = await axios.get(`/adminshelteruser/${adminid}`).then((response) => {
+    if(response.status >= 200 && response.status < 300){
+        return response.data
+    }
+    else{
+        console.log('API error')
+    }
+    })
+    return response
+} 
+
+async function getShelter(shelterid){
+    const response = await axios.get(`/shelter/${shelterid}`).then((response) => {
+      if(response.status >= 200 && response.status < 300){
+        return response.data
+      }
+      else{
+        console.log('API error')
+      }
+    })
+    return response
+}
+
+const getBaseShelterInfo = async (shelter) =>{
+    try{
+      const resp = await axios.get(`/shelter/${shelter.shelterid}`).then((response) => {
+        if (response.status == 200 && response.status < 300) {
+          const shelterResponse = response.data
+          console.log(shelterResponse)
+          return new shelterEntry(
+              JSON.stringify(shelterResponse[0].shelterid),shelterResponse[0].sheltername,
+              shelterResponse[0].sheltercode, shelterResponse[0].email, shelterResponse[0].phonenumber,
+              JSON.stringify(shelterResponse[0].zipcodeid), JSON.stringify(shelterResponse[0].cityid),
+              JSON.stringify(shelterResponse[0].stateid), null,null,null,null
+            )
+        }else{
+          console.log('failed shelter pull')
+        }
+      })
+      console.log(resp)
+      return resp
+    }catch(err){
+  
+    }
+}
+
+
+
+
+
+
+
+
 async function addNewShelterForm(){
     let element = document.createElement('div')
     element.innerHTML = `
@@ -374,14 +449,6 @@ async function addNewShelterForm(){
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text" id="inputGroup-sizing-sm">zipcode</span>
           <input type="text" id="new-zipcode" class="form-control" aria-label="zipcode" aria-describedby="inputGroup-sizing-sm" >
-        </div>
-        <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="inputGroup-sizing-sm">city</span>
-          <input type="text" id="new-city" class="form-control" aria-label="city" aria-describedby="inputGroup-sizing-sm" >
-        </div>
-        <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="inputGroup-sizing-sm">state</span>
-          <input type="text" id="new-state" class="form-control" aria-label="state" aria-describedby="inputGroup-sizing-sm" >
         </div>
         <div class="my-3 mx-4 border-top"></div>
         <div class="row">
@@ -415,41 +482,44 @@ async function addShelter(){
         document.getElementById('new-email').value.length > 0 &&
         document.getElementById('new-password').value.length > 0 &&
         document.getElementById('new-phone').value.length > 0 &&
-        document.getElementById('new-zipcode').value.length > 0 &&
-        document.getElementById('new-city').value.length > 0 &&
-        document.getElementById('new-state').value.length > 0 ){
+        document.getElementById('new-zipcode').value.length > 0 ){
 
         //var req = new XMLHttpRequest();
-        var shelter = {sheltername: null, sheltercode: null, email: null, password: null, phone: null};
+        var shelter = {sheltername: null, sheltercode: null, email: null, password: null, phone: null, zipcode: null,city: null, state: null, zipid: null,cityid:null,stateid:null};
         shelter.sheltername = document.getElementById('new-shelter-name').value;
         shelter.sheltercode = document.getElementById('new-shelter-code').value;
         shelter.email = document.getElementById('new-email').value;
         shelter.password = document.getElementById('new-password').value;
         shelter.phone = document.getElementById('new-phone').value;
         shelter.zipcode = document.getElementById('new-zipcode').value;
-        shelter.city = document.getElementById('new-city').value;
-        shelter.state = document.getElementById('new-state').value;
 
-        axios.post(`/shelter`,{
-          sheltername : shelter.sheltername,
-          sheltercode : shelter.sheltercode,
-          email: shelter.email,
-          shelterpassword : shelter.password,
-          phone : shelter.phone,
-          zipcode : shelter.zipcode,
-          city : shelter.city,
-          state : shelter.state
-        }).then((response) => {
-          console.log(response.status)
-          if (response.status >= 200 && response.status<300) {
-            console.log("shelter added")
-            location.reload();
-  
-          }else{
-            console.log("API error");        
-          }
-        })  
+        shelter.zipcode = await getZipID(shelter.zipcode);
 
+        //console.log("shelter.zipcode: " + shelter.zipcode[0].zipcodeid)
+        console.log(shelter.zipcode)
+        if (shelter.zipcode.length > 0){
+            shelter.zipid = shelter.zipcode[0].zipcodeid;
+            console.log(shelter.zipid)
+            shelter.cityid = shelter.zipcode[0].cityid
+            console.log(shelter.cityid)
+            shelter.state = await getCity(shelter.cityid)
+            shelter.stateid = shelter.state[0].stateid
+            console.log(shelter.stateid)
+        }else{
+            shelter.zipid= null
+            shelter.cityid  =null
+            shelter.stateid = null
+        }
+        console.log( shelter.zipid)
+        console.log(shelter.cityid)
+        console.log(shelter.stateid)
+
+        let shelterid = await postShelter(shelter, shelter.zipid,shelter.cityid,shelter.stateid)
+        console.log(shelterid)
+        let userid = document.getElementById("hidden-userID").value
+        
+        await addAdminShelter(userid,shelterid)
+        location.reload()
         console.log("add shelter button enabled")
     }
     else{
@@ -457,7 +527,35 @@ async function addShelter(){
     }
 }
 
-
+async function postShelter(shelter,zipid,cityid,stateid){
+    try {
+        const response = await axios.post(`/shelter`,{
+            sheltername : shelter.sheltername,
+            sheltercode : shelter.sheltercode,
+            email: shelter.email,
+            shelterpassword : shelter.password,
+            phonenumber : shelter.phone,
+            zipcodeid : zipid,
+            cityid : cityid,
+            stateid : stateid
+          }).then((response) => {
+            if (response.status >= 200 && response.status<300) {
+              console.log("shelter added")
+              //console.log(response.data[0].shelterid)
+              
+              return response.data[0].shelterid
+              //location.reload();
+    
+            }else{
+              console.log("API error");
+              return null        
+            }
+          })
+          return response  
+    } catch (error) {
+        return null
+    }
+}
 
 async function addExistingShelterForm(){
     let element = document.createElement('div')
@@ -526,6 +624,7 @@ async function addExistingShelter(){
                 let shelterid = valid[0].shelterid
                 let userid = document.getElementById("hidden-userID").value
                 await addAdminShelter(userid,shelterid)
+                location.reload()
             }
         }else{
             console.log("failed")
@@ -547,7 +646,7 @@ async function addAdminShelter(userid,shelterid){
             console.log(response.status)
             if (response.status >= 200 && response.status<300) {
               console.log("shelter added")
-              location.reload();
+              //location.reload();
             }else{
               console.log("API error");        
             }
@@ -583,22 +682,40 @@ const setupList = async () => {
     const mainList = document.getElementById("main-rows");
     const sheltersArray = Array()
     shelterList.forEach( async shelter => {
-        console.log(shelter)
+        //console.log(shelter)
         let adminShelterid = shelter.id
         let newShelter = await getBaseShelterInfo(shelter)
         console.log( newShelter)
-        let zip = await getZip(newShelter)
-        let city = await getCity(newShelter)
+        let zip = await getZip(newShelter.zipcodeid)
+
+        //console.log(zip)
+        if(zip != null){
+            newShelter.zipcode = zip[0].zipcode
+        }else{
+            newShelter.zipcode = null
+        }
+
+        let city = await getCity(newShelter.cityid)
+        if(city != null){
+            newShelter.cityname = city[0].cityname
+        }else{
+            newShelter.cityname = null
+        }
+
         let state = await getState(newShelter)
-        newShelter.statecode = state[0].statecode
-        newShelter.cityname = city[0].cityname
-        newShelter.zipcode = zip[0].zipcode
+        if( state != null){
+            newShelter.statecode = state[0].statecode
+        }else{
+            newShelter.statecode = null
+        }
+
         newShelter.adminshelterid = adminShelterid
-        console.log(newShelter)
+        //console.log(newShelter)
 
         mainList.appendChild(newShelter.generateRow());
         shelterDetails(newShelter)
         delistShelter(newShelter)
+        //deleteShelter(newShelter)
         sheltersArray.push(newShelter)
     });
 

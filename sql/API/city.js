@@ -19,10 +19,29 @@ const readCity = (request, response) => {
     if (error) {
       console.log("failed to pull city")
       response.status(200).json(null);
+    }else{
+      response.status(200).json(results.rows);
     }
-    response.status(200).json(results.rows);
   });
 };
+
+
+const readCityValue = (request, response) => {
+  const cityname = parseInt(request.params.cityname);
+  pool.query(
+    "SELECT * FROM city WHERE cityname = $1",
+    [cityname],
+    (error, results) => {
+      if (error) {
+        console.log("failed to pull city")
+        response.status(200).json(null);
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+
 
 const createCity = (request, response) => {
   const { cityname, stateid } = request.body;
@@ -78,4 +97,5 @@ module.exports = {
   createCity,
   updateCity,
   deleteCity,
+  readCityValue
 };

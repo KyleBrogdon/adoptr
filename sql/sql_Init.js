@@ -16,14 +16,14 @@ const credentials = {
     require: true,
     rejectUnauthorized: false
   }
-
-//uncomment this for local testing
+}
+// //uncomment this for local testing
 //   host: "localhost",
 //   user: "postgres",
 //   password: "password",
 //   database: "adoptrdb",
 //   port: 5432,
-}
+// }
 
 
 function executeQuery(newpath){

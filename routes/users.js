@@ -51,7 +51,7 @@ router.get("/petSearch", (req, res) => {
 // })
 
 router.get('/getSessionId',(req, res) => {
-    console.log(req.session)
+    //console.log(req.session)
     res.json(req.session.userid)
 })
 

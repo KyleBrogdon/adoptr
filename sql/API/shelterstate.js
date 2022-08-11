@@ -8,9 +8,11 @@ const pool = require("../sql_Init");
 const readStates = (request, response) => {
   pool.query("SELECT * FROM shelter_state", (error, results) => {
     if (error) {
-      throw error;
+      console.log("failed to pull states")
+      response.status(200).json(null);
+    }else{
+      response.status(200).json(results.rows);
     }
-    response.status(200).json(results.rows);
   });
 };
 
@@ -23,11 +25,32 @@ const readState = (request, response) => {
       if (error) {
         console.log("failed to pull state")
         response.status(200).json(null);
+      }else{
+        response.status(200).json(results.rows);
       }
-      response.status(200).json(results.rows);
+
     }
   );
 };
+
+const readStateValue = (request, response) => {
+  const statename = parseInt(request.params.statename);
+  pool.query(
+    "SELECT * FROM shelter_state WHERE statename = $1",
+    [statename],
+    (error, results) => {
+      if (error) {
+        console.log("failed to pull state")
+        response.status(200).json(null);
+      }else{
+        response.status(200).json(results.rows);
+      }
+
+    }
+  );
+};
+
+
 
 const createState = (request, response) => {
   const { statename, statecode } = request.body;
@@ -40,11 +63,14 @@ const createState = (request, response) => {
     [statename, statecode],
     (error, results) => {
       if (error) {
-        throw error;
-      }
-      response
+        console.log("failed to create state")
+        response.status(200).json(null);
+      }else{
+        response
         .status(201)
         .send(`State added with ID: ${results.rows[0].stateid}`);
+      }
+
     }
   );
 };
@@ -60,7 +86,8 @@ const updateState = (request, response) => {
     [statename, statecode, id],
     (error, results) => {
       if (error) {
-        throw error;
+        console.log("failed to update state")
+        response.status(200).json(null);
       }
       response.status(200).send(`State modified with ID: ${id}`);
     }
@@ -75,7 +102,8 @@ const deleteState = (request, response) => {
     [id],
     (error, results) => {
       if (error) {
-        throw error;
+        console.log("failed to delete state")
+        response.status(200).json(null);
       }
       response.status(200).send(`State deleted with ID: ${id}`);
     }
@@ -87,4 +115,5 @@ module.exports = {
   createState,
   updateState,
   deleteState,
+  readStateValue,
 };

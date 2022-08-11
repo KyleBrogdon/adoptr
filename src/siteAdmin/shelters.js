@@ -73,6 +73,12 @@ class ShelterEntry {
       return element;
     }
   
+    generateOption() {
+      let element = document.createElement("option");
+      element.innerHTML = `<option value="${this.shelterid}">${this.shelterid}</option>`;
+      return element;
+    }
+
 };
   
 function addEventListeners(shelter){
@@ -113,54 +119,121 @@ function addEventListeners(shelter){
     });
 
 }
-  
-async function addShelter(){
-    console.log("adding");
-    if(document.getElementById('new-shelter-name').value.length > 0 &&
-        document.getElementById('new-shelter-code').value.length > 0 &&
-        document.getElementById('new-email').value.length > 0 &&
-        document.getElementById('new-password').value.length > 0 &&
-        document.getElementById('new-phone').value.length > 0 &&
-        document.getElementById('new-zipcode').value.length > 0 &&
-        document.getElementById('new-city').value.length > 0 &&
-        document.getElementById('new-state').value.length > 0 ){
 
-        //var req = new XMLHttpRequest();
-        var shelter = {sheltername: null, sheltercode: null, email: null, password: null, phone: null};
-        shelter.sheltername = document.getElementById('new-shelter-name').value;
-        shelter.sheltercode = document.getElementById('new-shelter-code').value;
-        shelter.email = document.getElementById('new-email').value;
-        shelter.password = document.getElementById('new-password').value;
-        shelter.phone = document.getElementById('new-phone').value;
-        shelter.zipcode = document.getElementById('new-zipcode').value;
-        shelter.city = document.getElementById('new-city').value;
-        shelter.state = document.getElementById('new-state').value;
 
-        axios.post(`/shelter`,{
+async function postShelter(shelter,zipid,cityid,stateid){
+  try {
+      const response = await axios.post(`/shelter`,{
           sheltername : shelter.sheltername,
           sheltercode : shelter.sheltercode,
           email: shelter.email,
           shelterpassword : shelter.password,
-          phone : shelter.phone,
-          zipcode : shelter.zipcode,
-          city : shelter.city,
-          state : shelter.state
+          phonenumber : shelter.phone,
+          zipcodeid : zipid,
+          cityid : cityid,
+          stateid : stateid
         }).then((response) => {
-          console.log(response.status)
           if (response.status >= 200 && response.status<300) {
             console.log("shelter added")
-            location.reload();
+            //console.log(response.data[0].shelterid)
+            
+            return response.data[0].shelterid
+            //location.reload();
   
           }else{
-            console.log("API error");        
+            console.log("API error");
+            return null        
           }
-        })  
+        })
+        return response  
+  } catch (error) {
+      return null
+  }
+}
 
-        console.log("add shelter button enabled")
-    }
-    else{
-        console.log("invlaid input");
-    }
+async function getCity(cityid){
+  try {
+      const response = await axios.get(`/city/${cityid}`).then((response) => {
+          if(response.status >= 200 && response.status < 300){
+          return response.data
+          }
+          else{
+          console.log('API error')
+          return null
+          }
+      })
+      return response
+  } catch (error) {
+      console.log('API error')
+      return null
+  }
+
+} 
+
+async function getZipID(zipcode){
+  try {
+      const response = await axios.get(`/zipcodeValue/${zipcode}`).then((response) => {
+          if(response.status >= 200 && response.status < 300){
+            return response.data
+          }
+          else{ 
+            console.log('API error')
+            return null
+          }
+        })
+        return response
+  } catch (error) {
+      console.log('API error')
+      return null      
+  }
+} 
+
+async function addShelter(){
+  console.log("adding");
+  if(document.getElementById('new-shelter-name').value.length > 0 &&
+      document.getElementById('new-shelter-code').value.length > 0 &&
+      document.getElementById('new-email').value.length > 0 &&
+      document.getElementById('new-password').value.length > 0 &&
+      document.getElementById('new-phone').value.length > 0 &&
+      document.getElementById('new-zipcode').value.length > 0 ){
+
+      //var req = new XMLHttpRequest();
+      var shelter = {sheltername: null, sheltercode: null, email: null, password: null, phone: null, zipcode: null,city: null, state: null, zipid: null,cityid:null,stateid:null};
+      shelter.sheltername = document.getElementById('new-shelter-name').value;
+      shelter.sheltercode = document.getElementById('new-shelter-code').value;
+      shelter.email = document.getElementById('new-email').value;
+      shelter.password = document.getElementById('new-password').value;
+      shelter.phone = document.getElementById('new-phone').value;
+      shelter.zipcode = document.getElementById('new-zipcode').value;
+
+      shelter.zipcode = await getZipID(shelter.zipcode);
+
+      //console.log("shelter.zipcode: " + shelter.zipcode[0].zipcodeid)
+      console.log(shelter.zipcode)
+      if (shelter.zipcode.length > 0){
+          shelter.zipid = shelter.zipcode[0].zipcodeid;
+          console.log(shelter.zipid)
+          shelter.cityid = shelter.zipcode[0].cityid
+          console.log(shelter.cityid)
+          shelter.state = await getCity(shelter.cityid)
+          shelter.stateid = shelter.state[0].stateid
+          console.log(shelter.stateid)
+      }else{
+          shelter.zipid= null
+          shelter.cityid  =null
+          shelter.stateid = null
+      }
+      console.log( shelter.zipid)
+      console.log(shelter.cityid)
+      console.log(shelter.stateid)
+
+      let shelterid = await postShelter(shelter, shelter.zipid,shelter.cityid,shelter.stateid)
+      location.reload()
+      console.log("add shelter button enabled")
+  }
+  else{
+      console.log("invlaid input");
+  }
 }
   
 function populateUpdate(){
@@ -182,31 +255,45 @@ function populateUpdate(){
   document.getElementById('update-state').value = state;
 }
   
-function updateShelter(){
+async function updateShelter(){
     if(document.getElementById('update-shelter-pk-menu').value != 'number' &&
         document.getElementById('update-shelter-name').value.length > 0 &&
         document.getElementById('update-shelter-code').value.length > 0 &&
         document.getElementById('update-email').value.length > 0 &&
         document.getElementById('update-password').value.length > 0 &&
         document.getElementById('update-phone').value.length > 0 &&
-        document.getElementById('update-zipcode').value.length > 0 &&
-        document.getElementById('update-city').value.length > 0 &&
-        document.getElementById('update-state').value.length > 0 ){
+        document.getElementById('update-zipcode').value.length > 0 ){
   
 
-      var shelter = {shelterid: null, sheltername: null, sheltercode: null, email:null, password:null, phone:null, zipcode:null, city:null, state:null}
+          var shelter = {sheltername: null, sheltercode: null, email: null, password: null, phone: null, zipcode: null,city: null, state: null, zipid: null,cityid:null,stateid:null};
       
       shelter.shelterid = document.getElementById('update-shelter-pk-menu').value;
-      shelter.sheltername = document.getElementById('update-sheltername').value;
-      shelter.sheltercode = document.getElementById('update-sheltercode').value;
+      shelter.sheltername = document.getElementById('update-shelter-name').value;
+      shelter.sheltercode = document.getElementById('update-shelter-code').value;
       shelter.email = document.getElementById('update-email').value;
       shelter.password =document.getElementById('update-password').value;
       shelter.phone =document.getElementById('update-phone').value;
       shelter.zipcode =document.getElementById('update-zipcode').value;
-      shelter.city =document.getElementById('update-city').value;
-      shelter.state =document.getElementById('update-state').value;
 
+      shelter.zipcode = await getZipID(shelter.zipcode);
 
+      console.log(shelter.zipcode)
+      if (shelter.zipcode.length > 0){
+          shelter.zipid = shelter.zipcode[0].zipcodeid;
+          console.log(shelter.zipid)
+          shelter.cityid = shelter.zipcode[0].cityid
+          console.log(shelter.cityid)
+          shelter.state = await getCity(shelter.cityid)
+          shelter.stateid = shelter.state[0].stateid
+          console.log(shelter.stateid)
+      }else{
+          shelter.zipid= null
+          shelter.cityid  =null
+          shelter.stateid = null
+      }
+      console.log( shelter.zipid)
+      console.log(shelter.cityid)
+      console.log(shelter.stateid)
 
       //console.log(shelter)
       axios.put(`/shelter/${shelter.shelterid}`,{
@@ -241,7 +328,7 @@ const setupList = async () => {
     console.log("setupList executed")
     let mainList = document.getElementById("main-rows");
     let shelters = Array();
-  
+    let shelterPK = document.getElementById("update-shelter-pk-menu");
     axios.get('/shelter').then((response) => {
       console.log(response.status);
       if (response.status == 200) {
@@ -263,6 +350,7 @@ const setupList = async () => {
         shelters.forEach((shelter) => { 
           //console.log(shelter)
           mainList.appendChild(shelter.generateRow());
+          shelterPK.append(shelter.generateOption())
           addEventListeners(shelter);
         })
 

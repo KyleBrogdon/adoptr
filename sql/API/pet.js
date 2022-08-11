@@ -273,6 +273,19 @@ const deletePet = (request, response) => {
   });
 };
 
+const deletePetShelter = (request, response) => {
+  const id = parseInt(request.params.shelterid);
+  console.log("DELETE/" + id);
+  pool.query("DELETE FROM pet WHERE shelterid = $1", [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).send(`Pet deleted with ID: ${id}`);
+  });
+};
+
+
+
 const getPetImages = (request, response) => {
   const id = parseInt(request.params.petid);
   pool.query(
