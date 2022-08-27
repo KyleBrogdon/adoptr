@@ -24,7 +24,8 @@ These instructions will cover installing the project on your local machine and t
 1. Navigate to the project website (either http://adoptr.herokuapp.com or assigned localhost)
 2. Click the login button from the landing page ![alt-text](https://i.imgur.com/w3VCM4L.png)
 3. Login to the app with desired permissions. We recommend logging in as a normal user. ![alt-text](https://i.imgur.com/M9BI1e1.png)
-4. You are now on the "dating cards" page.  You can click on the pet picture to pull up that pet's bio. You can click the heart or dislike buttons to save or reject a pet, which makes changes to the database transparent to the logged in user. ![alt-text](https://media.giphy.com/media/kLyYnzkiuX3rSAwBbi/giphy.gif)
+4. You are now on the "dating cards" page.  You can click on the pet picture to pull up that pet's bio. You can click the heart or dislike buttons to save or reject a pet, which makes changes to the database transparent to the logged in user. 
+![alt-text](https://media.giphy.com/media/kLyYnzkiuX3rSAwBbi/giphy.gif)
 5. Pet search functionality can be accessed on the top left
 6. The user profile page can be accessed on the top left. This page allows editing user information, viewing saved pets, or resetting the "disliked" or rejected pets table for the logged in user.
 7. User sessions are stored via express-sessions and redis, ensuring only users with proper permissions can visit certain pages. 
