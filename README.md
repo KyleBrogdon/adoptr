@@ -22,11 +22,11 @@ These instructions will cover installing the project on your local machine and t
 
 ### Using the web application
 1. Navigate to the project website (either http://adoptr.herokuapp.com or assigned localhost)
-2. Click the login button from the landing page [add screenshot]
-3. Login to the app with desired permissions. We recommend logging in as a normal user. [add screenshot]
-4. You are now on the "dating cards" page.  You can click on the pet picture to pull up that pet's bio. You can click the heart or dislike buttons to save or reject a pet, which makes changes to the database transparent to the logged in user.
-5. There is also search functionality [add screenshot]
-6. There is a user profile page which allows editing user information, viewing saved pets, or resetting the "disliked" or rejected pets table for the logged in user.
+2. Click the login button from the landing page ![alt-text](https://i.imgur.com/w3VCM4L.png)
+3. Login to the app with desired permissions. We recommend logging in as a normal user. ![alt-text](https://i.imgur.com/M9BI1e1.png)
+4. You are now on the "dating cards" page.  You can click on the pet picture to pull up that pet's bio. You can click the heart or dislike buttons to save or reject a pet, which makes changes to the database transparent to the logged in user. ![alt-text](https://i.imgur.com/hVyb71O.png)
+5. Pet search functionality can be accessed on the top left
+6. The user profile page can be accessed on the top left. This page allows editing user information, viewing saved pets, or resetting the "disliked" or rejected pets table for the logged in user.
 7. User sessions are stored via express-sessions and redis, ensuring only users with proper permissions can visit certain pages. 
 8. Users can logout via the button at the top right.
 9. You can revisit the login page to use shelter or site admin credentials to view the website with elevated permissions. 
@@ -34,13 +34,13 @@ These instructions will cover installing the project on your local machine and t
 ### Deployment
 Deployment to Heroku server's is simple:
 1. Create a Heroku node.js project
-2. Ensure "heroku-prebuild: npm install --dev" is added to package.json  [add screenshot]
-3. Create a Postgres Heroku addon for your Heroku project.
+2. Ensure "heroku-prebuild: npm install --dev" is added to package.json  ![alt-text](https://i.imgur.com/NJqdB0j.png)
+3. Create a Postgres Heroku addon for your Heroku project. ![alt-text](https://i.imgur.com/s3uM4gz.png)
 4. Dump data from your Postgres db to the heroku postgres datastore.
 5. Modify "credentials" in sql_init.js and replace the login credentials with the Postgres Heroku credentials
 6. Push your codebase to github
 7. Connect your github to Heroku.
-8. Manually deploy your github branch through the Heroku Console [add screenshot]
+8. Manually deploy your github branch through the Heroku Console ![alt-text](https://i.imgur.com/pHQcCVV.png)
 
 ### Built With
 - Javascript
